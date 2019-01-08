@@ -4,34 +4,33 @@ import (
 	"fmt"
 	"strings"
 	"time"
-	"vuldb/plugin"
-	"vuldb/common"
+	"github.com/opensec-cn/kunpeng/plugin"
 	"gopkg.in/mgo.v2"
 )
 
 type mongoWeakPass struct {
-	info   common.PluginInfo
-	result []common.PluginInfo
+	info   plugin.PluginInfo
+	result []plugin.PluginInfo
 }
 
 func init() {
 	plugin.Regist("mongodb", &mongoWeakPass{})
 }
-func (d *mongoWeakPass) Init() common.PluginInfo{
-	d.info = common.PluginInfo{
+func (d *mongoWeakPass) Init() plugin.PluginInfo{
+	d.info = plugin.PluginInfo{
 		Name:    "MongoDB 未授权访问/弱口令",
 		Remarks: "导致数据库敏感信息泄露，严重可导致服务器直接被入侵控制。",
 		Level:   1,
 		Type:    "WEAK",
 		Author:   "wolf",
-		References: common.References{
+		References: plugin.References{
 			URL: "",
 			CVE: "",
 		},
 	}
 	return d.info
 }
-func (d *mongoWeakPass) GetResult() []common.PluginInfo {
+func (d *mongoWeakPass) GetResult() []plugin.PluginInfo {
 	return d.result
 }
 func (d *mongoWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool) {

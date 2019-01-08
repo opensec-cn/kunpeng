@@ -5,33 +5,33 @@ import (
 	"net/http"
 	"regexp"
 	"strings"
-	"vuldb/common"
-	"vuldb/plugin"
+	"github.com/opensec-cn/kunpeng/util"
+	"github.com/opensec-cn/kunpeng/plugin"
 )
 
 type zabbixLatestSQL struct {
-	info   common.PluginInfo
-	result []common.PluginInfo
+	info   plugin.PluginInfo
+	result []plugin.PluginInfo
 }
 
 func init() {
 	plugin.Regist("zabbix", &zabbixLatestSQL{})
 }
-func (d *zabbixLatestSQL) Init() common.PluginInfo{
-	d.info = common.PluginInfo{
+func (d *zabbixLatestSQL) Init() plugin.PluginInfo{
+	d.info = plugin.PluginInfo{
 		Name:    "Zabbix latest.php SQL注入漏洞",
 		Remarks: "影响版本：2.2.x/3.0.x，攻击者通过此漏洞可获取管理员权限登陆后台，由于后台存在执行命令功能，可导致服务器被入侵控制",
 		Level:   1,
 		Type:    "SQL",
 		Author:   "wolf",
-        References: common.References{
+        References: plugin.References{
         	URL: "",
         	CVE: "",
         },
 	}
 	return d.info
 }
-func (d *zabbixLatestSQL) GetResult() []common.PluginInfo {
+func (d *zabbixLatestSQL) GetResult() []plugin.PluginInfo {
 	return d.result
 }
 func (d *zabbixLatestSQL) Check(URL string, meta plugin.TaskMeta) bool {
@@ -39,7 +39,7 @@ func (d *zabbixLatestSQL) Check(URL string, meta plugin.TaskMeta) bool {
 	if err != nil {
 		return false
 	}
-	resp, err := common.RequestDo(request, false)
+	resp, err := util.RequestDo(request, false)
 	if err != nil {
 		return false
 	}
@@ -54,7 +54,7 @@ func (d *zabbixLatestSQL) Check(URL string, meta plugin.TaskMeta) bool {
 	if err != nil {
 		return false
 	}
-	resp, err = common.RequestDo(request, true)
+	resp, err = util.RequestDo(request, true)
 	if err != nil {
 		return false
 	}

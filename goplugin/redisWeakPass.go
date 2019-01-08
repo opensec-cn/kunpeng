@@ -3,34 +3,33 @@ package goplugin
 import (
 	"fmt"
 	"strings"
-	"vuldb/plugin"
-	"vuldb/common"
+	"github.com/opensec-cn/kunpeng/plugin"
 	"github.com/go-redis/redis"
 )
 
 type redisWeakPass struct {
-	info   common.PluginInfo
-	result []common.PluginInfo
+	info   plugin.PluginInfo
+	result []plugin.PluginInfo
 }
 
 func init() {
 	plugin.Regist("redis", &redisWeakPass{})
 }
-func (d *redisWeakPass) Init() common.PluginInfo{
-	d.info = common.PluginInfo{
+func (d *redisWeakPass) Init() plugin.PluginInfo{
+	d.info = plugin.PluginInfo{
 		Name:    "Redis 未授权访问/弱口令",
 		Remarks: "导致敏感信息泄露，严重可导致服务器直接被入侵控制。",
 		Level:   0,
 		Type:    "WEAK",
 		Author:   "wolf",
-		References: common.References{
+		References: plugin.References{
 			URL: "",
 			CVE: "",
 		},
 	}
 	return d.info
 }
-func (d *redisWeakPass) GetResult() []common.PluginInfo {
+func (d *redisWeakPass) GetResult() []plugin.PluginInfo {
 	return d.result
 }
 func (d *redisWeakPass) Check(netloc string, meta plugin.TaskMeta) bool {

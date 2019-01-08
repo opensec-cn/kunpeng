@@ -4,34 +4,33 @@ import (
 	"database/sql"
 	"fmt"
 	"strings"
-	"vuldb/plugin"
-	"vuldb/common"
+	"github.com/opensec-cn/kunpeng/plugin"
 	_ "github.com/go-sql-driver/mysql"
 )
 
 type mysqlWeakPass struct {
-	info   common.PluginInfo
-	result []common.PluginInfo
+	info   plugin.PluginInfo
+	result []plugin.PluginInfo
 }
 
 func init() {
 	plugin.Regist("mysql", &mysqlWeakPass{})
 }
-func (d *mysqlWeakPass) Init() common.PluginInfo{
-	d.info = common.PluginInfo{
+func (d *mysqlWeakPass) Init() plugin.PluginInfo{
+	d.info = plugin.PluginInfo{
 		Name:    "MySQL 弱口令",
 		Remarks: "导致数据库敏感信息泄露，严重可导致服务器直接被入侵控制。",
 		Level:   0,
 		Type:    "WEAK",
 		Author:   "wolf",
-		References: common.References{
+		References: plugin.References{
 			URL: "",
 			CVE: "",
 		},
 	}
 	return d.info
 }
-func (d *mysqlWeakPass) GetResult() []common.PluginInfo {
+func (d *mysqlWeakPass) GetResult() []plugin.PluginInfo {
 	return d.result
 }
 func (d *mysqlWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool) {

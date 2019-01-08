@@ -7,7 +7,7 @@ import (
 	"regexp"
 	"strings"
 	"time"
-	"vuldb/common"
+	"github.com/opensec-cn/kunpeng/util"
 	// "fmt"
 )
 
@@ -18,7 +18,7 @@ var (
 )
 
 func init() {
-	client = common.Client
+	client = util.Client
 	PassList = []string{
 		"{user}", "{user}123", "admin", "123456", "",
 	}
@@ -53,7 +53,7 @@ func inArray(list []string, value string, regex bool) bool {
 }
 func aiderCheck(randStr string) bool {
 	request, _ := http.NewRequest("GET", Aider+"/check/"+randStr, nil)
-	resp, err := common.RequestDo(request, true)
+	resp, err := util.RequestDo(request, true)
 	if err != nil {
 		return false
 	}

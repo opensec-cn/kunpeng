@@ -3,33 +3,33 @@ package goplugin
 import (
 	"net/http"
 	"strings"
-	"vuldb/common"
-	"vuldb/plugin"
+	"github.com/opensec-cn/kunpeng/util"
+	"github.com/opensec-cn/kunpeng/plugin"
 )
 
 type zabbixJsrpcSQL struct {
-	info   common.PluginInfo
-	result []common.PluginInfo
+	info   plugin.PluginInfo
+	result []plugin.PluginInfo
 }
 
 func init() {
 	plugin.Regist("zabbix", &zabbixJsrpcSQL{})
 }
-func (d *zabbixJsrpcSQL) Init() common.PluginInfo{
-	d.info = common.PluginInfo{
+func (d *zabbixJsrpcSQL) Init() plugin.PluginInfo{
+	d.info = plugin.PluginInfo{
 		Name:    "Zabbix jsrpc.php SQL注入漏洞",
 		Remarks: "影响版本：v2.2.x, 3.0.0-3.0.3，攻击者通过此漏洞可获取管理员权限登陆后台，由于后台存在执行命令功能，可导致服务器被入侵控制",
 		Level:   1,
 		Type:    "SQL",
 		Author:   "wolf",
-        References: common.References{
+        References: plugin.References{
         	URL: "",
         	CVE: "",
         },
 	}
 	return d.info
 }
-func (d *zabbixJsrpcSQL) GetResult() []common.PluginInfo {
+func (d *zabbixJsrpcSQL) GetResult() []plugin.PluginInfo {
 	return d.result
 }
 func (d *zabbixJsrpcSQL) Check(URL string, meta plugin.TaskMeta) bool {
@@ -38,7 +38,7 @@ func (d *zabbixJsrpcSQL) Check(URL string, meta plugin.TaskMeta) bool {
 	if err != nil {
 		return false
 	}
-	resp, err := common.RequestDo(request, true)
+	resp, err := util.RequestDo(request, true)
 	if err != nil {
 		return false
 	}

@@ -4,33 +4,33 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
-	"vuldb/common"
-	"vuldb/plugin"
+	"github.com/opensec-cn/kunpeng/util"
+	"github.com/opensec-cn/kunpeng/plugin"
 )
 
 type ucServerWeak struct {
-	info   common.PluginInfo
-	result []common.PluginInfo
+	info   plugin.PluginInfo
+	result []plugin.PluginInfo
 }
 
 func init() {
 	plugin.Regist("discuz", &ucServerWeak{})
 }
-func (d *ucServerWeak) Init() common.PluginInfo{
-	d.info = common.PluginInfo{
+func (d *ucServerWeak) Init() plugin.PluginInfo{
+	d.info = plugin.PluginInfo{
 		Name:    "UcServer 创始人弱口令",
 		Remarks: "攻击者通过此漏洞可以登陆管理控制台，后台可查看修改所有用户信息，且部分版本可能存在命令执行漏洞。",
 		Level:   0,
 		Type:    "WEAK",
 		Author:   "wolf",
-		References: common.References{
+		References: plugin.References{
 			URL: "",
 			CVE: "",
 		},
 	}
 	return d.info
 }
-func (d *ucServerWeak) GetResult() []common.PluginInfo {
+func (d *ucServerWeak) GetResult() []plugin.PluginInfo {
 	return d.result
 }
 func (d *ucServerWeak) Check(URL string, meta plugin.TaskMeta) bool {
@@ -38,7 +38,7 @@ func (d *ucServerWeak) Check(URL string, meta plugin.TaskMeta) bool {
 		// pass = strings.Replace(pass, "{user}", "administrator", -1)
 		request, err := http.NewRequest("POST", URL+"/uc_server/index.php?m=app&a=add", strings.NewReader("ucfounderpw="+pass))
 		request.Header.Set("Content-Type", "application/x-www-form-urlencoded")
-		resp, err := common.RequestDo(request, true)
+		resp, err := util.RequestDo(request, true)
 		if err != nil {
 			return false
 		}

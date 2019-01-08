@@ -1,7 +1,7 @@
 package web
 
 import "github.com/gin-gonic/gin"
-import "vuldb/plugin"
+import "github.com/opensec-cn/kunpeng/plugin"
 import "net/http"
 // import "fmt"
 

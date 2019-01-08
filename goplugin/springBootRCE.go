@@ -3,33 +3,33 @@ package goplugin
 import (
 	"net/http"
 	"strings"
-	"vuldb/common"
-	"vuldb/plugin"
+	"github.com/opensec-cn/kunpeng/util"
+	"github.com/opensec-cn/kunpeng/plugin"
 )
 
 type springBootRCE struct {
-	info   common.PluginInfo
-	result []common.PluginInfo
+	info   plugin.PluginInfo
+	result []plugin.PluginInfo
 }
 
 func init() {
 	// plugin.Regist("all", &springBootRCE{})
 }
-func (d *springBootRCE) Init() common.PluginInfo{
-	d.info = common.PluginInfo{
+func (d *springBootRCE) Init() plugin.PluginInfo{
+	d.info = plugin.PluginInfo{
 		Name:    "Spring Boot 框架表达式注入",
 		Remarks: "Spring Boot框架的SpEL表达式注入，攻击者可在服务器上执行任意命令",
 		Level:   0,
 		Type:    "RCE",
 		Author:   "wolf",
-		References: common.References{
+		References: plugin.References{
 			URL: "",
 			CVE: "",
 		},
 	}
 	return d.info
 }
-func (d *springBootRCE) GetResult() []common.PluginInfo {
+func (d *springBootRCE) GetResult() []plugin.PluginInfo {
 	return d.result
 }
 func (d *springBootRCE) Check(URL string, meta plugin.TaskMeta) bool {
@@ -48,7 +48,7 @@ func (d *springBootRCE) Check(URL string, meta plugin.TaskMeta) bool {
 	// request.Header.Set("cookie", poc)
 	// request.Header.Set("User-Agent", poc)
 	// request.Header.Set("Referrer", poc)
-	resp, err := common.RequestDo(request, true)
+	resp, err := util.RequestDo(request, true)
 	if err != nil {
 		return false
 	}

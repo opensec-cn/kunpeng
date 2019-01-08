@@ -1,4 +1,4 @@
-package common
+package util
 
 import (
 	"crypto/tls"
@@ -10,37 +10,6 @@ import (
 	"time"
 )
 
-//References 插件附加信息
-type References struct{
-	URL string `json:"url"`
-	CVE string `json:"cve"`
-}
-
-// PluginInfo 漏洞插件信息
-type PluginInfo struct {
-	Name     string `json:"name"`
-	Remarks  string `json:"remarks"`
-	Level    int `json:"level"`
-	Type     string `json:"type"`
-	Author	 string `json:"author"`
-	References `json:"references"`
-	Request  string
-	Response string
-}
-
-// JSONPlugin JSON插件
-type JSONPlugin struct {
-	Target string `json:"target"`
-	Meta    PluginInfo `json:"meta"`
-	Request struct {
-		Path     string `json:"path"`
-		PostData string `json:"postdata"`
-	} `json:"request"`
-	Verify  struct {
-		Type  string `json:"type"`
-		Match string `json:"match"`
-	} `json:"verify"`
-}
 
 var Client *http.Client
 

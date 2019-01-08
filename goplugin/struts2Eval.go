@@ -4,33 +4,33 @@ import (
 	"net/http"
 	"regexp"
 	"strings"
-	"vuldb/common"
-	"vuldb/plugin"
+	"github.com/opensec-cn/kunpeng/util"
+	"github.com/opensec-cn/kunpeng/plugin"
 )
 
 type struts2Eval struct {
-	info   common.PluginInfo
-	result []common.PluginInfo
+	info   plugin.PluginInfo
+	result []plugin.PluginInfo
 }
 
 func init() {
 	plugin.Regist("java", &struts2Eval{})
 }
-func (d *struts2Eval) Init() common.PluginInfo{
-	d.info = common.PluginInfo{
+func (d *struts2Eval) Init() plugin.PluginInfo{
+	d.info = plugin.PluginInfo{
 		Name:    "Struts2 远程代码执行",
 		Remarks: "可直接执行任意代码，进而直接导致服务器被入侵控制。",
 		Level:   0,
 		Type:    "RCE",
 		Author:   "wolf",
-		References: common.References{
+		References: plugin.References{
 			URL: "",
 			CVE: "",
 		},
 	}
 	return d.info
 }
-func (d *struts2Eval) GetResult() []common.PluginInfo {
+func (d *struts2Eval) GetResult() []plugin.PluginInfo {
 	return d.result
 }
 func (d *struts2Eval) Check(URL string, meta plugin.TaskMeta) (b bool) {
@@ -74,7 +74,7 @@ func (d *struts2Eval) Check(URL string, meta plugin.TaskMeta) (b bool) {
 		if err != nil {
 			return false
 		}
-		resp, err := common.RequestDo(request, true)
+		resp, err := util.RequestDo(request, true)
 		if err != nil {
 			return false
 		}
@@ -95,7 +95,7 @@ func (d *struts2Eval) Check(URL string, meta plugin.TaskMeta) (b bool) {
 	if err != nil {
 		return false
 	}
-	resp, err := common.RequestDo(request, true)
+	resp, err := util.RequestDo(request, true)
 	if err != nil {
 		return false
 	}

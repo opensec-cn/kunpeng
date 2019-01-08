@@ -3,33 +3,33 @@ package goplugin
 import (
 	"net/http"
 	"strings"
-	"vuldb/common"
-	"vuldb/plugin"
+	"github.com/opensec-cn/kunpeng/util"
+	"github.com/opensec-cn/kunpeng/plugin"
 )
 
 type shellShock struct {
-	info   common.PluginInfo
-	result []common.PluginInfo
+	info   plugin.PluginInfo
+	result []plugin.PluginInfo
 }
 
 func init() {
 	plugin.Regist("web", &shellShock{})
 }
-func (d *shellShock) Init() common.PluginInfo{
-	d.info = common.PluginInfo{
+func (d *shellShock) Init() plugin.PluginInfo{
+	d.info = plugin.PluginInfo{
 		Name:    "shellshock 破壳漏洞",
 		Remarks: "攻击者可利用此漏洞改变或绕过环境限制，以执行任意的shell命令,最终完全控制目标系统",
 		Level:   0,
 		Type:    "RCE",
 		Author:   "wolf",
-		References: common.References{
+		References: plugin.References{
 			URL: "",
 			CVE: "",
 		},
 	}
 	return d.info
 }
-func (d *shellShock) GetResult() []common.PluginInfo {
+func (d *shellShock) GetResult() []plugin.PluginInfo {
 	return d.result
 }
 func (d *shellShock) Check(URL string, meta plugin.TaskMeta) bool {
@@ -55,7 +55,7 @@ func (d *shellShock) Check(URL string, meta plugin.TaskMeta) bool {
 		request.Header.Set("cookie", poc)
 		request.Header.Set("User-Agent", poc)
 		request.Header.Set("Referrer", poc)
-		resp, err := common.RequestDo(request, true)
+		resp, err := util.RequestDo(request, true)
 		if err != nil {
 			return false
 		}

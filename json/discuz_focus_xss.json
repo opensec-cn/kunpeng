@@ -2,7 +2,7 @@
     "target":"discuz",
     "meta":{
         "name":    "Disucz! x3.0 focus.swf XSS",
-        "remarks": "Discuz! x3.0 /static/image/common/focus.swf 存在Flash XSS漏洞",
+        "remarks": "Discuz! x3.0 /static/image/util/focus.swf 存在Flash XSS漏洞",
         "level":   3,
         "type":    "XSS",
         "author":   "wolf",
@@ -12,7 +12,7 @@
         }
     },
     "request":{
-        "path":     "/static/image/common/focus.swf",
+        "path":     "/static/image/util/focus.swf",
         "postData": ""
     },
     "verify":{

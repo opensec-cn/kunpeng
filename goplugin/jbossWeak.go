@@ -4,33 +4,33 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
-	"vuldb/common"
-	"vuldb/plugin"
+	"github.com/opensec-cn/kunpeng/util"
+	"github.com/opensec-cn/kunpeng/plugin"
 )
 
 type jbossWeak struct {
-	info   common.PluginInfo
-	result []common.PluginInfo
+	info   plugin.PluginInfo
+	result []plugin.PluginInfo
 }
 
 func init() {
 	plugin.Regist("jboss", &jbossWeak{})
 }
-func (d *jbossWeak) Init() common.PluginInfo{
-	d.info = common.PluginInfo{
+func (d *jbossWeak) Init() plugin.PluginInfo{
+	d.info = plugin.PluginInfo{
 		Name:    "JBoss 控制台弱口令",
 		Remarks: "攻击者通过此漏洞可以登陆管理控制台，通过部署功能可直接获取服务器权限。",
 		Level:   0,
 		Type:    "WEAK",
 		Author:   "wolf",
-		References: common.References{
+		References: plugin.References{
 			URL: "",
 			CVE: "",
 		},
 	}
 	return d.info
 }
-func (d *jbossWeak) GetResult() []common.PluginInfo {
+func (d *jbossWeak) GetResult() []plugin.PluginInfo {
 	return d.result
 }
 func (d *jbossWeak) Check(URL string, meta plugin.TaskMeta) bool {
@@ -44,7 +44,7 @@ func (d *jbossWeak) Check(URL string, meta plugin.TaskMeta) bool {
 		if err != nil {
 			continue
 		}
-		resp, err := common.RequestDo(request, false)
+		resp, err := util.RequestDo(request, false)
 		if err != nil {
 			continue
 		}
@@ -71,7 +71,7 @@ func (d *jbossWeak) Check(URL string, meta plugin.TaskMeta) bool {
 			request, _ := http.NewRequest("GET", loginURL, nil)
 			request.SetBasicAuth(user, pass)
 			// log.Println(user, pass)
-			resp, err := common.RequestDo(request, false)
+			resp, err := util.RequestDo(request, false)
 			if err != nil {
 				continue
 			}

@@ -4,33 +4,33 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
-	"vuldb/common"
-	"vuldb/plugin"
+	"github.com/opensec-cn/kunpeng/util"
+	"github.com/opensec-cn/kunpeng/plugin"
 )
 
 type wordPressWeak struct {
-	info   common.PluginInfo
-	result []common.PluginInfo
+	info   plugin.PluginInfo
+	result []plugin.PluginInfo
 }
 
 func init() {
 	plugin.Regist("wordpress", &wordPressWeak{})
 }
-func (d *wordPressWeak) Init() common.PluginInfo{
-	d.info = common.PluginInfo{
+func (d *wordPressWeak) Init() plugin.PluginInfo{
+	d.info = plugin.PluginInfo{
 		Name:    "WordPress 后台弱口令",
 		Remarks: "攻击者通过此漏洞可以登陆管理后台，通过编辑插件功能可写入webshell，最终导致服务器被入侵控制。",
 		Level:   0,
 		Type:    "WEAK",
 		Author:   "wolf",
-        References: common.References{
+        References: plugin.References{
         	URL: "",
         	CVE: "",
         },
 	}
 	return d.info
 }
-func (d *wordPressWeak) GetResult() []common.PluginInfo {
+func (d *wordPressWeak) GetResult() []plugin.PluginInfo {
 	return d.result
 }
 func (d *wordPressWeak) getUserList(URL string) (userList []string) {
@@ -40,7 +40,7 @@ func (d *wordPressWeak) getUserList(URL string) (userList []string) {
 		url := fmt.Sprintf("%s/?author=%d", URL, i)
 		// log.Println(url)
 		request, _ := http.NewRequest("GET", url, nil)
-		resp, err := common.RequestDo(request, false)
+		resp, err := util.RequestDo(request, false)
 		if err != nil || strings.Contains(string(resp.Body), errorFlag) {
 			return
 		}
@@ -68,7 +68,7 @@ func (d *wordPressWeak) Check(URL string, meta plugin.TaskMeta) bool {
 			postData := "<?xml version='1.0' encoding='iso-8859-1'?><methodCall>  <methodName>wp.getUsersBlogs</methodName>  " +
 				"<params>   <param><value>%s</value></param>   <param><value>%s</value></param>  </params></methodCall>"
 			request, err := http.NewRequest("POST", URL+"/xmlrpc.php", strings.NewReader(fmt.Sprintf(postData, user, pass)))
-			resp, err := common.RequestDo(request, true)
+			resp, err := util.RequestDo(request, true)
 			if err != nil {
 				return false
 			}

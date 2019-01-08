@@ -3,12 +3,14 @@ package plugin
 import (
 	"strings"
 	"fmt"
-	"vuldb/jsonplugin"
-	"vuldb/common"
+	"github.com/opensec-cn/kunpeng/util"
 )
 
-// Plugins 漏洞插件库
-var Plugins map[string][]Plugin
+// GoPlugins GO插件集
+var GoPlugins map[string][]GoPlugin
+
+// JSONPlugins JSON插件集
+var JSONPlugins map[string][]JSONPlugin
 
 // TaskInfo 任务结构
 type TaskInfo struct {
@@ -28,26 +30,36 @@ type TaskMeta struct{
 	FileList	[]string
 }
 
-// Plugin 插件接口
-type Plugin interface {
-	Init() common.PluginInfo
-	Check(netloc string, meta TaskMeta) bool
-	GetResult() []common.PluginInfo
+//References 插件附加信息
+type References struct{
+	URL string `json:"url"`
+	CVE string `json:"cve"`
 }
+
+// PluginInfo 漏洞插件信息
+type PluginInfo struct {
+	Name     string `json:"name"`
+	Remarks  string `json:"remarks"`
+	Level    int `json:"level"`
+	Type     string `json:"type"`
+	Author	 string `json:"author"`
+	References `json:"references"`
+	Request  string
+	Response string
+}
+
 
 func init() {
-	Plugins = make(map[string][]Plugin)
+	GoPlugins = make(map[string][]GoPlugin)
+	JSONPlugins = make(map[string][]JSONPlugin)
 }
 
-// Regist 注册插件
-func Regist(target string, plugin Plugin) {
-	Plugins[target] = append(Plugins[target], plugin)
-}
 
 // Scan 开始插件扫描
 func Scan(task TaskInfo) (ok bool, result []map[string]string) {
 	// GO插件
-	for n, pluginList := range Plugins {
+	for n, pluginList := range GoPlugins {
+		fmt.Println(n)
 		if strings.Contains(strings.ToLower(task.Target),strings.ToLower(n)) || task.Target == "all" {
 			fmt.Printf("启动插件集 %s\n", n)
 			for _, plugin := range pluginList {
@@ -58,7 +70,7 @@ func Scan(task TaskInfo) (ok bool, result []map[string]string) {
 				ok = true
 				for _, res := range plugin.GetResult() {
 					fmt.Println("true:", res.Name)
-					result = append(result, common.Struct2Map(res))
+					result = append(result, util.Struct2Map(res))
 				}
 			}
 		}
@@ -67,14 +79,14 @@ func Scan(task TaskInfo) (ok bool, result []map[string]string) {
 		return ok, result
 	}
 	// JSON插件
-	for target, pluginList := range jsonplugin.JSONPlugins {
+	for target, pluginList := range JSONPlugins {
 		if strings.Contains(strings.ToLower(task.Target),strings.ToLower(target)) || task.Target == "all" {
 			fmt.Printf("启动JSON插件集 %s\n", target)
 			for _, plugin := range pluginList {
-				if yes, res := jsonplugin.Check(task.Netloc, plugin); yes {
+				if yes, res := jsonCheck(task.Netloc, plugin); yes {
 					ok = true
 					fmt.Println("true:", res.Name)
-					result = append(result, common.Struct2Map(res))
+					result = append(result, util.Struct2Map(res))
 				}
 			}
 		}
@@ -85,18 +97,18 @@ func Scan(task TaskInfo) (ok bool, result []map[string]string) {
 // GetPlugins 获取插件信息
 func GetPlugins()[]map[string]string{
 	plugins := []map[string]string{}
-	for name, pluginList := range Plugins {
+	for name, pluginList := range GoPlugins {
 		for _, plugin := range pluginList{
 			info := plugin.Init()
-			pluginMap := common.Struct2Map(info)
+			pluginMap := util.Struct2Map(info)
 			delete(pluginMap, "request")
 			delete(pluginMap, "response")
 			pluginMap["target"] = name
 			plugins = append(plugins,pluginMap)
 		}
-		for name, pluginList := range jsonplugin.JSONPlugins {
+		for name, pluginList := range JSONPlugins {
 			for _, plugin := range pluginList{
-				pluginMap := common.Struct2Map(plugin.Meta)
+				pluginMap := util.Struct2Map(plugin.Meta)
 				delete(pluginMap, "request")
 				delete(pluginMap, "response")
 				pluginMap["target"] = name

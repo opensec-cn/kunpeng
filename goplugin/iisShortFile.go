@@ -2,33 +2,33 @@ package goplugin
 
 import (
 	"net/http"
-	"vuldb/common"
-	"vuldb/plugin"
+	"github.com/opensec-cn/kunpeng/util"
+	"github.com/opensec-cn/kunpeng/plugin"
 )
 
 type iisShortFile struct {
-	info   common.PluginInfo
-	result []common.PluginInfo
+	info   plugin.PluginInfo
+	result []plugin.PluginInfo
 }
 
 func init() {
 	plugin.Regist("iis", &iisShortFile{})
 }
-func (d *iisShortFile) Init() common.PluginInfo{
-	d.info = common.PluginInfo{
+func (d *iisShortFile) Init() plugin.PluginInfo{
+	d.info = plugin.PluginInfo{
 		Name:    "IIS 短文件名",
 		Remarks: "攻击者可利用此特性猜解出目录与文件名，以达到类似列目录漏洞的效果",
 		Level:   3,
 		Type:    "INFO",
 		Author:   "wolf",
-		References: common.References{
+		References: plugin.References{
 			URL: "",
 			CVE: "",
 		},
 	}
 	return d.info
 }
-func (d *iisShortFile) GetResult() []common.PluginInfo {
+func (d *iisShortFile) GetResult() []plugin.PluginInfo {
 	return d.result
 }
 func (d *iisShortFile) Check(URL string, meta plugin.TaskMeta) bool {
@@ -36,7 +36,7 @@ func (d *iisShortFile) Check(URL string, meta plugin.TaskMeta) bool {
 	if err != nil {
 		return false
 	}
-	resp, err := common.RequestDo(request400, false)
+	resp, err := util.RequestDo(request400, false)
 	if err != nil {
 		return false
 	}
@@ -45,7 +45,7 @@ func (d *iisShortFile) Check(URL string, meta plugin.TaskMeta) bool {
 		if err != nil {
 			return false
 		}
-		resp, err := common.RequestDo(request404, true)
+		resp, err := util.RequestDo(request404, true)
 		if err != nil {
 			return false
 		}

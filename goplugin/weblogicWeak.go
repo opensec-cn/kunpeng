@@ -4,39 +4,39 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
-	"vuldb/common"
-	"vuldb/plugin"
+	"github.com/opensec-cn/kunpeng/util"
+	"github.com/opensec-cn/kunpeng/plugin"
 )
 
 type weblogicWeak struct {
-	info   common.PluginInfo
-	result []common.PluginInfo
+	info   plugin.PluginInfo
+	result []plugin.PluginInfo
 }
 
 func init() {
 	plugin.Regist("weblogic", &weblogicWeak{})
 }
-func (d *weblogicWeak) Init() common.PluginInfo{
-	d.info = common.PluginInfo{
+func (d *weblogicWeak) Init() plugin.PluginInfo{
+	d.info = plugin.PluginInfo{
 		Name:    "Weblogic 控制台弱口令",
 		Remarks: "攻击者通过此漏洞可以登陆管理控制台，通过部署功能可直接获取服务器权限。",
 		Level:   0,
 		Type:    "WEAK",
 		Author:   "wolf",
-		References: common.References{
+		References: plugin.References{
 			URL: "",
 			CVE: "",
 		},
 	}
 	return d.info
 }
-func (d *weblogicWeak) GetResult() []common.PluginInfo {
+func (d *weblogicWeak) GetResult() []plugin.PluginInfo {
 	return d.result
 }
 func (d *weblogicWeak) Check(URL string, meta plugin.TaskMeta) bool {
 	loginURL := URL + "/console/j_security_check"
 	request, _ := http.NewRequest("GET", loginURL, nil)
-	resp, err := common.RequestDo(request, true)
+	resp, err := util.RequestDo(request, true)
 	if err != nil {
 		return false
 	}
@@ -51,8 +51,8 @@ func (d *weblogicWeak) Check(URL string, meta plugin.TaskMeta) bool {
 		`javascript\/console-help\.js`,
 		`WebLogic Server Administration Console Home`,
 		`\/console\/console\.portal`,
-		`console\/jsp\/common\/warnuserlockheld\.jsp`,
-		`\/console\/actions\/common\/`,
+		`console\/jsp\/util\/warnuserlockheld\.jsp`,
+		`\/console\/actions\/util\/`,
 	}
 	for _, user := range userList {
 		for _, pass := range PassList {
@@ -62,7 +62,7 @@ func (d *weblogicWeak) Check(URL string, meta plugin.TaskMeta) bool {
 			if err != nil {
 				continue
 			}
-			resp, err := common.RequestDo(request, true)
+			resp, err := util.RequestDo(request, true)
 			if err != nil {
 				continue
 			}

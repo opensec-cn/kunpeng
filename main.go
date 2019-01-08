@@ -6,10 +6,10 @@ import (
 	"crypto/tls"
 	"net/http"
 	"net/url"
-	"vuldb/common"
-	"vuldb/plugin"
-	"vuldb/goplugin"
-	"vuldb/web"
+	"github.com/opensec-cn/kunpeng/util"
+	"github.com/opensec-cn/kunpeng/plugin"
+	"github.com/opensec-cn/kunpeng/goplugin"
+	"github.com/opensec-cn/kunpeng/web"
 	"encoding/json"
 	// "fmt"
 )
@@ -29,7 +29,7 @@ func (g greeting) GetPlugins() []map[string]string {
 
 func (g greeting) SetProxy(URL string) {
 	if URL == "" {
-		common.Client.Transport = nil
+		util.Client.Transport = nil
 	} else {
 		proxy := func(_ *http.Request) (*url.URL, error) {
 			return url.Parse(URL)
@@ -38,7 +38,7 @@ func (g greeting) SetProxy(URL string) {
 			Proxy:           proxy,
 			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 		}
-		common.Client.Transport = transport
+		util.Client.Transport = transport
 	}
 }
 func (g greeting) SetAider(URL string) {

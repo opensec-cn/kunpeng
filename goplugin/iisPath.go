@@ -3,33 +3,33 @@ package goplugin
 import (
 	"net/http"
 	"strings"
-	"vuldb/common"
-	"vuldb/plugin"
+	"github.com/opensec-cn/kunpeng/util"
+	"github.com/opensec-cn/kunpeng/plugin"
 )
 
 type iisPath struct {
-	info   common.PluginInfo
-	result []common.PluginInfo
+	info   plugin.PluginInfo
+	result []plugin.PluginInfo
 }
 
 func init() {
 	plugin.Regist("iis", &iisPath{})
 }
-func (d *iisPath) Init() common.PluginInfo{
-	d.info = common.PluginInfo{
+func (d *iisPath) Init() plugin.PluginInfo{
+	d.info = plugin.PluginInfo{
 		Name:    "IIS 物理路径泄露",
 		Remarks: "通过访问一个不存在的文件或者目录，得到web物理路径",
 		Level:   3,
 		Type:    "INFO",
 		Author:   "wolf",
-		References: common.References{
+		References: plugin.References{
 			URL: "",
 			CVE: "",
 		},
 	}
 	return d.info
 }
-func (d *iisPath) GetResult() []common.PluginInfo {
+func (d *iisPath) GetResult() []plugin.PluginInfo {
 	return d.result
 }
 func (d *iisPath) Check(URL string, meta plugin.TaskMeta) bool {
@@ -37,7 +37,7 @@ func (d *iisPath) Check(URL string, meta plugin.TaskMeta) bool {
 	if err != nil {
 		return false
 	}
-	resp, err := common.RequestDo(request400, false)
+	resp, err := util.RequestDo(request400, false)
 	if err != nil {
 		return false
 	}

@@ -4,34 +4,33 @@ import (
 	"database/sql"
 	"fmt"
 	"strings"
-	"vuldb/plugin"
-	"vuldb/common"
+	"github.com/opensec-cn/kunpeng/plugin"
 	_ "github.com/denisenkom/go-mssqldb"
 )
 
 type mssqlWeakPass struct {
-	info   common.PluginInfo
-	result []common.PluginInfo
+	info   plugin.PluginInfo
+	result []plugin.PluginInfo
 }
 
 func init() {
 	plugin.Regist("mssql", &mssqlWeakPass{})
 }
-func (d *mssqlWeakPass) Init() common.PluginInfo{
-	d.info = common.PluginInfo{
+func (d *mssqlWeakPass) Init() plugin.PluginInfo{
+	d.info = plugin.PluginInfo{
 		Name:    "SQLServer 弱口令",
 		Remarks: "导致数据库敏感信息泄露，严重可导致服务器直接被入侵控制。",
 		Level:   0,
 		Type:    "WEAK",
 		Author:   "wolf",
-		References: common.References{
+		References: plugin.References{
 			URL: "",
 			CVE: "",
 		},
 	}
 	return d.info
 }
-func (d *mssqlWeakPass) GetResult() []common.PluginInfo {
+func (d *mssqlWeakPass) GetResult() []plugin.PluginInfo {
 	return d.result
 }
 func (d *mssqlWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool) {

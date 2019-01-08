@@ -4,33 +4,33 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
-	"vuldb/common"
-	"vuldb/plugin"
+	"github.com/opensec-cn/kunpeng/util"
+	"github.com/opensec-cn/kunpeng/plugin"
 )
 
 type tomcatWeakPass struct {
-	info   common.PluginInfo
-	result []common.PluginInfo
+	info   plugin.PluginInfo
+	result []plugin.PluginInfo
 }
 
 func init() {
 	plugin.Regist("tomcat", &tomcatWeakPass{})
 }
-func (d *tomcatWeakPass) Init() common.PluginInfo{
-	d.info = common.PluginInfo{
+func (d *tomcatWeakPass) Init() plugin.PluginInfo{
+	d.info = plugin.PluginInfo{
 		Name:    "Apache Tomcat 弱口令",
 		Remarks: "攻击者通过此漏洞可以登陆管理控制台，通过部署功能可直接获取服务器权限。",
 		Level:   0,
 		Type:    "WEAK",
 		Author:   "wolf",
-		References: common.References{
+		References: plugin.References{
 			URL: "",
 			CVE: "",
 		},
 	}
 	return d.info
 }
-func (d *tomcatWeakPass) GetResult() []common.PluginInfo {
+func (d *tomcatWeakPass) GetResult() []plugin.PluginInfo {
 	return d.result
 }
 func (d *tomcatWeakPass) Check(URL string, meta plugin.TaskMeta) bool {
@@ -42,7 +42,7 @@ func (d *tomcatWeakPass) Check(URL string, meta plugin.TaskMeta) bool {
 			pass = strings.Replace(pass, "{user}", user, -1)
 			request, err := http.NewRequest("GET", URL+"/manager/html", nil)
 			request.SetBasicAuth(user, pass)
-			resp, err := common.RequestDo(request, true)
+			resp, err := util.RequestDo(request, true)
 			if err != nil {
 				return false
 			}

@@ -3,33 +3,33 @@ package goplugin
 import (
 	"net/http"
 	"strings"
-	"vuldb/common"
-	"vuldb/plugin"
+	"github.com/opensec-cn/kunpeng/util"
+	"github.com/opensec-cn/kunpeng/plugin"
 )
 
 type webDav struct {
-	info   common.PluginInfo
-	result []common.PluginInfo
+	info   plugin.PluginInfo
+	result []plugin.PluginInfo
 }
 
 func init() {
 	plugin.Regist("web", &webDav{})
 }
-func (d *webDav) Init() common.PluginInfo{
-	d.info = common.PluginInfo{
+func (d *webDav) Init() plugin.PluginInfo{
+	d.info = plugin.PluginInfo{
 		Name:    "WebDav Put开启",
 		Remarks: "开启了WebDav且配置不当导致攻击者可上传文件到web目录",
 		Level:   1,
 		Type:    "CONF",
 		Author:   "wolf",
-		References: common.References{
+		References: plugin.References{
 			URL: "",
 			CVE: "",
 		},
 	}
 	return d.info
 }
-func (d *webDav) GetResult() []common.PluginInfo {
+func (d *webDav) GetResult() []plugin.PluginInfo {
 	return d.result
 }
 func (d *webDav) Check(URL string, meta plugin.TaskMeta) bool {
@@ -38,7 +38,7 @@ func (d *webDav) Check(URL string, meta plugin.TaskMeta) bool {
 	if err != nil {
 		return false
 	}
-	_, err = common.RequestDo(request, false)
+	_, err = util.RequestDo(request, false)
 	if err != nil {
 		return false
 	}
@@ -46,7 +46,7 @@ func (d *webDav) Check(URL string, meta plugin.TaskMeta) bool {
 	if err != nil {
 		return false
 	}
-	resp, err := common.RequestDo(vRequest, true)
+	resp, err := util.RequestDo(vRequest, true)
 	if err != nil {
 		return false
 	}

@@ -4,34 +4,33 @@ import (
 	"fmt"
 	"net"
 	"strings"
-	"vuldb/plugin"
-	"vuldb/common"
+	"github.com/opensec-cn/kunpeng/plugin"
 	"golang.org/x/crypto/ssh"
 )
 
 type sshWeakPass struct {
-	info   common.PluginInfo
-	result []common.PluginInfo
+	info   plugin.PluginInfo
+	result []plugin.PluginInfo
 }
 
 func init() {
 	plugin.Regist("ssh", &sshWeakPass{})
 }
-func (d *sshWeakPass) Init() common.PluginInfo{
-	d.info = common.PluginInfo{
+func (d *sshWeakPass) Init() plugin.PluginInfo{
+	d.info = plugin.PluginInfo{
 		Name:    "SSH 弱口令",
 		Remarks: "直接导致服务器被入侵控制。",
 		Level:   0,
 		Type:    "WEAK",
 		Author:   "wolf",
-		References: common.References{
+		References: plugin.References{
 			URL: "",
 			CVE: "",
 		},
 	}
 	return d.info
 }
-func (d *sshWeakPass) GetResult() []common.PluginInfo {
+func (d *sshWeakPass) GetResult() []plugin.PluginInfo {
 	return d.result
 }
 func (d *sshWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool) {
