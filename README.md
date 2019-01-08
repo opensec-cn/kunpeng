@@ -157,29 +157,28 @@ package goplugin
 // 引入plugin
 import (
 	"fmt"
-	"vuldb/plugin"
-	"vuldb/common"
+	"github.com/opensec-cn/kunpeng/plugin"
 	"github.com/go-redis/redis"
 )
 
 // 定义插件结构，info，result需固定存在
 type redisWeakPass struct {
-	info   common.PluginInfo //插件信息
-	result []common.PluginInfo //漏洞结果
+	info   plugin.PluginInfo //插件信息
+	result []plugin.PluginInfo //漏洞结果
 }
 
 func init() {
     // 注册插件，定义插件目标名称
 	plugin.Regist("redis", &redisWeakPass{})
 }
-func (d *redisWeakPass) Init() common.PluginInfo{
-	d.info = common.PluginInfo{
+func (d *redisWeakPass) Init() plugin.PluginInfo{
+	d.info = plugin.PluginInfo{
 		Name:    "Redis 未授权访问/弱口令",
 		Remarks: "导致敏感信息泄露，严重可导致服务器直接被入侵控制。",
 		Level:   0,
 		Type:    "WEAK",
 		Author:   "wolf",
-	    References: common.References{
+	    References: plugin.References{
 		    URL: "https://www.freebuf.com/vuls/162035.html",
 		    CVE: "",
 	},
@@ -187,7 +186,7 @@ func (d *redisWeakPass) Init() common.PluginInfo{
 	return d.info
 }
 
-func (d *redisWeakPass) GetResult() []common.PluginInfo {
+func (d *redisWeakPass) GetResult() []plugin.PluginInfo {
 	return d.result
 }
 
@@ -225,27 +224,27 @@ package goplugin
 import (
 	"net/http"
 	"strings"
-	"vuldb/common"
-	"vuldb/plugin"
+	"github.com/opensec-cn/kunpeng/util"
+	"github.com/opensec-cn/kunpeng/plugin"
 )
 
 type webDavRCE struct {
-	info   common.PluginInfo
-	result []common.PluginInfo
+	info   plugin.PluginInfo
+	result []plugin.PluginInfo
 }
 
 func init() {
 	plugin.Regist("iis", &webDavRCE{})
 }
 
-func (d *webDavRCE) Init() common.PluginInfo{
-	d.info = common.PluginInfo{
+func (d *webDavRCE) Init() plugin.PluginInfo{
+	d.info = plugin.PluginInfo{
 		Name:    "WebDav PROPFIND RCE(理论检测)",
 		Remarks: "CVE-2017-7269,Windows Server 2003R2版本IIS6.0的WebDAV服务中的ScStoragePathFromUrl函数存在缓存区溢出漏洞",
 		Level:   1,
 		Type:    "RCE",
 		Author:   "wolf",
-		References: common.References{
+		References: plugin.References{
 			URL: "",
 			CVE: "",
 		},
@@ -253,7 +252,7 @@ func (d *webDavRCE) Init() common.PluginInfo{
 	return d.info
 }
 
-func (d *webDavRCE) GetResult() []common.PluginInfo {
+func (d *webDavRCE) GetResult() []plugin.PluginInfo {
 	return d.result
 }
 
@@ -263,7 +262,7 @@ func (d *webDavRCE) Check(URL string, meta plugin.TaskMeta) bool {
 		return false
 	}
 	// 封装好的HTTP请求
-	resp, err := common.RequestDo(request, true)
+	resp, err := util.RequestDo(request, true)
 	if err != nil {
 		return false
 	}
@@ -322,7 +321,8 @@ go build -buildmode=plugin -o go.so
 ```
 
 ### 效果图
-![Yeti](./1.png)
+
+
 
 ## 法律法规
 
