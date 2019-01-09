@@ -34,7 +34,7 @@ func (d *ucServerWeak) GetResult() []plugin.PluginInfo {
 	return d.result
 }
 func (d *ucServerWeak) Check(URL string, meta plugin.TaskMeta) bool {
-	for _, pass := range PassList {
+	for _, pass := range meta.PassList {
 		// pass = strings.Replace(pass, "{user}", "administrator", -1)
 		request, err := http.NewRequest("POST", URL+"/uc_server/index.php?m=app&a=add", strings.NewReader("ucfounderpw="+pass))
 		request.Header.Set("Content-Type", "application/x-www-form-urlencoded")

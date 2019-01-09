@@ -3,6 +3,7 @@ package goplugin
 import (
 	"fmt"
 	"net"
+	"time"
 	"strings"
 	"github.com/opensec-cn/kunpeng/plugin"
 	"golang.org/x/crypto/ssh"
@@ -41,8 +42,9 @@ func (d *sshWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool) {
 		"root",
 	}
 	for _, user := range userList {
-		for _, pass := range PassList {
+		for _, pass := range meta.PassList {
 			pass = strings.Replace(pass, "{user}", user, -1)
+			fmt.Println(pass)
 			config := &ssh.ClientConfig{
 				User: user,
 				Auth: []ssh.AuthMethod{
@@ -51,6 +53,7 @@ func (d *sshWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool) {
 				HostKeyCallback: func(hostname string, remote net.Addr, key ssh.PublicKey) error {
 					return nil
 				},
+				Timeout: time.Duration(10) * time.Second,
 			}
 			client, err := ssh.Dial("tcp", netloc, config)
 			if err == nil {

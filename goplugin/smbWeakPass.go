@@ -58,7 +58,7 @@ func (d *smbWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool) {
 		return true
 	}
 	for _, user := range userList {
-		for _, pass := range PassList {
+		for _, pass := range meta.PassList {
 			pass = strings.Replace(pass, "{user}", user, -1)
 			options := smb.Options{
 				Host:        strings.Split(netloc, ":")[0],

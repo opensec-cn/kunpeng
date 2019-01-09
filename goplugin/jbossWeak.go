@@ -66,7 +66,7 @@ func (d *jbossWeak) Check(URL string, meta plugin.TaskMeta) bool {
 	//		`<title>JBoss Management`,
 	//	}
 	for _, user := range userList {
-		for _, pass := range PassList {
+		for _, pass := range meta.PassList {
 			pass = strings.Replace(pass, "{user}", user, -1)
 			request, _ := http.NewRequest("GET", loginURL, nil)
 			request.SetBasicAuth(user, pass)

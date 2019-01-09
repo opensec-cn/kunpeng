@@ -38,7 +38,7 @@ func (d *tomcatWeakPass) Check(URL string, meta plugin.TaskMeta) bool {
 		"admin", "tomcat", "apache", "root", "manager",
 	}
 	for _, user := range userList {
-		for _, pass := range PassList {
+		for _, pass := range meta.PassList {
 			pass = strings.Replace(pass, "{user}", user, -1)
 			request, err := http.NewRequest("GET", URL+"/manager/html", nil)
 			request.SetBasicAuth(user, pass)

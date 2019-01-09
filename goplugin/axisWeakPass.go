@@ -42,7 +42,7 @@ func (d *axisWeakPass) Check(URL string, meta plugin.TaskMeta) bool {
 		`include page="footer.inc">`, "axis2-admin/logout",
 	}
 	for _, user := range userList {
-		for _, pass := range PassList {
+		for _, pass := range meta.PassList {
 			pass = strings.Replace(pass, "{user}", user, -1)
 			PostStr := fmt.Sprintf("userName=%s&password=%s&submit=+Login+", user, pass)
 			request, err := http.NewRequest("GET", URL+"/axis2/axis2-admin/login", strings.NewReader(PostStr))

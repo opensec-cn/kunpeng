@@ -3,3 +3,6 @@ debug.test
 *.so
 *.c
 *.go_
+/.vscode/
+*.h
+/jsonplugin/JSONPlugin.go

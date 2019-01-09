@@ -40,7 +40,7 @@ func (d *ftpWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool) {
 		"root", "admin", "www", "ftp",
 	}
 	for _, user := range userList {
-		for _, pass := range PassList {
+		for _, pass := range meta.PassList {
 			pass = strings.Replace(pass, "{user}", user, -1)
 			conn, err := ftp.Connect(netloc)
 			if err != nil {

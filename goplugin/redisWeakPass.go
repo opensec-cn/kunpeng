@@ -36,7 +36,7 @@ func (d *redisWeakPass) Check(netloc string, meta plugin.TaskMeta) bool {
 	if strings.IndexAny(netloc,"http") == 0{
 		return false
 	}
-	for _, pass := range PassList {
+	for _, pass := range meta.PassList {
 		client := redis.NewClient(&redis.Options{
 			Addr:     netloc,
 			Password: pass,

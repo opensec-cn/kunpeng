@@ -8,20 +8,16 @@ import (
 	"strings"
 	"time"
 	"github.com/opensec-cn/kunpeng/util"
+	"github.com/opensec-cn/kunpeng/plugin"
 	// "fmt"
 )
 
 var (
 	client   *http.Client
-	PassList []string
-	Aider    string
 )
 
 func init() {
 	client = util.Client
-	PassList = []string{
-		"{user}", "{user}123", "admin", "123456", "",
-	}
 }
 
 
@@ -52,7 +48,7 @@ func inArray(list []string, value string, regex bool) bool {
 	return false
 }
 func aiderCheck(randStr string) bool {
-	request, _ := http.NewRequest("GET", Aider+"/check/"+randStr, nil)
+	request, _ := http.NewRequest("GET", plugin.Config.Aider+"/check/"+randStr, nil)
 	resp, err := util.RequestDo(request, true)
 	if err != nil {
 		return false

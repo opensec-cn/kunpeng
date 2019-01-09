@@ -55,7 +55,7 @@ func (d *weblogicWeak) Check(URL string, meta plugin.TaskMeta) bool {
 		`\/console\/actions\/util\/`,
 	}
 	for _, user := range userList {
-		for _, pass := range PassList {
+		for _, pass := range meta.PassList {
 			pass = strings.Replace(pass, "{user}", user, -1)
 			postData := fmt.Sprintf("j_username=%s&j_password=%s&j_character_encoding=UTF-8", user, pass)
 			request, err := http.NewRequest("POST", loginURL, strings.NewReader(postData))

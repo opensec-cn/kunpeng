@@ -8,7 +8,7 @@ import (
 	"net/url"
 	"github.com/opensec-cn/kunpeng/util"
 	"github.com/opensec-cn/kunpeng/plugin"
-	"github.com/opensec-cn/kunpeng/goplugin"
+	_ "github.com/opensec-cn/kunpeng/goplugin"
 	"github.com/opensec-cn/kunpeng/web"
 	"encoding/json"
 	// "fmt"
@@ -41,8 +41,13 @@ func (g greeting) SetProxy(URL string) {
 		util.Client.Transport = transport
 	}
 }
+
 func (g greeting) SetAider(URL string) {
-	goplugin.Aider = URL
+	plugin.Config.Aider = URL
+}
+
+func (g greeting) SetPassList(dic []string) {
+	plugin.Config.PassList = dic
 }
 
 //export StartWebServer

