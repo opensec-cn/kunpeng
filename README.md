@@ -5,9 +5,9 @@ kunpeng是一个Golang编写的开源POC检测框架，以动态链接库的形�
 
 ## 简介
 
-作为漏洞发现、检测中的核心：漏洞库，存在着维护成本高，无法及时更新、不同框架以及各自独立维护的问题，xxx将以动态链接库的形式提供调用，开发人员只需专注于相关安全检测系统的业务逻辑代码实现，而不必各自重复的耗费精力维护漏洞库。
+作为漏洞发现、检测中的核心：漏洞库，存在着维护成本高，无法及时更新、不同框架以及各自独立维护的问题，Kunpeng将以动态链接库的形式提供调用，开发人员只需专注于相关安全检测系统的业务逻辑代码实现，而不必各自重复的耗费精力维护漏洞库。
 
-VulDB集成了包括服务、web组件、CMS的漏洞POC，可检测包括弱口令、SQL注入、XSS、RCE等漏洞类型。
+Kunpeng集成了包括数据库、中间件、web组件、cms等等的漏洞POC，可检测包括弱口令、SQL注入、XSS、RCE等漏洞类型。
 
 ## 特点
 开箱即用，无需安装任何依赖库
@@ -31,7 +31,7 @@ VulDB集成了包括服务、web组件、CMS的漏洞POC，可检测包括弱口
 [releases]
 
 
-Kunpeng_go_v{xx}.zip 为GO语言专版，其余语言下载 Kunpeng_c_v{xx}.zip
+kunpeng_go_v{xx}.zip 为GO语言专版，其余语言使用 kunpeng_c_v{xx}.zip
 
 ## 使用方法
 
@@ -77,25 +77,32 @@ import "plugin"
 import "fmt"
 import "encoding/json"
 
-// TaskInfo 任务结构
+
+type Meta struct{
+	System string `json:"system"`
+	PathList []string `json:"pathlist"`
+	FileList []string `json:"filelist"`
+	PassList []string `json:"passlist"`
+}
+
+// TaskInfo 
 type TaskInfo struct {
 	Type string `json:"type"`
 	Netloc string `json:"netloc"`
 	Target string `json:"target"`
-	System string `json:"system"`
-	PathList []string `json:"pathList"`
-	FileList []string `json:"fileList"`
+	Meta Meta `json:"meta"`
 }
 
 type Greeter interface {
 	Check(task string) (bool, []map[string]string)
 	GetPlugins() []map[string]string
 	SetProxy(URL string)
+	SetPassList(passList []string) 
 	SetAider(URL string)
 }
 
 func main() {
-	plug, err := plugin.Open("/tmp/go.so")
+	plug, err := plugin.Open("/mnt/go/src/github.com/opensec-cn/kunpeng/go.so")
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -111,11 +118,37 @@ func main() {
 		return
 	}
 	fmt.Println(greeter.GetPlugins())
-	task := TaskInfo{"web", "http://xxx.com/", "wordpress", "",[]string{},[]string{}}
+	// greeter.SetPassList([]string{"test","test123"})
+	task := TaskInfo{
+		Type: "service",
+		Netloc: "192.168.0.105:3306",
+		Target: "mysql",
+		Meta : Meta{
+			System : "",
+			PathList: []string{},
+			FileList: []string{},
+			PassList: []string{"test"},
+		},
+	}
+	task2 := TaskInfo{
+		Type: "web",
+		Netloc: "http://xxx.com/",
+		Target: "web",
+		Meta : Meta{
+			System : "windows",
+			PathList: []string{},
+			FileList: []string{},
+			PassList: []string{},
+		},
+	}
 	jsonBytes, _ := json.Marshal(task)
 	ok,result:= greeter.Check(string(jsonBytes))
 	fmt.Println(ok,result)
+	jsonBytes, _ = json.Marshal(task2)
+	ok,result= greeter.Check(string(jsonBytes))
+	fmt.Println(ok,result)
 }
+
 ```
 
 - python
@@ -132,12 +165,15 @@ print(plugins)
 so.Check.argtypes = [c_char_p]
 so.Check.restype = c_char_p
 task = {
-    'type': 'service',
-    'netloc': '123.11.11.11:22',
-    'target': 'ssh',
-    'system': '',
-    'pathlist':[],
-    'filelist':[]
+    'type': 'web',
+    'netloc': 'http://xxx.com/',
+    'target': 'web',
+    'meta':{
+        'system': '',
+        'pathlist':[],
+        'filelist':[],
+        'passlist':[]
+    }
 }
 vul_result = so.Check(json.dumps(task))
 print(vul_result)
@@ -191,7 +227,7 @@ func (d *redisWeakPass) GetResult() []plugin.PluginInfo {
 }
 
 func (d *redisWeakPass) Check(netloc string, meta plugin.TaskMeta) bool {
-	for _, pass := range PassList {
+	for _, pass := range meta.PassList {
 		client := redis.NewClient(&redis.Options{
 			Addr:     netloc,
 			Password: pass,
@@ -308,16 +344,16 @@ func (d *webDavRCE) Check(URL string, meta plugin.TaskMeta) bool {
 ### 编译
 ```shell
 go get https://github.com/opensec-cn/kunpeng
-cd xxx/opensec-cn/vuldb
+cd xxx/opensec-cn/kunpeng
 
 # 打包JSON插件到项目代码中
 go generate
 
 # 编译c版本（所有语言均可使用）
-go build -buildmode=c-shared -o c.so
+go build -buildmode=c-shared -o kunpeng_c.so
 
 # 编译Go专用版本
-go build -buildmode=plugin -o go.so
+go build -buildmode=plugin -o kunpeng_go.so
 ```
 
 ### 效果图
