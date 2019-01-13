@@ -66,7 +66,7 @@ func (d *weblogicWeak) Check(URL string, meta plugin.TaskMeta) bool {
 			if err != nil {
 				continue
 			}
-			if resp.Other.StatusCode == 200 && inArray(flagList, resp.ResponseRaw, true) {
+			if resp.Other.StatusCode == 200 && util.InArray(flagList, resp.ResponseRaw, true) {
 				result := d.info
 				result.Response = resp.ResponseRaw
 				result.Request = resp.RequestRaw

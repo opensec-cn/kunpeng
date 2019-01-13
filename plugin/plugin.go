@@ -4,6 +4,7 @@ import (
 	"strings"
 	"fmt"
 	"github.com/opensec-cn/kunpeng/util"
+	. "github.com/opensec-cn/kunpeng/config"
 )
 
 // GoPlugins GO插件集
@@ -19,15 +20,6 @@ type TaskInfo struct {
 	Target string `json:"target"`
 	Meta TaskMeta `json:"meta"`
 }
-
-type config struct{
-	Aider string
-	HTTPProxy string
-	PassList []string
-}
-
-// Config 
-var Config config
 
 // TaskMeta 任务额外信息
 type TaskMeta struct{
@@ -59,9 +51,6 @@ type PluginInfo struct {
 func init() {
 	GoPlugins = make(map[string][]GoPlugin)
 	JSONPlugins = make(map[string][]JSONPlugin)
-	Config.PassList = []string{
-		"{user}", "{user}123", "admin", "123456", "",
-	}
 }
 
 

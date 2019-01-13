@@ -7,13 +7,14 @@ import (
 	"net/http"
 	"net/url"
 	"github.com/opensec-cn/kunpeng/util"
+	. "github.com/opensec-cn/kunpeng/config"
 	"github.com/opensec-cn/kunpeng/plugin"
-	_ "github.com/opensec-cn/kunpeng/goplugin"
+	_ "github.com/opensec-cn/kunpeng/plugin/go"
 	"github.com/opensec-cn/kunpeng/web"
 	"encoding/json"
 	// "fmt"
 )
-//go:generate esc -o jsonplugin/JSONPlugin.go -pkg jsonplugin json
+//go:generate esc -include='\.json$' -o plugin/json/JSONPlugin.go -pkg jsonplugin plugin/json/
 
 type greeting string
 
@@ -43,11 +44,11 @@ func (g greeting) SetProxy(URL string) {
 }
 
 func (g greeting) SetAider(URL string) {
-	plugin.Config.Aider = URL
+	Config.Aider = URL
 }
 
 func (g greeting) SetPassList(dic []string) {
-	plugin.Config.PassList = dic
+	Config.PassList = dic
 }
 
 //export StartWebServer

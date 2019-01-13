@@ -33,7 +33,7 @@ func (d *webDav) GetResult() []plugin.PluginInfo {
 	return d.result
 }
 func (d *webDav) Check(URL string, meta plugin.TaskMeta) bool {
-	putURL := URL + "/" + getRandomString(6) + ".txt"
+	putURL := URL + "/" + util.GetRandomString(6) + ".txt"
 	request, err := http.NewRequest("PUT", putURL, strings.NewReader("vultest"))
 	if err != nil {
 		return false

@@ -53,7 +53,7 @@ func (d *directoryBrowse) Check(URL string, meta plugin.TaskMeta) bool {
 		if resp.Other.StatusCode == 404 {
 			continue
 		}
-		if inArray(flagList, strings.ToLower(resp.ResponseRaw), true) {
+		if util.InArray(flagList, strings.ToLower(resp.ResponseRaw), true) {
 			result := d.info
 			result.Response = resp.ResponseRaw
 			result.Request = resp.RequestRaw

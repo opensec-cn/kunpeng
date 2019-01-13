@@ -2,7 +2,6 @@ package jsonplugin
 
 import (
 	"fmt"
-	"github.com/opensec-cn/kunpeng/util"
 	"github.com/opensec-cn/kunpeng/plugin"
 	"encoding/json"
 )
@@ -20,9 +19,9 @@ func loadJSONPlugin(){
 	for _,v:= range fileList{
 		fmt.Println(v.Name())
 		pluginStr := FSMustByte(false,"/json/" + v.Name())
-		var p util.JSONPlugin
+		var p plugin.JSONPlugin
 		json.Unmarshal(pluginStr, &p)
 		// fmt.Println(plugin)
-		plugin.JSONPlugins[plugin.Target] = append(plugin.JSONPlugins[p.Target],p)
+		plugin.JSONPlugins[p.Target] = append(plugin.JSONPlugins[p.Target],p)
 	}
 }

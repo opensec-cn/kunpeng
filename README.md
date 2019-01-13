@@ -43,9 +43,12 @@ kunpeng_go_v{xx}.zip 为GO语言专版，其余语言使用 kunpeng_c_v{xx}.zip
         "type": "web", //目标类型web或者service
         "netloc": "http://xxx.com", //目标地址，web为URL，service格式为123.123.123.123:22
         "target": "wordpress", //目标名称，决定使用哪些POC进行检测
-        "system": "windows", //系统，部分漏洞检测方法不同系统存在差异，提供给插件进行判断
-        "pathlist":[], //目录路径URL列表，部分插件需要此类信息，例如列目录漏洞插件
-        "filelist":[], //文件路径URL列表，部分插件需要此类信息，例如struts2漏洞相关插件
+        'meta':{
+            'system': 'windows',  //系统，部分漏洞检测方法不同系统存在差异，提供给插件进行判断
+            'pathlist':[], //目录路径URL列表，部分插件需要此类信息，例如列目录漏洞插件
+            'filelist':[], //文件路径URL列表，部分插件需要此类信息，例如struts2漏洞相关插件
+            'passlist':[] //自定义密码字典，留空则使用内置默认字典
+        }
     }
     返回是否存在漏洞和漏洞检测结果
 */
@@ -54,7 +57,7 @@ Check(taskJSON string) (bool, []map[string]string)
 // 获取插件列表信息
 GetPlugins() []map[string]string
 
-// 设置HTTP代理，所有插件请求流量将通过代理发送
+// 设置HTTP代理，所有插件http请求流量将通过代理发送（需使用内置的http请求函数util.RequestDo）
 SetProxy(URL string)
 
 /* 设置漏洞辅助验证接口，部分漏洞无法通过回显判断是否存在漏洞，可通过辅助验证接口进行判断
@@ -62,6 +65,9 @@ python -c'import socket,base64;exec(base64.b64decode("aGlzdG9yeSA9IFtdCndlYiA9IH
 可在辅助验证机器上运行以上代码，传入http://IP:8088。
 */
 SetAider(URL string)
+
+// 设置默认密码字典
+SetPassList(dic []string)
 
 // 开启web接口，如果觉得类型转换麻烦，可开启后通过web接口进行调用
 StartWebServer()
@@ -158,7 +164,7 @@ import time
 from ctypes import *
 import json
 
-so = cdll.LoadLibrary('./c.so')
+so = cdll.LoadLibrary('./kunpeng_c.so')
 so.GetPlugins.restype = c_char_p
 plugins = so.GetPlugins()
 print(plugins)
@@ -176,7 +182,7 @@ task = {
     }
 }
 vul_result = so.Check(json.dumps(task))
-print(vul_result)
+print(json.loads(vul_result))
 ```
 
 
