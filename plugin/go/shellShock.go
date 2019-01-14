@@ -23,8 +23,8 @@ func (d *shellShock) Init() plugin.PluginInfo{
 		Type:    "RCE",
 		Author:   "wolf",
 		References: plugin.References{
-			URL: "",
-			CVE: "",
+			URL: "https://www.seebug.org/vuldb/ssvid-88877",
+			CVE: "CVE-2014-6271",
 		},
 	}
 	return d.info

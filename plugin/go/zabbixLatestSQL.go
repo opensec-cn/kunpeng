@@ -25,8 +25,8 @@ func (d *zabbixLatestSQL) Init() plugin.PluginInfo{
 		Type:    "SQL",
 		Author:   "wolf",
         References: plugin.References{
-        	URL: "",
-        	CVE: "",
+        	URL: "https://github.com/vulhub/vulhub/tree/master/zabbix/CVE-2016-10134",
+        	CVE: "CVE-2016-10134",
         },
 	}
 	return d.info

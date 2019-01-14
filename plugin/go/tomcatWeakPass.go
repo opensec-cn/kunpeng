@@ -24,7 +24,7 @@ func (d *tomcatWeakPass) Init() plugin.PluginInfo{
 		Type:    "WEAK",
 		Author:   "wolf",
 		References: plugin.References{
-			URL: "",
+			URL: "https://github.com/vulhub/vulhub/tree/master/tomcat/tomcat8",
 			CVE: "",
 		},
 	}

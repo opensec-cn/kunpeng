@@ -19,13 +19,13 @@ func init() {
 func (d *weblogicWLSRCE) Init() plugin.PluginInfo{
     d.info = plugin.PluginInfo{
         Name:    "WebLogic WLS RCE ",
-        Remarks: "Oracle WebLogic Server WLS安全组件中的缺陷导致远程命令执行，CVE-2017-10271",
+        Remarks: "Oracle WebLogic Server WLS安全组件中的缺陷导致远程命令执行",
         Level:   0,
         Type:    "RCE",
         Author:   "wolf",
         References: plugin.References{
-        	URL: "",
-        	CVE: "",
+        	URL: "https://github.com/vulhub/vulhub/tree/master/weblogic/CVE-2017-10271",
+        	CVE: "CVE-2017-10271",
         },
     }
     return d.info

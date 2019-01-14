@@ -43,6 +43,7 @@ func (d *mysqlWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool) {
 	for _, user := range userList {
 		for _, pass := range meta.PassList {
 			pass = strings.Replace(pass, "{user}", user, -1)
+			fmt.Println(pass)
 			connStr := fmt.Sprintf("%s:%s@tcp(%s)/", user, pass, netloc)
 			db, err := sql.Open("mysql", connStr)
 			if err == nil && db.Ping() == nil {

@@ -24,7 +24,7 @@ func (d *discuz7xRCE) Init() plugin.PluginInfo{
 		Type:    "RCE",
 		Author:   "wolf",
 		References: plugin.References{
-			URL: "",
+			URL: "https://github.com/vulhub/vulhub/tree/master/discuz/wooyun-2010-080723",
 			CVE: "",
 		},
 	}

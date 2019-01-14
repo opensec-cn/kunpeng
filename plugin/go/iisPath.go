@@ -19,7 +19,7 @@ func (d *iisPath) Init() plugin.PluginInfo{
 	d.info = plugin.PluginInfo{
 		Name:    "IIS 物理路径泄露",
 		Remarks: "通过访问一个不存在的文件或者目录，得到web物理路径",
-		Level:   3,
+		Level:   4,
 		Type:    "INFO",
 		Author:   "wolf",
 		References: plugin.References{

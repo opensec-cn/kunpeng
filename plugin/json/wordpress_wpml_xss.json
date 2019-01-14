@@ -17,6 +17,6 @@
     },
     "verify":{
         "type":  "string",
-        "match": "javascript:test(333);//"
+        "match": "\"javascript:test(333);//"
     }
 }

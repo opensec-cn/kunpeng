@@ -18,13 +18,13 @@ func init() {
 func (d *webDavRCE) Init() plugin.PluginInfo{
 	d.info = plugin.PluginInfo{
 		Name:    "WebDav PROPFIND RCE(理论检测)",
-		Remarks: "CVE-2017-7269,Windows Server 2003R2版本IIS6.0的WebDAV服务中的ScStoragePathFromUrl函数存在缓存区溢出漏洞",
-		Level:   1,
+		Remarks: "Windows Server 2003R2版本IIS6.0的WebDAV服务中的ScStoragePathFromUrl函数存在缓存区溢出漏洞",
+		Level:   0,
 		Type:    "RCE",
 		Author:   "wolf",
 		References: plugin.References{
-			URL: "",
-			CVE: "",
+			URL: "https://www.seebug.org/vuldb/ssvid-92834",
+			CVE: "CVE-2017-7269",
 		},
 	}
 	return d.info

@@ -5,4 +5,4 @@ debug.test
 *.go_
 /.vscode/
 *.h
-/jsonplugin/JSONPlugin.go
+/plugin/json/JSONPlugin.go

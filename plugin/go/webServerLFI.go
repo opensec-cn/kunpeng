@@ -23,7 +23,7 @@ func (d *webServerLFI) Init() plugin.PluginInfo{
 		Type:    "LFI",
 		Author:   "wolf",
         References: plugin.References{
-        	URL: "",
+        	URL: "https://www.secpulse.com/archives/4276.html",
         	CVE: "",
         },
 	}

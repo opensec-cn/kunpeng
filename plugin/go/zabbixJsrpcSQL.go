@@ -23,7 +23,7 @@ func (d *zabbixJsrpcSQL) Init() plugin.PluginInfo{
 		Type:    "SQL",
 		Author:   "wolf",
         References: plugin.References{
-        	URL: "",
+        	URL: "https://github.com/Medicean/VulApps/tree/master/z/zabbix/1",
         	CVE: "",
         },
 	}
