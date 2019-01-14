@@ -1,10 +1,13 @@
 package config
 
+import "encoding/json"
+
 
 type config struct{
-	Aider string
-	HTTPProxy string
-	PassList []string
+	Timeout int			`json:"timeout"`
+	Aider string		`json:"aider"`
+	HTTPProxy string	`json:"httpproxy"`
+	PassList []string	`json:"passlist"`
 }
 
 // Config 
@@ -14,4 +17,10 @@ func init(){
 	Config.PassList = []string{
 		"{user}", "{user}123", "admin", "123456", "",
 	}
+	Config.Timeout = 15
+}
+
+// Set set config
+func Set(configJSON string){
+	json.Unmarshal([]byte(configJSON), &Config)
 }

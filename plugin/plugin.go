@@ -55,7 +55,7 @@ func init() {
 
 
 // Scan 开始插件扫描
-func Scan(task TaskInfo) (ok bool, result []map[string]string) {
+func Scan(task TaskInfo) (result []map[string]string) {
 	// GO插件
 	for n, pluginList := range GoPlugins {
 		if strings.Contains(strings.ToLower(task.Target),strings.ToLower(n)) || task.Target == "all" {
@@ -68,7 +68,6 @@ func Scan(task TaskInfo) (ok bool, result []map[string]string) {
 				if !plugin.Check(task.Netloc, task.Meta) {
 					continue
 				}
-				ok = true
 				for _, res := range plugin.GetResult() {
 					fmt.Println("true:", res.Name)
 					result = append(result, util.Struct2Map(res))
@@ -77,7 +76,7 @@ func Scan(task TaskInfo) (ok bool, result []map[string]string) {
 		}
 	}
 	if task.Type == "service" {
-		return ok, result
+		return result
 	}
 	// JSON插件
 	for target, pluginList := range JSONPlugins {
@@ -85,14 +84,13 @@ func Scan(task TaskInfo) (ok bool, result []map[string]string) {
 			fmt.Printf("启动JSON插件集 %s\n", target)
 			for _, plugin := range pluginList {
 				if yes, res := jsonCheck(task.Netloc, plugin); yes {
-					ok = true
 					fmt.Println("true:", res.Name)
 					result = append(result, util.Struct2Map(res))
 				}
 			}
 		}
 	}
-	return ok, result
+	return result
 }
 
 // GetPlugins 获取插件信息

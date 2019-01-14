@@ -3,22 +3,17 @@ package main
 import "C" // required
 import (
 	"fmt"
-	"crypto/tls"
-	"net/http"
-	"net/url"
-	"github.com/opensec-cn/kunpeng/util"
-	. "github.com/opensec-cn/kunpeng/config"
+	"github.com/opensec-cn/kunpeng/config"
 	"github.com/opensec-cn/kunpeng/plugin"
 	_ "github.com/opensec-cn/kunpeng/plugin/go"
 	"github.com/opensec-cn/kunpeng/web"
 	"encoding/json"
-	// "fmt"
 )
 //go:generate esc -include='\.json$' -o plugin/json/JSONPlugin.go -pkg jsonplugin plugin/json/
 
 type greeting string
 
-func (g greeting) Check(taskJSON string) (bool, []map[string]string) {
+func (g greeting) Check(taskJSON string) []map[string]string {
 	var task plugin.TaskInfo
 	json.Unmarshal([]byte(taskJSON), &task)
 	return plugin.Scan(task)
@@ -28,27 +23,8 @@ func (g greeting) GetPlugins() []map[string]string {
 	return plugin.GetPlugins()
 }
 
-func (g greeting) SetProxy(URL string) {
-	if URL == "" {
-		util.Client.Transport = nil
-	} else {
-		proxy := func(_ *http.Request) (*url.URL, error) {
-			return url.Parse(URL)
-		}
-		transport := &http.Transport{
-			Proxy:           proxy,
-			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
-		}
-		util.Client.Transport = transport
-	}
-}
-
-func (g greeting) SetAider(URL string) {
-	Config.Aider = URL
-}
-
-func (g greeting) SetPassList(dic []string) {
-	Config.PassList = dic
+func (g greeting) SetConfig(configJSON string) {
+	config.Set(configJSON)
 }
 
 //export StartWebServer
@@ -66,8 +42,8 @@ func Check(task *C.char) *C.char {
         return C.CString("[]")
 	}
 	fmt.Println(m)
-	ok, result := plugin.Scan(m)
-	if ok == false || len(result) == 0{
+	result := plugin.Scan(m)
+	if len(result) == 0{
 		return C.CString("[]")
 	}
 	b, err := json.Marshal(result)
@@ -89,6 +65,11 @@ func GetPlugins() *C.char {
 	}
 	result = string(b)
 	return C.CString(result)
+}
+
+//export SetConfig
+func SetConfig(configJSON *C.char) {
+	config.Set(C.GoString(configJSON))
 }
 
 var Greeter greeting

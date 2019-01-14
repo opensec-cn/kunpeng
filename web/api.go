@@ -22,7 +22,7 @@ func StartServer(){
 		}
 		json.Target = target
 		json.Type = t
-		_, result := plugin.Scan(json)
+		result := plugin.Scan(json)
 		c.JSON(200, result)
 	})
 	

@@ -5,16 +5,16 @@ kunpeng是一个Golang编写的开源POC检测框架，以动态链接库的形�
 
 ## 简介
 
-作为漏洞发现、检测中的核心：漏洞库，存在着维护成本高，无法及时更新、不同框架以及各自独立维护的问题，Kunpeng将以动态链接库的形式提供调用，开发人员只需专注于相关安全检测系统的业务逻辑代码实现，而不必各自重复的耗费精力维护漏洞库。
+作为漏洞发现、检测中的核心：漏洞库，存在着维护成本高，无法及时更新、不同框架以及各自独立维护的问题，Kunpeng将以动态链接库的形式提供调用，安全开发人员只需专注于相关安全检测系统的业务逻辑代码实现，而不必各自重复的耗费精力维护漏洞库。
 
-Kunpeng集成了包括数据库、中间件、web组件、cms等等的漏洞POC，可检测包括弱口令、SQL注入、XSS、RCE等漏洞类型。
+Kunpeng集成了包括数据库、中间件、web组件、cms等等的漏洞POC，可检测弱口令、SQL注入、XSS、RCE等漏洞类型。
 
 ## 特点
-开箱即用，无需安装任何依赖库
+开箱即用，无需安装任何依赖
 跨语言使用，编译后为so文件的动态链接库
 单文件，更新方便，直接覆盖即可
 开源社区维护，内置常见漏洞POC
-最小化漏洞验证和理论验证，无攻击行为
+最小化漏洞验证和理论验证，尽量避免攻击行为
 
 ## 使用场景
 渗透测试辅助工具：例如msf，交互控制台 -> **Kunpeng**
@@ -38,7 +38,7 @@ kunpeng_go_v{xx}.zip 为GO语言专版，其余语言使用 kunpeng_c_v{xx}.zip
 ```go
 接口调用说明
 
-/*  传入任务JSON，格式为：
+/*  发起任务，传入任务JSON，格式为：
     {
         "type": "web", //目标类型web或者service
         "netloc": "http://xxx.com", //目标地址，web为URL，service格式为123.123.123.123:22
@@ -57,17 +57,17 @@ Check(taskJSON string) (bool, []map[string]string)
 // 获取插件列表信息
 GetPlugins() []map[string]string
 
-// 设置HTTP代理，所有插件http请求流量将通过代理发送（需使用内置的http请求函数util.RequestDo）
-SetProxy(URL string)
 
-/* 设置漏洞辅助验证接口，部分漏洞无法通过回显判断是否存在漏洞，可通过辅助验证接口进行判断
-python -c'import socket,base64;exec(base64.b64decode("aGlzdG9yeSA9IFtdCndlYiA9IHNvY2tldC5zb2NrZXQoc29ja2V0LkFGX0lORVQsc29ja2V0LlNPQ0tfU1RSRUFNKQp3ZWIuYmluZCgoJzAuMC4wLjAnLDgwODgpKQp3ZWIubGlzdGVuKDEwKQp3aGlsZSBUcnVlOgogICAgdHJ5OgogICAgICAgIGNvbm4sYWRkciA9IHdlYi5hY2NlcHQoKQogICAgICAgIGRhdGEgPSBjb25uLnJlY3YoNDA5NikKICAgICAgICByZXFfbGluZSA9IGRhdGEuc3BsaXQoIlxyXG4iKVswXQogICAgICAgIGFjdGlvbiA9IHJlcV9saW5lLnNwbGl0KClbMV0uc3BsaXQoJy8nKVsxXQogICAgICAgIHJhbmtfc3RyID0gcmVxX2xpbmUuc3BsaXQoKVsxXS5zcGxpdCgnLycpWzJdCiAgICAgICAgaHRtbCA9ICJORVcwMCIKICAgICAgICBpZiBhY3Rpb24gPT0gImFkZCI6CiAgICAgICAgICAgIGhpc3RvcnkuYXBwZW5kKHJhbmtfc3RyKQogICAgICAgICAgICBwcmludCAiYWRkIityYW5rX3N0cgogICAgICAgIGVsaWYgYWN0aW9uID09ICJjaGVjayI6CiAgICAgICAgICAgIHByaW50ICJjaGVjayIrcmFua19zdHIKICAgICAgICAgICAgaWYgcmFua19zdHIgaW4gaGlzdG9yeToKICAgICAgICAgICAgICAgIGh0bWw9IlZVTDAwIgogICAgICAgICAgICAgICAgaGlzdG9yeS5yZW1vdmUocmFua19zdHIpCiAgICAgICAgcmF3ID0gIkhUVFAvMS4wIDIwMCBPS1xyXG5Db250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2pzb247IGNoYXJzZXQ9dXRmLThcclxuQ29udGVudC1MZW5ndGg6ICVkXHJcbkNvbm5lY3Rpb246IGNsb3NlXHJcblxyXG4lcyIgJShsZW4oaHRtbCksaHRtbCkKICAgICAgICBjb25uLnNlbmQocmF3KQogICAgICAgIGNvbm4uY2xvc2UoKQogICAgZXhjZXB0OnBhc3M="))'
-可在辅助验证机器上运行以上代码，传入http://IP:8088。
+/*  配置设置，传入配置JSON，格式为：
+    {
+        "timeout": 15, // 插件连接超时
+        "aider": "http://123.123.123.123:8088", // 漏洞辅助验证接口，部分漏洞无法通过回显判断是否存在漏洞，可通过辅助验证接口进行判断。python -c'import socket,base64;exec(base64.b64decode("aGlzdG9yeSA9IFtdCndlYiA9IHNvY2tldC5zb2NrZXQoc29ja2V0LkFGX0lORVQsc29ja2V0LlNPQ0tfU1RSRUFNKQp3ZWIuYmluZCgoJzAuMC4wLjAnLDgwODgpKQp3ZWIubGlzdGVuKDEwKQp3aGlsZSBUcnVlOgogICAgdHJ5OgogICAgICAgIGNvbm4sYWRkciA9IHdlYi5hY2NlcHQoKQogICAgICAgIGRhdGEgPSBjb25uLnJlY3YoNDA5NikKICAgICAgICByZXFfbGluZSA9IGRhdGEuc3BsaXQoIlxyXG4iKVswXQogICAgICAgIGFjdGlvbiA9IHJlcV9saW5lLnNwbGl0KClbMV0uc3BsaXQoJy8nKVsxXQogICAgICAgIHJhbmtfc3RyID0gcmVxX2xpbmUuc3BsaXQoKVsxXS5zcGxpdCgnLycpWzJdCiAgICAgICAgaHRtbCA9ICJORVcwMCIKICAgICAgICBpZiBhY3Rpb24gPT0gImFkZCI6CiAgICAgICAgICAgIGhpc3RvcnkuYXBwZW5kKHJhbmtfc3RyKQogICAgICAgICAgICBwcmludCAiYWRkIityYW5rX3N0cgogICAgICAgIGVsaWYgYWN0aW9uID09ICJjaGVjayI6CiAgICAgICAgICAgIHByaW50ICJjaGVjayIrcmFua19zdHIKICAgICAgICAgICAgaWYgcmFua19zdHIgaW4gaGlzdG9yeToKICAgICAgICAgICAgICAgIGh0bWw9IlZVTDAwIgogICAgICAgICAgICAgICAgaGlzdG9yeS5yZW1vdmUocmFua19zdHIpCiAgICAgICAgcmF3ID0gIkhUVFAvMS4wIDIwMCBPS1xyXG5Db250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2pzb247IGNoYXJzZXQ9dXRmLThcclxuQ29udGVudC1MZW5ndGg6ICVkXHJcbkNvbm5lY3Rpb246IGNsb3NlXHJcblxyXG4lcyIgJShsZW4oaHRtbCksaHRtbCkKICAgICAgICBjb25uLnNlbmQocmF3KQogICAgICAgIGNvbm4uY2xvc2UoKQogICAgZXhjZXB0OnBhc3M="))'
+在辅助验证机器上运行以上代码，填入http://IP:8088，不开启则留空。
+        "httpproxy": "wordpress", // HTTP代理，所有插件http请求流量将通过代理发送（需使用内置的http请求函数util.RequestDo）
+        'passlist': ['passtest'] // 默认密码字典
+    }
 */
-SetAider(URL string)
-
-// 设置默认密码字典
-SetPassList(dic []string)
+SetConfig(configJSON string)
 
 // 开启web接口，如果觉得类型转换麻烦，可开启后通过web接口进行调用
 StartWebServer()
