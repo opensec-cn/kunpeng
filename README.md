@@ -69,8 +69,9 @@ GetPlugins() []map[string]string
 */
 SetConfig(configJSON string)
 
-// 开启web接口，如果觉得类型转换麻烦，可开启后通过web接口进行调用
+// 开启web接口，如果觉得类型转换麻烦，可开启后通过web接口进行调用，webapi调用格式请查看例子：/example/call_webapi_test.py
 StartWebServer()
+
 ```
 
 ## 使用例子
@@ -84,6 +85,13 @@ import "fmt"
 import "encoding/json"
 
 
+type config struct{
+	Timeout int			`json:"timeout"`
+	Aider string		`json:"aider"`
+	HTTPProxy string	`json:"httpproxy"`
+	PassList []string	`json:"passlist"`
+}
+
 type Meta struct{
 	System string `json:"system"`
 	PathList []string `json:"pathlist"`
@@ -91,7 +99,6 @@ type Meta struct{
 	PassList []string `json:"passlist"`
 }
 
-// TaskInfo 
 type TaskInfo struct {
 	Type string `json:"type"`
 	Netloc string `json:"netloc"`
@@ -100,15 +107,14 @@ type TaskInfo struct {
 }
 
 type Greeter interface {
-	Check(task string) (bool, []map[string]string)
+	Check(taskJSON string) ([]map[string]string)
 	GetPlugins() []map[string]string
-	SetProxy(URL string)
-	SetPassList(passList []string) 
-	SetAider(URL string)
+	SetConfig(configJSON string)
 }
 
+
 func main() {
-	plug, err := plugin.Open("/mnt/go/src/github.com/opensec-cn/kunpeng/go.so")
+	plug, err := plugin.Open("./kunpeng_go.so")
 	if err != nil {
 		fmt.Println(err)
 		return
@@ -118,13 +124,25 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	greeter, ok := symGreeter.(Greeter)
+	kunpeng, ok := symGreeter.(Greeter)
 	if !ok {
 		fmt.Println("unexpected type from module symbol")
 		return
 	}
-	fmt.Println(greeter.GetPlugins())
-	// greeter.SetPassList([]string{"test","test123"})
+    // 获取插件信息
+	fmt.Println(kunpeng.GetPlugins())
+    
+    // 修改配置
+	c := &config{
+		Timeout: 15,
+		Aider: "",
+		HTTPProxy: "",
+		PassList: []string{"ptest"},
+	}
+	configJSONBytes, _ := json.Marshal(c)
+	kunpeng.SetConfig(string(configJSONBytes))
+    
+    // 扫描目标
 	task := TaskInfo{
 		Type: "service",
 		Netloc: "192.168.0.105:3306",
@@ -133,26 +151,26 @@ func main() {
 			System : "",
 			PathList: []string{},
 			FileList: []string{},
-			PassList: []string{"test"},
+			PassList: []string{"ttest"},
 		},
 	}
 	task2 := TaskInfo{
 		Type: "web",
-		Netloc: "http://xxx.com/",
+		Netloc: "http://www.google.cn",
 		Target: "web",
 		Meta : Meta{
-			System : "windows",
+			System : "",
 			PathList: []string{},
 			FileList: []string{},
 			PassList: []string{},
 		},
 	}
 	jsonBytes, _ := json.Marshal(task)
-	ok,result:= greeter.Check(string(jsonBytes))
-	fmt.Println(ok,result)
+	result:= kunpeng.Check(string(jsonBytes))
+	fmt.Println(result)
 	jsonBytes, _ = json.Marshal(task2)
-	ok,result= greeter.Check(string(jsonBytes))
-	fmt.Println(ok,result)
+	result= kunpeng.Check(string(jsonBytes))
+	fmt.Println(result)
 }
 
 ```
@@ -166,13 +184,21 @@ import json
 
 so = cdll.LoadLibrary('./kunpeng_c.so')
 so.GetPlugins.restype = c_char_p
-plugins = so.GetPlugins()
-print(plugins)
+out = so.GetPlugins()
+print(out)
 so.Check.argtypes = [c_char_p]
 so.Check.restype = c_char_p
+so.SetConfig.argtypes = [c_char_p]
+config = {
+    'timeout': 10,
+    'aider': '',
+    'httpproxy': '',
+    'passlist':['xtest']
+}
+so.SetConfig(json.dumps(config))
 task = {
     'type': 'web',
-    'netloc': 'http://xxx.com/',
+    'netloc': 'http://www.google.cn',
     'target': 'web',
     'meta':{
         'system': '',
@@ -181,9 +207,26 @@ task = {
         'passlist':[]
     }
 }
-vul_result = so.Check(json.dumps(task))
-print(json.loads(vul_result))
+task2 = {
+    'type': 'service',
+    'netloc': '192.168.0.105:3306',
+    'target': 'mysql',
+    'meta':{
+        'system': '',
+        'pathlist':[],
+        'filelist':[],
+        'passlist':[]
+    }
+}
+out = so.Check(json.dumps(task))
+print(json.loads(out))
+out = so.Check(json.dumps(task2))
+print(json.loads(out))
 ```
+
+
+
+更多例子查看: /example 目录
 
 
 
@@ -206,7 +249,7 @@ import (
 // 定义插件结构，info，result需固定存在
 type redisWeakPass struct {
 	info   plugin.PluginInfo //插件信息
-	result []plugin.PluginInfo //漏洞结果
+	result []plugin.PluginInfo //漏洞结果集，可返回多个
 }
 
 func init() {
@@ -215,15 +258,15 @@ func init() {
 }
 func (d *redisWeakPass) Init() plugin.PluginInfo{
 	d.info = plugin.PluginInfo{
-		Name:    "Redis 未授权访问/弱口令",
-		Remarks: "导致敏感信息泄露，严重可导致服务器直接被入侵控制。",
-		Level:   0,
-		Type:    "WEAK",
-		Author:   "wolf",
+		Name:    "Redis 未授权访问/弱口令", // 插件名称
+		Remarks: "导致敏感信息泄露，严重可导致服务器直接被入侵控制。", // 漏洞描述
+		Level:   0, // 漏洞等级 {0:"严重"，1:"高危"，2："中危"，3："低危"，4："提示"}
+		Type:    "WEAK", // 漏洞类型，自由定义
+		Author:   "wolf", // 插件编写作者
 	    References: plugin.References{
-		    URL: "https://www.freebuf.com/vuls/162035.html",
-		    CVE: "",
-	},
+		    URL: "https://www.freebuf.com/vuls/162035.html", // 漏洞相关文章
+		    CVE: "", // CVE编号，没有留空
+		},
 	}
 	return d.info
 }
@@ -287,8 +330,8 @@ func (d *webDavRCE) Init() plugin.PluginInfo{
 		Type:    "RCE",
 		Author:   "wolf",
 		References: plugin.References{
-			URL: "",
-			CVE: "",
+			URL: "https://www.seebug.org/vuldb/ssvid-92834",
+			CVE: "CVE-2017-7269",
 		},
 	}
 	return d.info
@@ -319,29 +362,29 @@ func (d *webDavRCE) Check(URL string, meta plugin.TaskMeta) bool {
 }
 ```
 
-- JSON插件例子
+- JSON插件例子（参考使用时需删除注释信息）
 
 ```json
 {
-    "target":"wordpress",
+    "target":"wordpress", // 插件所属应用名，自由定义
     "meta":{
-        "name":    "WordPress example.html jQuery DomXSS",
-        "remarks": "WordPress example.html jQuery 1.7.2 存在DomXSS漏洞",
-        "level":   3,
-        "type":    "XSS",
-        "author":   "wolf",
+        "name":    "WordPress example.html jQuery DomXSS", // 插件名称
+        "remarks": "WordPress example.html jQuery 1.7.2 存在DomXSS漏洞", // 漏洞描述
+        "level":   3, // 漏洞等级 {0:"严重"，1:"高危"，2："中危"，3："低危"，4："提示"}
+        "type":    "XSS", // 漏洞类型，自由定义
+        "author":   "wolf", // 插件编写作者
         "references": {
-            "url":"https://www.seebug.org/vuldb/ssvid-89179",
-            "cve":""
+            "url":"https://www.seebug.org/vuldb/ssvid-89179", // 漏洞相关文章
+            "cve":"" // CVE编号，没有留空
         }
     },
     "request":{
-        "path":     "/wp-content/themes/twentyfifteen/genericons/example.html",
-        "postData": ""
+        "path":     "/wp-content/themes/twentyfifteen/genericons/example.html", // 漏洞请求URL
+        "postData": "" // 请求POST内容，留空即为GET
     },
     "verify":{
-        "type":  "string",
-        "match": "jquery/1.7.2/jquery.min.js"
+        "type":  "string", // 漏洞验证类型 {"string"："字符串判断","regex"："正则匹配","md5"："文件md5"}
+        "match": "jquery/1.7.2/jquery.min.js" // 漏洞验证值，与type相关联
     }
 }
 ```
@@ -350,7 +393,7 @@ func (d *webDavRCE) Check(URL string, meta plugin.TaskMeta) bool {
 ### 编译
 ```shell
 go get https://github.com/opensec-cn/kunpeng
-cd xxx/opensec-cn/kunpeng
+cd $GOPATH/opensec-cn/kunpeng
 
 # 打包JSON插件到项目代码中
 go generate
@@ -360,6 +403,10 @@ go build -buildmode=c-shared -o kunpeng_c.so
 
 # 编译Go专用版本
 go build -buildmode=plugin -o kunpeng_go.so
+
+# 样例测试
+python example/call_so_test.py
+go run example/callsoTest.go
 ```
 
 ### 效果图

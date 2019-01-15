@@ -42,7 +42,7 @@ type PluginInfo struct {
 	Level    int `json:"level"`
 	Type     string `json:"type"`
 	Author	 string `json:"author"`
-	References `json:"references"`
+	References References `json:"references"`
 	Request  string
 	Response string
 }
@@ -94,8 +94,7 @@ func Scan(task TaskInfo) (result []map[string]string) {
 }
 
 // GetPlugins 获取插件信息
-func GetPlugins()[]map[string]string{
-	plugins := []map[string]string{}
+func GetPlugins()(plugins []map[string]interface{}){
 	for name, pluginList := range GoPlugins {
 		for _, plugin := range pluginList{
 			info := plugin.Init()

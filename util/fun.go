@@ -1,30 +1,21 @@
 package util
 
 import (
-	"reflect"
-	"strings"
-	"fmt"
 	"log"
 	"math/rand"
 	"regexp"
 	"time"
 	"crypto/md5"
 	"encoding/hex"
+	"encoding/json"
 )
 
-func Struct2Map(obj interface{}) map[string]string {
-	t := reflect.TypeOf(obj)
-	v := reflect.ValueOf(obj)
 
-	var data = make(map[string]string)
-	for i := 0; i < t.NumField(); i++ {
-		if v.Field(i).Type().String() == "int" {
-			data[strings.ToLower(t.Field(i).Name)] = fmt.Sprintf("%d", v.Field(i).Int())
-		} else {
-			data[strings.ToLower(t.Field(i).Name)] = v.Field(i).String()
-		}
-	}
-	return data
+func Struct2Map(obj interface{}) map[string]interface{} {
+	jsonBytes, _ := json.Marshal(obj)
+	var result map[string]interface{}
+	json.Unmarshal(jsonBytes, &result)
+	return result
 }
 
 func GetMd5(body []byte) string {

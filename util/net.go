@@ -81,6 +81,7 @@ func RequestDo(request *http.Request, raw bool) (Resp, error) {
 	return result, err
 }
 
+
 func TCPSend(netloc string, data []byte)([]byte ,error){
 	conn, err := net.DialTimeout("tcp", netloc, time.Second * time.Duration(Config.Timeout))
 	if err != nil {

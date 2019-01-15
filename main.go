@@ -19,7 +19,7 @@ func (g greeting) Check(taskJSON string) []map[string]string {
 	return plugin.Scan(task)
 }
 
-func (g greeting) GetPlugins() []map[string]string {
+func (g greeting) GetPlugins() []map[string]interface{} {
 	return plugin.GetPlugins()
 }
 
@@ -29,7 +29,7 @@ func (g greeting) SetConfig(configJSON string) {
 
 //export StartWebServer
 func StartWebServer() {
-	web.StartServer()
+	go web.StartServer()
 }
 
 //export Check
@@ -60,7 +60,7 @@ func GetPlugins() *C.char {
 	plugins := plugin.GetPlugins()
 	b, err := json.Marshal(plugins)
     if err != nil {
-        // fmt.Println("json.Marshal failed:", err)
+        fmt.Println("json.Marshal failed:", err)
         return C.CString("[]")
 	}
 	result = string(b)
