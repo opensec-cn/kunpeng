@@ -55,7 +55,7 @@ func init() {
 
 
 // Scan 开始插件扫描
-func Scan(task TaskInfo) (result []map[string]string) {
+func Scan(task TaskInfo) (result []map[string]interface{}) {
 	// GO插件
 	for n, pluginList := range GoPlugins {
 		if strings.Contains(strings.ToLower(task.Target),strings.ToLower(n)) || task.Target == "all" {

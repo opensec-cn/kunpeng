@@ -13,7 +13,7 @@ import (
 
 type greeting string
 
-func (g greeting) Check(taskJSON string) []map[string]string {
+func (g greeting) Check(taskJSON string) []map[string]interface{} {
 	var task plugin.TaskInfo
 	json.Unmarshal([]byte(taskJSON), &task)
 	return plugin.Scan(task)

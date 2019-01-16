@@ -9,6 +9,10 @@ kunpeng是一个Golang编写的开源POC检测框架，以动态链接库的形�
 
 Kunpeng集成了包括数据库、中间件、web组件、cms等等的漏洞POC，可检测弱口令、SQL注入、XSS、RCE等漏洞类型。
 
+此项目不仅仅是POC框架，而是期望成为一个大家共同维护的漏洞库。
+
+
+
 ## 特点
 开箱即用，无需安装任何依赖
 跨语言使用，编译后为so文件的动态链接库
@@ -44,7 +48,7 @@ kunpeng_go_v{xx}.zip 为GO语言专版，其余语言使用 kunpeng_c_v{xx}.zip
         "netloc": "http://xxx.com", //目标地址，web为URL，service格式为123.123.123.123:22
         "target": "wordpress", //目标名称，决定使用哪些POC进行检测
         'meta':{
-            'system': 'windows',  //系统，部分漏洞检测方法不同系统存在差异，提供给插件进行判断
+            'system': 'windows',  //操作系统，部分漏洞检测方法不同系统存在差异，提供给插件进行判断
             'pathlist':[], //目录路径URL列表，部分插件需要此类信息，例如列目录漏洞插件
             'filelist':[], //文件路径URL列表，部分插件需要此类信息，例如struts2漏洞相关插件
             'passlist':[] //自定义密码字典，留空则使用内置默认字典

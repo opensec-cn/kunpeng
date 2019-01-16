@@ -38,7 +38,9 @@ func init() {
 
 func setProxy(){
 	if Config.HTTPProxy == "" {
-		client.Transport = nil
+		client.Transport = &http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+		}
 	} else {
 		proxy := func(_ *http.Request) (*url.URL, error) {
 			return url.Parse(Config.HTTPProxy)
