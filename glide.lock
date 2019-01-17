@@ -1,0 +1,83 @@
+hash: b0831219ad9f834a214c391574189bbf210ef2a3d5979f5494ea0e548a42c1b5
+updated: 2019-01-17T10:29:26.383845+08:00
+imports:
+- name: cloud.google.com/go
+  version: 105f0564f8d67e66e7ea5ecc5a6e46dad440aa09
+  subpackages:
+  - civil
+- name: github.com/denisenkom/go-mssqldb
+  version: 2fea367d496dade570d9c1959be58a98a9061522
+  subpackages:
+  - internal/cp
+- name: github.com/gin-contrib/sse
+  version: 22d885f9ecc78bf4ee5d72b937e4bbcdc58e8cae
+- name: github.com/gin-gonic/gin
+  version: b869fe1415e4b9eb52f247441830d502aece2d4d
+  subpackages:
+  - binding
+  - json
+  - render
+- name: github.com/go-redis/redis
+  version: 22be8a3eaf992c828cecb69dc07348313bf08d2e
+  subpackages:
+  - internal
+  - internal/consistenthash
+  - internal/hashtag
+  - internal/pool
+  - internal/proto
+  - internal/util
+- name: github.com/go-sql-driver/mysql
+  version: 72cd26f257d44c1114970e19afddcd812016007e
+- name: github.com/golang/protobuf
+  version: 1643683e1b54a9e88ad26d98f81400c8c9d9f4f9
+  subpackages:
+  - proto
+- name: github.com/jlaffaye/ftp
+  version: 47f21d10f0ee0d0921769ca3618072e53c12c5a3
+- name: github.com/json-iterator/go
+  version: 13f86432b882000a51c6e610c620974462691a97
+- name: github.com/lib/pq
+  version: 4ded0e9383f75c197b3a2aaa6d590ac52df6fd79
+  subpackages:
+  - oid
+- name: github.com/mattn/go-isatty
+  version: 3fb116b820352b7f0c281308a4d6250c22d94e27
+- name: github.com/stacktitan/smb
+  version: ba124664fd6b2f18c67fa57b0af6e56168ab3b44
+  subpackages:
+  - gss
+  - ntlmssp
+  - smb
+  - smb/encoder
+- name: github.com/ugorji/go
+  version: 772ced7fd4c2f6322c07537a9a93b68d74551fa6
+  subpackages:
+  - codec
+- name: golang.org/x/crypto
+  version: 81e90905daefcd6fd217b62423c0908922eadb30
+  subpackages:
+  - curve25519
+  - ed25519
+  - ed25519/internal/edwards25519
+  - md4
+  - ssh
+- name: golang.org/x/sys
+  version: 95c6576299259db960f6c5b9b69ea52422860fce
+  subpackages:
+  - unix
+- name: google.golang.org/appengine
+  version: e9657d882bb81064595ca3b56cbe2546bbabf7b1
+  subpackages:
+  - cloudsql
+- name: gopkg.in/go-playground/validator.v8
+  version: 5f1438d3fca68893a817e4a66806cea46a9e4ebf
+- name: gopkg.in/mgo.v2
+  version: 9856a29383ce1c59f308dd1cf0363a79b5bef6b5
+  subpackages:
+  - bson
+  - internal/json
+  - internal/sasl
+  - internal/scram
+- name: gopkg.in/yaml.v2
+  version: 670d4cfef0544295bc27a114dbac37980d83185a
+testImports: []
