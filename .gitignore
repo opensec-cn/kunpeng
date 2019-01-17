@@ -1,8 +1,8 @@
 debug
 debug.test
 *.so
-*.c
 *.go_
+kunpeng_c.h
 /.vscode/
-*.h
 /plugin/json/JSONPlugin.go
+*.py[cod]
