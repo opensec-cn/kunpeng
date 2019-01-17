@@ -9,15 +9,15 @@ import (
 )
 
 type tomcatWeakPass struct {
-	info   plugin.PluginInfo
-	result []plugin.PluginInfo
+	info   plugin.Plugin
+	result []plugin.Plugin
 }
 
 func init() {
 	plugin.Regist("tomcat", &tomcatWeakPass{})
 }
-func (d *tomcatWeakPass) Init() plugin.PluginInfo{
-	d.info = plugin.PluginInfo{
+func (d *tomcatWeakPass) Init() plugin.Plugin{
+	d.info = plugin.Plugin{
 		Name:    "Apache Tomcat 弱口令",
 		Remarks: "攻击者通过此漏洞可以登陆管理控制台，通过部署功能可直接获取服务器权限。",
 		Level:   0,
@@ -30,7 +30,7 @@ func (d *tomcatWeakPass) Init() plugin.PluginInfo{
 	}
 	return d.info
 }
-func (d *tomcatWeakPass) GetResult() []plugin.PluginInfo {
+func (d *tomcatWeakPass) GetResult() []plugin.Plugin {
 	return d.result
 }
 func (d *tomcatWeakPass) Check(URL string, meta plugin.TaskMeta) bool {

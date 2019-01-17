@@ -8,15 +8,15 @@ import (
 )
 
 type ftpWeakPass struct {
-	info   plugin.PluginInfo
-	result []plugin.PluginInfo
+	info   plugin.Plugin
+	result []plugin.Plugin
 }
 
 func init() {
 	plugin.Regist("ftp", &ftpWeakPass{})
 }
-func (d *ftpWeakPass) Init() plugin.PluginInfo{
-	d.info = plugin.PluginInfo{
+func (d *ftpWeakPass) Init() plugin.Plugin{
+	d.info = plugin.Plugin{
 		Name:    "FTP 弱口令",
 		Remarks: "导致敏感信息泄露，严重可导致服务器直接被入侵控制。",
 		Level:   1,
@@ -29,7 +29,7 @@ func (d *ftpWeakPass) Init() plugin.PluginInfo{
 	}
 	return d.info
 }
-func (d *ftpWeakPass) GetResult() []plugin.PluginInfo {
+func (d *ftpWeakPass) GetResult() []plugin.Plugin {
 	return d.result
 }
 func (d *ftpWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool) {

@@ -10,15 +10,15 @@ import (
 )
 
 type sshWeakPass struct {
-	info   plugin.PluginInfo
-	result []plugin.PluginInfo
+	info   plugin.Plugin
+	result []plugin.Plugin
 }
 
 func init() {
 	plugin.Regist("ssh", &sshWeakPass{})
 }
-func (d *sshWeakPass) Init() plugin.PluginInfo{
-	d.info = plugin.PluginInfo{
+func (d *sshWeakPass) Init() plugin.Plugin{
+	d.info = plugin.Plugin{
 		Name:    "SSH 弱口令",
 		Remarks: "直接导致服务器被入侵控制。",
 		Level:   0,
@@ -31,7 +31,7 @@ func (d *sshWeakPass) Init() plugin.PluginInfo{
 	}
 	return d.info
 }
-func (d *sshWeakPass) GetResult() []plugin.PluginInfo {
+func (d *sshWeakPass) GetResult() []plugin.Plugin {
 	return d.result
 }
 func (d *sshWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool) {

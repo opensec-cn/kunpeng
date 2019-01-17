@@ -36,6 +36,7 @@ func init() {
 	}
 }
 
+// setProxy 根据配置信息设置http代理
 func setProxy(){
 	if Config.HTTPProxy == "" {
 		client.Transport = &http.Transport{
@@ -53,13 +54,13 @@ func setProxy(){
 	}
 }
 
-// RequestDo 封装的http请求方法
-func RequestDo(request *http.Request, raw bool) (Resp, error) {
+// RequestDo 发送指定的request，返回结果结构，hasRaw参数决定是否返回原始请求包和返回包内容
+func RequestDo(request *http.Request, hasRaw bool) (Resp, error) {
 	var result Resp
 	var err error
 	setProxy()
 	request.Header.Set("User-Agent", "Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Safari/537.36")
-	if raw {
+	if hasRaw {
 		requestOut, err := httputil.DumpRequestOut(request, true)
 		if err == nil {
 			result.RequestRaw = string(requestOut)
@@ -73,7 +74,7 @@ func RequestDo(request *http.Request, raw bool) (Resp, error) {
 		return result, err
 	}
 	defer result.Other.Body.Close()
-	if raw {
+	if hasRaw {
 		ResponseOut, err := httputil.DumpResponse(result.Other, true)
 		if err == nil {
 			result.ResponseRaw = string(ResponseOut)
@@ -83,7 +84,7 @@ func RequestDo(request *http.Request, raw bool) (Resp, error) {
 	return result, err
 }
 
-
+// TCPSend 指定目标发送tcp报文，返回结果（仅适用于一次交互即可判断漏洞的场景）
 func TCPSend(netloc string, data []byte)([]byte ,error){
 	conn, err := net.DialTimeout("tcp", netloc, time.Second * time.Duration(Config.Timeout))
 	if err != nil {

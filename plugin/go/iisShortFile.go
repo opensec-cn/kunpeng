@@ -7,15 +7,15 @@ import (
 )
 
 type iisShortFile struct {
-	info   plugin.PluginInfo
-	result []plugin.PluginInfo
+	info   plugin.Plugin
+	result []plugin.Plugin
 }
 
 func init() {
 	plugin.Regist("iis", &iisShortFile{})
 }
-func (d *iisShortFile) Init() plugin.PluginInfo{
-	d.info = plugin.PluginInfo{
+func (d *iisShortFile) Init() plugin.Plugin{
+	d.info = plugin.Plugin{
 		Name:    "IIS 短文件名",
 		Remarks: "攻击者可利用此特性猜解出目录与文件名，以达到类似列目录漏洞的效果",
 		Level:   3,
@@ -28,7 +28,7 @@ func (d *iisShortFile) Init() plugin.PluginInfo{
 	}
 	return d.info
 }
-func (d *iisShortFile) GetResult() []plugin.PluginInfo {
+func (d *iisShortFile) GetResult() []plugin.Plugin {
 	return d.result
 }
 func (d *iisShortFile) Check(URL string, meta plugin.TaskMeta) bool {

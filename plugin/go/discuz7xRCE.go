@@ -9,15 +9,15 @@ import (
 )
 
 type discuz7xRCE struct {
-	info   plugin.PluginInfo
-	result []plugin.PluginInfo
+	info   plugin.Plugin
+	result []plugin.Plugin
 }
 
 func init() {
 	plugin.Regist("discuz", &discuz7xRCE{})
 }
-func (d *discuz7xRCE) Init() plugin.PluginInfo{
-	d.info = plugin.PluginInfo{
+func (d *discuz7xRCE) Init() plugin.Plugin{
+	d.info = plugin.Plugin{
 		Name:    "Discuz! 6.x/7.x 代码执行",
 		Remarks: "Discuz! 6.x/7.x 全局变量防御绕过导致命令执行",
 		Level:   0,
@@ -30,7 +30,7 @@ func (d *discuz7xRCE) Init() plugin.PluginInfo{
 	}
 	return d.info
 }
-func (d *discuz7xRCE) GetResult() []plugin.PluginInfo {
+func (d *discuz7xRCE) GetResult() []plugin.Plugin {
 	return d.result
 }
 func (d *discuz7xRCE) getTIDList(URL string) (tIDList []string) {

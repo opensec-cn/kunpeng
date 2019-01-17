@@ -8,15 +8,15 @@ import (
 )
 
 type iisPath struct {
-	info   plugin.PluginInfo
-	result []plugin.PluginInfo
+	info   plugin.Plugin
+	result []plugin.Plugin
 }
 
 func init() {
 	plugin.Regist("iis", &iisPath{})
 }
-func (d *iisPath) Init() plugin.PluginInfo{
-	d.info = plugin.PluginInfo{
+func (d *iisPath) Init() plugin.Plugin{
+	d.info = plugin.Plugin{
 		Name:    "IIS 物理路径泄露",
 		Remarks: "通过访问一个不存在的文件或者目录，得到web物理路径",
 		Level:   4,
@@ -29,7 +29,7 @@ func (d *iisPath) Init() plugin.PluginInfo{
 	}
 	return d.info
 }
-func (d *iisPath) GetResult() []plugin.PluginInfo {
+func (d *iisPath) GetResult() []plugin.Plugin {
 	return d.result
 }
 func (d *iisPath) Check(URL string, meta plugin.TaskMeta) bool {

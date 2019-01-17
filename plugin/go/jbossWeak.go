@@ -9,15 +9,15 @@ import (
 )
 
 type jbossWeak struct {
-	info   plugin.PluginInfo
-	result []plugin.PluginInfo
+	info   plugin.Plugin
+	result []plugin.Plugin
 }
 
 func init() {
 	plugin.Regist("jboss", &jbossWeak{})
 }
-func (d *jbossWeak) Init() plugin.PluginInfo{
-	d.info = plugin.PluginInfo{
+func (d *jbossWeak) Init() plugin.Plugin{
+	d.info = plugin.Plugin{
 		Name:    "JBoss 控制台弱口令",
 		Remarks: "攻击者通过此漏洞可以登陆管理控制台，通过部署功能可直接获取服务器权限。",
 		Level:   0,
@@ -30,7 +30,7 @@ func (d *jbossWeak) Init() plugin.PluginInfo{
 	}
 	return d.info
 }
-func (d *jbossWeak) GetResult() []plugin.PluginInfo {
+func (d *jbossWeak) GetResult() []plugin.Plugin {
 	return d.result
 }
 func (d *jbossWeak) Check(URL string, meta plugin.TaskMeta) bool {

@@ -11,7 +11,7 @@ import (
 // JSONPlugin JSON插件
 type JSONPlugin struct {
 	Target string `json:"target"`
-	Meta    PluginInfo `json:"meta"`
+	Meta    Plugin `json:"meta"`
 	Request struct {
 		Path     string `json:"path"`
 		PostData string `json:"postdata"`
@@ -23,9 +23,9 @@ type JSONPlugin struct {
 }
 
 // jsonCheck JSON插件漏洞检测
-func jsonCheck(URL string, p JSONPlugin) (bool, PluginInfo) {
+func jsonCheck(URL string, p JSONPlugin) (bool, Plugin) {
 	var request *http.Request
-	var result PluginInfo
+	var result Plugin
 	if p.Request.PostData != "" {
 		request, _ = http.NewRequest("POST", URL+p.Request.Path, strings.NewReader(p.Request.PostData))
 		request.Header.Set("Content-Type", "application/x-www-form-urlencoded")

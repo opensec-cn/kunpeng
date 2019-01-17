@@ -9,15 +9,15 @@ import (
 )
 
 type ucServerWeak struct {
-	info   plugin.PluginInfo
-	result []plugin.PluginInfo
+	info   plugin.Plugin
+	result []plugin.Plugin
 }
 
 func init() {
 	plugin.Regist("discuz", &ucServerWeak{})
 }
-func (d *ucServerWeak) Init() plugin.PluginInfo{
-	d.info = plugin.PluginInfo{
+func (d *ucServerWeak) Init() plugin.Plugin{
+	d.info = plugin.Plugin{
 		Name:    "UcServer 创始人弱口令",
 		Remarks: "攻击者通过此漏洞可以登陆管理控制台，后台可查看修改所有用户信息，且部分版本可能存在命令执行漏洞。",
 		Level:   0,
@@ -30,7 +30,7 @@ func (d *ucServerWeak) Init() plugin.PluginInfo{
 	}
 	return d.info
 }
-func (d *ucServerWeak) GetResult() []plugin.PluginInfo {
+func (d *ucServerWeak) GetResult() []plugin.Plugin {
 	return d.result
 }
 func (d *ucServerWeak) Check(URL string, meta plugin.TaskMeta) bool {

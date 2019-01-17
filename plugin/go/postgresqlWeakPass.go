@@ -9,15 +9,15 @@ import (
 )
 
 type postgresqlWeakPass struct {
-	info   plugin.PluginInfo
-	result []plugin.PluginInfo
+	info   plugin.Plugin
+	result []plugin.Plugin
 }
 
 func init() {
 	plugin.Regist("postgresql", &postgresqlWeakPass{})
 }
-func (d *postgresqlWeakPass) Init() plugin.PluginInfo{
-	d.info = plugin.PluginInfo{
+func (d *postgresqlWeakPass) Init() plugin.Plugin{
+	d.info = plugin.Plugin{
 		Name:    "PostgreSQL 弱口令",
 		Remarks: "导致数据库敏感信息泄露，严重可导致服务器直接被入侵控制。",
 		Level:   1,
@@ -30,7 +30,7 @@ func (d *postgresqlWeakPass) Init() plugin.PluginInfo{
 	}
 	return d.info
 }
-func (d *postgresqlWeakPass) GetResult() []plugin.PluginInfo {
+func (d *postgresqlWeakPass) GetResult() []plugin.Plugin {
 	return d.result
 }
 func (d *postgresqlWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool) {

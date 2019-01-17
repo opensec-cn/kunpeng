@@ -14,7 +14,7 @@ import (
 type greeting string
 
 func (g greeting) Check(taskJSON string) []map[string]interface{} {
-	var task plugin.TaskInfo
+	var task plugin.Task
 	json.Unmarshal([]byte(taskJSON), &task)
 	return plugin.Scan(task)
 }
@@ -35,7 +35,7 @@ func StartWebServer() {
 //export Check
 func Check(task *C.char) *C.char {
 	fmt.Println(C.GoString(task))
-	var m plugin.TaskInfo
+	var m plugin.Task
     err := json.Unmarshal([]byte(C.GoString(task)), &m)
     if err != nil {
 		fmt.Println(err.Error())

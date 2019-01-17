@@ -3,9 +3,9 @@ package plugin
 
 // GoPlugin 插件接口
 type GoPlugin interface {
-	Init() PluginInfo
+	Init() Plugin
 	Check(netloc string, meta TaskMeta) bool
-	GetResult() []PluginInfo
+	GetResult() []Plugin
 }
 
 // Regist 注册插件

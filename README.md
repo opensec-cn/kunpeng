@@ -103,7 +103,7 @@ type Meta struct{
 	PassList []string `json:"passlist"`
 }
 
-type TaskInfo struct {
+type Task struct {
 	Type string `json:"type"`
 	Netloc string `json:"netloc"`
 	Target string `json:"target"`
@@ -147,7 +147,7 @@ func main() {
 	kunpeng.SetConfig(string(configJSONBytes))
     
     // 扫描目标
-	task := TaskInfo{
+	task := Task{
 		Type: "service",
 		Netloc: "192.168.0.105:3306",
 		Target: "mysql",
@@ -158,7 +158,7 @@ func main() {
 			PassList: []string{"ttest"},
 		},
 	}
-	task2 := TaskInfo{
+	task2 := Task{
 		Type: "web",
 		Netloc: "http://www.google.cn",
 		Target: "web",
@@ -252,16 +252,16 @@ import (
 
 // 定义插件结构，info，result需固定存在
 type redisWeakPass struct {
-	info   plugin.PluginInfo //插件信息
-	result []plugin.PluginInfo //漏洞结果集，可返回多个
+	info   plugin.Plugin //插件信息
+	result []plugin.Plugin //漏洞结果集，可返回多个
 }
 
 func init() {
     // 注册插件，定义插件目标名称
 	plugin.Regist("redis", &redisWeakPass{})
 }
-func (d *redisWeakPass) Init() plugin.PluginInfo{
-	d.info = plugin.PluginInfo{
+func (d *redisWeakPass) Init() plugin.Plugin{
+	d.info = plugin.Plugin{
 		Name:    "Redis 未授权访问/弱口令", // 插件名称
 		Remarks: "导致敏感信息泄露，严重可导致服务器直接被入侵控制。", // 漏洞描述
 		Level:   0, // 漏洞等级 {0:"严重"，1:"高危"，2："中危"，3："低危"，4："提示"}
@@ -275,7 +275,7 @@ func (d *redisWeakPass) Init() plugin.PluginInfo{
 	return d.info
 }
 
-func (d *redisWeakPass) GetResult() []plugin.PluginInfo {
+func (d *redisWeakPass) GetResult() []plugin.Plugin {
 	return d.result
 }
 
@@ -318,16 +318,16 @@ import (
 )
 
 type webDavRCE struct {
-	info   plugin.PluginInfo
-	result []plugin.PluginInfo
+	info   plugin.Plugin
+	result []plugin.Plugin
 }
 
 func init() {
 	plugin.Regist("iis", &webDavRCE{})
 }
 
-func (d *webDavRCE) Init() plugin.PluginInfo{
-	d.info = plugin.PluginInfo{
+func (d *webDavRCE) Init() plugin.Plugin{
+	d.info = plugin.Plugin{
 		Name:    "WebDav PROPFIND RCE(理论检测)",
 		Remarks: "CVE-2017-7269,Windows Server 2003R2版本IIS6.0的WebDAV服务中的ScStoragePathFromUrl函数存在缓存区溢出漏洞",
 		Level:   1,
@@ -341,7 +341,7 @@ func (d *webDavRCE) Init() plugin.PluginInfo{
 	return d.info
 }
 
-func (d *webDavRCE) GetResult() []plugin.PluginInfo {
+func (d *webDavRCE) GetResult() []plugin.Plugin {
 	return d.result
 }
 

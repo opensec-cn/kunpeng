@@ -8,15 +8,15 @@ import (
 )
 
 type webServerLFI struct {
-	info   plugin.PluginInfo
-	result []plugin.PluginInfo
+	info   plugin.Plugin
+	result []plugin.Plugin
 }
 
 func init() {
 	plugin.Regist("web", &webServerLFI{})
 }
-func (d *webServerLFI) Init() plugin.PluginInfo{
-	d.info = plugin.PluginInfo{
+func (d *webServerLFI) Init() plugin.Plugin{
+	d.info = plugin.Plugin{
 		Name:    "WebServer 任意文件读取",
 		Remarks: "web容器对请求处理不当，可能导致可以任意文件读取(例：GET ../../../../../etc/passwd)",
 		Level:   1,
@@ -29,7 +29,7 @@ func (d *webServerLFI) Init() plugin.PluginInfo{
 	}
 	return d.info
 }
-func (d *webServerLFI) GetResult() []plugin.PluginInfo {
+func (d *webServerLFI) GetResult() []plugin.Plugin {
 	return d.result
 }
 func (d *webServerLFI) Check(URL string, meta plugin.TaskMeta) bool {

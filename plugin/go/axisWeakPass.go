@@ -9,15 +9,15 @@ import (
 )
 
 type axisWeakPass struct {
-	info   plugin.PluginInfo
-	result []plugin.PluginInfo
+	info   plugin.Plugin
+	result []plugin.Plugin
 }
 
 func init() {
 	plugin.Regist("axis", &axisWeakPass{})
 }
-func (d *axisWeakPass) Init() plugin.PluginInfo {
-	d.info = plugin.PluginInfo{
+func (d *axisWeakPass) Init() plugin.Plugin {
+	d.info = plugin.Plugin{
 		Name:    "Axis2控制台 弱口令",
 		Remarks: "攻击者通过此漏洞可以登陆管理控制台，通过部署功能可直接获取服务器权限。",
 		Level:   0,
@@ -30,7 +30,7 @@ func (d *axisWeakPass) Init() plugin.PluginInfo {
 	}
 	return d.info
 }
-func (d *axisWeakPass) GetResult() []plugin.PluginInfo {
+func (d *axisWeakPass) GetResult() []plugin.Plugin {
 	return d.result
 }
 func (d *axisWeakPass) Check(URL string, meta plugin.TaskMeta) bool {

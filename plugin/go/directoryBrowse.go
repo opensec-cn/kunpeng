@@ -10,15 +10,15 @@ import (
 )
 
 type directoryBrowse struct {
-	info   plugin.PluginInfo
-	result []plugin.PluginInfo
+	info   plugin.Plugin
+	result []plugin.Plugin
 }
 
 func init() {
 	plugin.Regist("web", &directoryBrowse{})
 }
-func (d *directoryBrowse) Init() plugin.PluginInfo{
-	d.info = plugin.PluginInfo{
+func (d *directoryBrowse) Init() plugin.Plugin{
+	d.info = plugin.Plugin{
 		Name:    "web目录遍历",
 		Remarks: "通过此功能可获取web目录程序结构",
 		Level:   3,
@@ -31,7 +31,7 @@ func (d *directoryBrowse) Init() plugin.PluginInfo{
 	}
 	return d.info
 }
-func (d *directoryBrowse) GetResult() []plugin.PluginInfo {
+func (d *directoryBrowse) GetResult() []plugin.Plugin {
 	return d.result
 }
 func (d *directoryBrowse) Check(URL string, meta plugin.TaskMeta) bool {

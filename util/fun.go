@@ -1,16 +1,17 @@
+// Package util 通用函数
 package util
 
 import (
+	"crypto/md5"
+	"encoding/hex"
+	"encoding/json"
 	"log"
 	"math/rand"
 	"regexp"
 	"time"
-	"crypto/md5"
-	"encoding/hex"
-	"encoding/json"
 )
 
-
+// Struct2Map 结构转map
 func Struct2Map(obj interface{}) map[string]interface{} {
 	jsonBytes, _ := json.Marshal(obj)
 	var result map[string]interface{}
@@ -18,6 +19,7 @@ func Struct2Map(obj interface{}) map[string]interface{} {
 	return result
 }
 
+// GetMd5 计算字符md5值
 func GetMd5(body []byte) string {
 	md5Ctx := md5.New()
 	md5Ctx.Write(body)
@@ -25,6 +27,7 @@ func GetMd5(body []byte) string {
 	return hex.EncodeToString(cipherStr)
 }
 
+// GetRandomString 获取随机字符串
 func GetRandomString(l int) string {
 	str := "0123456789abcdefghijklmnopqrstuvwxyz"
 	bytes := []byte(str)
@@ -36,6 +39,7 @@ func GetRandomString(l int) string {
 	return string(result)
 }
 
+// InArray 判断字符串是否存在指定列表中，可开启正则判断模式
 func InArray(list []string, value string, regex bool) bool {
 	for _, v := range list {
 		if regex {

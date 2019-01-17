@@ -9,15 +9,15 @@ import (
 )
 
 type wordPressWeak struct {
-	info   plugin.PluginInfo
-	result []plugin.PluginInfo
+	info   plugin.Plugin
+	result []plugin.Plugin
 }
 
 func init() {
 	plugin.Regist("wordpress", &wordPressWeak{})
 }
-func (d *wordPressWeak) Init() plugin.PluginInfo{
-	d.info = plugin.PluginInfo{
+func (d *wordPressWeak) Init() plugin.Plugin{
+	d.info = plugin.Plugin{
 		Name:    "WordPress 后台弱口令",
 		Remarks: "攻击者通过此漏洞可以登陆管理后台，通过编辑插件功能可写入webshell，最终导致服务器被入侵控制。",
 		Level:   0,
@@ -30,7 +30,7 @@ func (d *wordPressWeak) Init() plugin.PluginInfo{
 	}
 	return d.info
 }
-func (d *wordPressWeak) GetResult() []plugin.PluginInfo {
+func (d *wordPressWeak) GetResult() []plugin.Plugin {
 	return d.result
 }
 func (d *wordPressWeak) getUserList(URL string) (userList []string) {

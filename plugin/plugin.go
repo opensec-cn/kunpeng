@@ -13,8 +13,8 @@ var GoPlugins map[string][]GoPlugin
 // JSONPlugins JSON插件集
 var JSONPlugins map[string][]JSONPlugin
 
-// TaskInfo 任务结构
-type TaskInfo struct {
+// Task 任务结构
+type Task struct {
 	Type string `json:"type"`
 	Netloc string `json:"netloc"`
 	Target string `json:"target"`
@@ -35,8 +35,8 @@ type References struct{
 	CVE string `json:"cve"`
 }
 
-// PluginInfo 漏洞插件信息
-type PluginInfo struct {
+// Plugin 漏洞插件信息
+type Plugin struct {
 	Name     string `json:"name"`
 	Remarks  string `json:"remarks"`
 	Level    int `json:"level"`
@@ -55,7 +55,7 @@ func init() {
 
 
 // Scan 开始插件扫描
-func Scan(task TaskInfo) (result []map[string]interface{}) {
+func Scan(task Task) (result []map[string]interface{}) {
 	// GO插件
 	for n, pluginList := range GoPlugins {
 		if strings.Contains(strings.ToLower(task.Target),strings.ToLower(n)) || task.Target == "all" {

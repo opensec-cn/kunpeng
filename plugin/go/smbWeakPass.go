@@ -8,15 +8,15 @@ import (
 )
 
 type smbWeakPass struct {
-	info   plugin.PluginInfo
-	result []plugin.PluginInfo
+	info   plugin.Plugin
+	result []plugin.Plugin
 }
 
 func init() {
 	plugin.Regist("smb", &smbWeakPass{})
 }
-func (d *smbWeakPass) Init() plugin.PluginInfo{
-	d.info = plugin.PluginInfo{
+func (d *smbWeakPass) Init() plugin.Plugin{
+	d.info = plugin.Plugin{
 		Name:    "MongoDB 未授权访问/弱口令",
 		Remarks: "导致数据库敏感信息泄露，严重可导致服务器直接被入侵控制。",
 		Level:   1,
@@ -29,7 +29,7 @@ func (d *smbWeakPass) Init() plugin.PluginInfo{
 	}
 	return d.info
 }
-func (d *smbWeakPass) GetResult() []plugin.PluginInfo {
+func (d *smbWeakPass) GetResult() []plugin.Plugin {
 	return d.result
 }
 func (d *smbWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool) {

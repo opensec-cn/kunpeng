@@ -9,15 +9,15 @@ import (
 )
 
 type struts2Eval struct {
-	info   plugin.PluginInfo
-	result []plugin.PluginInfo
+	info   plugin.Plugin
+	result []plugin.Plugin
 }
 
 func init() {
 	plugin.Regist("java", &struts2Eval{})
 }
-func (d *struts2Eval) Init() plugin.PluginInfo{
-	d.info = plugin.PluginInfo{
+func (d *struts2Eval) Init() plugin.Plugin{
+	d.info = plugin.Plugin{
 		Name:    "Struts2 远程代码执行",
 		Remarks: "可直接执行任意代码，进而直接导致服务器被入侵控制。",
 		Level:   0,
@@ -30,7 +30,7 @@ func (d *struts2Eval) Init() plugin.PluginInfo{
 	}
 	return d.info
 }
-func (d *struts2Eval) GetResult() []plugin.PluginInfo {
+func (d *struts2Eval) GetResult() []plugin.Plugin {
 	return d.result
 }
 func (d *struts2Eval) Check(URL string, meta plugin.TaskMeta) (b bool) {

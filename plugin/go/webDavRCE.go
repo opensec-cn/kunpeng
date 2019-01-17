@@ -8,15 +8,15 @@ import (
 )
 
 type webDavRCE struct {
-	info   plugin.PluginInfo
-	result []plugin.PluginInfo
+	info   plugin.Plugin
+	result []plugin.Plugin
 }
 
 func init() {
 	plugin.Regist("iis", &webDavRCE{})
 }
-func (d *webDavRCE) Init() plugin.PluginInfo{
-	d.info = plugin.PluginInfo{
+func (d *webDavRCE) Init() plugin.Plugin{
+	d.info = plugin.Plugin{
 		Name:    "WebDav PROPFIND RCE(理论检测)",
 		Remarks: "Windows Server 2003R2版本IIS6.0的WebDAV服务中的ScStoragePathFromUrl函数存在缓存区溢出漏洞",
 		Level:   0,
@@ -29,7 +29,7 @@ func (d *webDavRCE) Init() plugin.PluginInfo{
 	}
 	return d.info
 }
-func (d *webDavRCE) GetResult() []plugin.PluginInfo {
+func (d *webDavRCE) GetResult() []plugin.Plugin {
 	return d.result
 }
 func (d *webDavRCE) Check(URL string, meta plugin.TaskMeta) bool {

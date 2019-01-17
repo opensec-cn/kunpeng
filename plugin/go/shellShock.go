@@ -8,15 +8,15 @@ import (
 )
 
 type shellShock struct {
-	info   plugin.PluginInfo
-	result []plugin.PluginInfo
+	info   plugin.Plugin
+	result []plugin.Plugin
 }
 
 func init() {
 	plugin.Regist("web", &shellShock{})
 }
-func (d *shellShock) Init() plugin.PluginInfo{
-	d.info = plugin.PluginInfo{
+func (d *shellShock) Init() plugin.Plugin{
+	d.info = plugin.Plugin{
 		Name:    "shellshock 破壳漏洞",
 		Remarks: "攻击者可利用此漏洞改变或绕过环境限制，以执行任意的shell命令,最终完全控制目标系统",
 		Level:   0,
@@ -29,7 +29,7 @@ func (d *shellShock) Init() plugin.PluginInfo{
 	}
 	return d.info
 }
-func (d *shellShock) GetResult() []plugin.PluginInfo {
+func (d *shellShock) GetResult() []plugin.Plugin {
 	return d.result
 }
 func (d *shellShock) Check(URL string, meta plugin.TaskMeta) bool {

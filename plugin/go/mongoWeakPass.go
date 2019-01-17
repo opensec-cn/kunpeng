@@ -9,15 +9,15 @@ import (
 )
 
 type mongoWeakPass struct {
-	info   plugin.PluginInfo
-	result []plugin.PluginInfo
+	info   plugin.Plugin
+	result []plugin.Plugin
 }
 
 func init() {
 	plugin.Regist("mongodb", &mongoWeakPass{})
 }
-func (d *mongoWeakPass) Init() plugin.PluginInfo{
-	d.info = plugin.PluginInfo{
+func (d *mongoWeakPass) Init() plugin.Plugin{
+	d.info = plugin.Plugin{
 		Name:    "MongoDB 未授权访问/弱口令",
 		Remarks: "导致数据库敏感信息泄露，严重可导致服务器直接被入侵控制。",
 		Level:   1,
@@ -30,7 +30,7 @@ func (d *mongoWeakPass) Init() plugin.PluginInfo{
 	}
 	return d.info
 }
-func (d *mongoWeakPass) GetResult() []plugin.PluginInfo {
+func (d *mongoWeakPass) GetResult() []plugin.Plugin {
 	return d.result
 }
 func (d *mongoWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool) {

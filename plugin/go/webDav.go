@@ -8,15 +8,15 @@ import (
 )
 
 type webDav struct {
-	info   plugin.PluginInfo
-	result []plugin.PluginInfo
+	info   plugin.Plugin
+	result []plugin.Plugin
 }
 
 func init() {
 	plugin.Regist("web", &webDav{})
 }
-func (d *webDav) Init() plugin.PluginInfo{
-	d.info = plugin.PluginInfo{
+func (d *webDav) Init() plugin.Plugin{
+	d.info = plugin.Plugin{
 		Name:    "WebDav Put开启",
 		Remarks: "开启了WebDav且配置不当导致攻击者可上传文件到web目录",
 		Level:   1,
@@ -29,7 +29,7 @@ func (d *webDav) Init() plugin.PluginInfo{
 	}
 	return d.info
 }
-func (d *webDav) GetResult() []plugin.PluginInfo {
+func (d *webDav) GetResult() []plugin.Plugin {
 	return d.result
 }
 func (d *webDav) Check(URL string, meta plugin.TaskMeta) bool {

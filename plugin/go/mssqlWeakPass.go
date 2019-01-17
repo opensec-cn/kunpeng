@@ -9,15 +9,15 @@ import (
 )
 
 type mssqlWeakPass struct {
-	info   plugin.PluginInfo
-	result []plugin.PluginInfo
+	info   plugin.Plugin
+	result []plugin.Plugin
 }
 
 func init() {
 	plugin.Regist("mssql", &mssqlWeakPass{})
 }
-func (d *mssqlWeakPass) Init() plugin.PluginInfo{
-	d.info = plugin.PluginInfo{
+func (d *mssqlWeakPass) Init() plugin.Plugin{
+	d.info = plugin.Plugin{
 		Name:    "SQLServer 弱口令",
 		Remarks: "导致数据库敏感信息泄露，严重可导致服务器直接被入侵控制。",
 		Level:   0,
@@ -30,7 +30,7 @@ func (d *mssqlWeakPass) Init() plugin.PluginInfo{
 	}
 	return d.info
 }
-func (d *mssqlWeakPass) GetResult() []plugin.PluginInfo {
+func (d *mssqlWeakPass) GetResult() []plugin.Plugin {
 	return d.result
 }
 func (d *mssqlWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool) {

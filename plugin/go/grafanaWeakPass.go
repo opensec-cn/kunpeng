@@ -9,15 +9,15 @@ import (
 )
 
 type grafanaWeakPass struct {
-	info   plugin.PluginInfo
-	result []plugin.PluginInfo
+	info   plugin.Plugin
+	result []plugin.Plugin
 }
 
 func init() {
 	plugin.Regist("grafana", &grafanaWeakPass{})
 }
-func (d *grafanaWeakPass) Init() plugin.PluginInfo{
-	d.info = plugin.PluginInfo{
+func (d *grafanaWeakPass) Init() plugin.Plugin{
+	d.info = plugin.Plugin{
 		Name:    "grafana 控制台弱口令",
 		Remarks: "攻击者通过此漏洞可以登陆管理控制台，读取相关连接认证信息。",
 		Level:   1,
@@ -30,7 +30,7 @@ func (d *grafanaWeakPass) Init() plugin.PluginInfo{
 	}
 	return d.info
 }
-func (d *grafanaWeakPass) GetResult() []plugin.PluginInfo {
+func (d *grafanaWeakPass) GetResult() []plugin.Plugin {
 	return d.result
 }
 func (d *grafanaWeakPass) Check(URL string, meta plugin.TaskMeta) bool {

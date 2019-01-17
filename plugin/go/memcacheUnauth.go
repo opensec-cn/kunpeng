@@ -8,15 +8,15 @@ import (
 )
 
 type memcacheUnauth struct {
-	info   plugin.PluginInfo
-	result []plugin.PluginInfo
+	info   plugin.Plugin
+	result []plugin.Plugin
 }
 
 func init() {
 	plugin.Regist("memcache", &memcacheUnauth{})
 }
-func (d *memcacheUnauth) Init() plugin.PluginInfo{
-	d.info = plugin.PluginInfo{
+func (d *memcacheUnauth) Init() plugin.Plugin{
+	d.info = plugin.Plugin{
 		Name:    "Memcache 未授权访问",
 		Remarks: "导致敏感信息泄露。",
 		Level:   2,
@@ -29,7 +29,7 @@ func (d *memcacheUnauth) Init() plugin.PluginInfo{
 	}
 	return d.info
 }
-func (d *memcacheUnauth) GetResult() []plugin.PluginInfo {
+func (d *memcacheUnauth) GetResult() []plugin.Plugin {
 	return d.result
 }
 func (d *memcacheUnauth) Check(netloc string, meta plugin.TaskMeta) bool {

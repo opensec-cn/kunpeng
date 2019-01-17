@@ -8,15 +8,15 @@ import (
 )
 
 type zabbixJsrpcSQL struct {
-	info   plugin.PluginInfo
-	result []plugin.PluginInfo
+	info   plugin.Plugin
+	result []plugin.Plugin
 }
 
 func init() {
 	plugin.Regist("zabbix", &zabbixJsrpcSQL{})
 }
-func (d *zabbixJsrpcSQL) Init() plugin.PluginInfo{
-	d.info = plugin.PluginInfo{
+func (d *zabbixJsrpcSQL) Init() plugin.Plugin{
+	d.info = plugin.Plugin{
 		Name:    "Zabbix jsrpc.php SQL注入漏洞",
 		Remarks: "影响版本：v2.2.x, 3.0.0-3.0.3，攻击者通过此漏洞可获取管理员权限登陆后台，由于后台存在执行命令功能，可导致服务器被入侵控制",
 		Level:   1,
@@ -29,7 +29,7 @@ func (d *zabbixJsrpcSQL) Init() plugin.PluginInfo{
 	}
 	return d.info
 }
-func (d *zabbixJsrpcSQL) GetResult() []plugin.PluginInfo {
+func (d *zabbixJsrpcSQL) GetResult() []plugin.Plugin {
 	return d.result
 }
 func (d *zabbixJsrpcSQL) Check(URL string, meta plugin.TaskMeta) bool {

@@ -4,34 +4,32 @@ import "plugin"
 import "fmt"
 import "encoding/json"
 
-
-type config struct{
-	Timeout int			`json:"timeout"`
-	Aider string		`json:"aider"`
-	HTTPProxy string	`json:"httpproxy"`
-	PassList []string	`json:"passlist"`
+type config struct {
+	Timeout   int      `json:"timeout"`
+	Aider     string   `json:"aider"`
+	HTTPProxy string   `json:"httpproxy"`
+	PassList  []string `json:"passlist"`
 }
 
-type Meta struct{
-	System string `json:"system"`
+type Meta struct {
+	System   string   `json:"system"`
 	PathList []string `json:"pathlist"`
 	FileList []string `json:"filelist"`
 	PassList []string `json:"passlist"`
 }
 
-type TaskInfo struct {
-	Type string `json:"type"`
+type Task struct {
+	Type   string `json:"type"`
 	Netloc string `json:"netloc"`
 	Target string `json:"target"`
-	Meta Meta `json:"meta"`
+	Meta   Meta   `json:"meta"`
 }
 
 type Greeter interface {
-	Check(taskJSON string) ([]map[string]string)
+	Check(taskJSON string) []map[string]string
 	GetPlugins() []map[string]string
 	SetConfig(configJSON string)
 }
-
 
 func main() {
 	// 加载go plugin
@@ -56,42 +54,41 @@ func main() {
 
 	// 修改配置
 	c := &config{
-		Timeout: 15,
-		Aider: "",
+		Timeout:   15,
+		Aider:     "",
 		HTTPProxy: "",
-		PassList: []string{"ptest"},
+		PassList:  []string{"ptest"},
 	}
 	configJSONBytes, _ := json.Marshal(c)
 	kunpeng.SetConfig(string(configJSONBytes))
 
 	// 扫描目标
-	task := TaskInfo{
-		Type: "service",
+	task := Task{
+		Type:   "service",
 		Netloc: "192.168.0.105:3306",
 		Target: "mysql",
-		Meta : Meta{
-			System : "",
+		Meta: Meta{
+			System:   "",
 			PathList: []string{},
 			FileList: []string{},
 			PassList: []string{"ttest"},
 		},
 	}
-	task2 := TaskInfo{
-		Type: "web",
+	task2 := Task{
+		Type:   "web",
 		Netloc: "http://www.google.cn",
 		Target: "web",
-		Meta : Meta{
-			System : "",
+		Meta: Meta{
+			System:   "",
 			PathList: []string{},
 			FileList: []string{},
 			PassList: []string{},
 		},
 	}
 	jsonBytes, _ := json.Marshal(task)
-	result:= kunpeng.Check(string(jsonBytes))
+	result := kunpeng.Check(string(jsonBytes))
 	fmt.Println(result)
 	jsonBytes, _ = json.Marshal(task2)
-	result= kunpeng.Check(string(jsonBytes))
+	result = kunpeng.Check(string(jsonBytes))
 	fmt.Println(result)
 }
-

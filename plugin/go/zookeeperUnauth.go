@@ -8,15 +8,15 @@ import (
 )
 
 type zookeeperUnauth struct {
-	info   plugin.PluginInfo
-	result []plugin.PluginInfo
+	info   plugin.Plugin
+	result []plugin.Plugin
 }
 
 func init() {
 	plugin.Regist("zookeeper", &zookeeperUnauth{})
 }
-func (d *zookeeperUnauth) Init() plugin.PluginInfo{
-	d.info = plugin.PluginInfo{
+func (d *zookeeperUnauth) Init() plugin.Plugin{
+	d.info = plugin.Plugin{
 		Name:    "zookeeper 未授权访问",
 		Remarks: "导致敏感信息泄露。",
 		Level:   2,
@@ -29,7 +29,7 @@ func (d *zookeeperUnauth) Init() plugin.PluginInfo{
 	}
 	return d.info
 }
-func (d *zookeeperUnauth) GetResult() []plugin.PluginInfo {
+func (d *zookeeperUnauth) GetResult() []plugin.Plugin {
 	return d.result
 }
 func (d *zookeeperUnauth) Check(netloc string, meta plugin.TaskMeta) bool {
