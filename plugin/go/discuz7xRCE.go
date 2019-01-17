@@ -4,8 +4,9 @@ import (
 	"net/http"
 	"regexp"
 	"strings"
-	"github.com/opensec-cn/kunpeng/util"
+
 	"github.com/opensec-cn/kunpeng/plugin"
+	"github.com/opensec-cn/kunpeng/util"
 )
 
 type discuz7xRCE struct {
@@ -16,13 +17,13 @@ type discuz7xRCE struct {
 func init() {
 	plugin.Regist("discuz", &discuz7xRCE{})
 }
-func (d *discuz7xRCE) Init() plugin.Plugin{
+func (d *discuz7xRCE) Init() plugin.Plugin {
 	d.info = plugin.Plugin{
 		Name:    "Discuz! 6.x/7.x 代码执行",
 		Remarks: "Discuz! 6.x/7.x 全局变量防御绕过导致命令执行",
 		Level:   0,
 		Type:    "RCE",
-		Author:   "wolf",
+		Author:  "wolf",
 		References: plugin.References{
 			URL: "https://github.com/vulhub/vulhub/tree/master/discuz/wooyun-2010-080723",
 			CVE: "",

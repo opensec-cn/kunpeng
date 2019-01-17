@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
-	"github.com/opensec-cn/kunpeng/util"
+
 	"github.com/opensec-cn/kunpeng/plugin"
+	"github.com/opensec-cn/kunpeng/util"
 )
 
 type ucServerWeak struct {
@@ -16,13 +17,13 @@ type ucServerWeak struct {
 func init() {
 	plugin.Regist("discuz", &ucServerWeak{})
 }
-func (d *ucServerWeak) Init() plugin.Plugin{
+func (d *ucServerWeak) Init() plugin.Plugin {
 	d.info = plugin.Plugin{
 		Name:    "UcServer 创始人弱口令",
 		Remarks: "攻击者通过此漏洞可以登陆管理控制台，后台可查看修改所有用户信息，且部分版本可能存在命令执行漏洞。",
 		Level:   0,
-		Type:    "WEAK",
-		Author:   "wolf",
+		Type:    "WEAKPWD",
+		Author:  "wolf",
 		References: plugin.References{
 			URL: "",
 			CVE: "",

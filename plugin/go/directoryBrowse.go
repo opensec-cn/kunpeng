@@ -1,12 +1,13 @@
 package goplugin
 
 import (
-	"strings"
 	"fmt"
 	"net/http"
 	"net/url"
-	"github.com/opensec-cn/kunpeng/util"
+	"strings"
+
 	"github.com/opensec-cn/kunpeng/plugin"
+	"github.com/opensec-cn/kunpeng/util"
 )
 
 type directoryBrowse struct {
@@ -17,13 +18,13 @@ type directoryBrowse struct {
 func init() {
 	plugin.Regist("web", &directoryBrowse{})
 }
-func (d *directoryBrowse) Init() plugin.Plugin{
+func (d *directoryBrowse) Init() plugin.Plugin {
 	d.info = plugin.Plugin{
-		Name:    "web目录遍历",
+		Name:    "web目录浏览",
 		Remarks: "通过此功能可获取web目录程序结构",
 		Level:   3,
 		Type:    "INFO",
-		Author:   "wolf",
+		Author:  "wolf",
 		References: plugin.References{
 			URL: "",
 			CVE: "",

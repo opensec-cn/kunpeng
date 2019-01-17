@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
-	"github.com/opensec-cn/kunpeng/util"
+
 	"github.com/opensec-cn/kunpeng/plugin"
+	"github.com/opensec-cn/kunpeng/util"
 )
 
 type jbossWeak struct {
@@ -16,13 +17,13 @@ type jbossWeak struct {
 func init() {
 	plugin.Regist("jboss", &jbossWeak{})
 }
-func (d *jbossWeak) Init() plugin.Plugin{
+func (d *jbossWeak) Init() plugin.Plugin {
 	d.info = plugin.Plugin{
 		Name:    "JBoss 控制台弱口令",
 		Remarks: "攻击者通过此漏洞可以登陆管理控制台，通过部署功能可直接获取服务器权限。",
 		Level:   0,
-		Type:    "WEAK",
-		Author:   "wolf",
+		Type:    "WEAKPWD",
+		Author:  "wolf",
 		References: plugin.References{
 			URL: "",
 			CVE: "",

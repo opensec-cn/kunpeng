@@ -3,8 +3,9 @@ package goplugin
 import (
 	"net/http"
 	"strings"
-	"github.com/opensec-cn/kunpeng/util"
+
 	"github.com/opensec-cn/kunpeng/plugin"
+	"github.com/opensec-cn/kunpeng/util"
 )
 
 type iisPath struct {
@@ -15,13 +16,13 @@ type iisPath struct {
 func init() {
 	plugin.Regist("iis", &iisPath{})
 }
-func (d *iisPath) Init() plugin.Plugin{
+func (d *iisPath) Init() plugin.Plugin {
 	d.info = plugin.Plugin{
 		Name:    "IIS 物理路径泄露",
 		Remarks: "通过访问一个不存在的文件或者目录，得到web物理路径",
 		Level:   4,
 		Type:    "INFO",
-		Author:   "wolf",
+		Author:  "wolf",
 		References: plugin.References{
 			URL: "",
 			CVE: "",

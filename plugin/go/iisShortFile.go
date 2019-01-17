@@ -2,8 +2,9 @@ package goplugin
 
 import (
 	"net/http"
-	"github.com/opensec-cn/kunpeng/util"
+
 	"github.com/opensec-cn/kunpeng/plugin"
+	"github.com/opensec-cn/kunpeng/util"
 )
 
 type iisShortFile struct {
@@ -14,13 +15,13 @@ type iisShortFile struct {
 func init() {
 	plugin.Regist("iis", &iisShortFile{})
 }
-func (d *iisShortFile) Init() plugin.Plugin{
+func (d *iisShortFile) Init() plugin.Plugin {
 	d.info = plugin.Plugin{
 		Name:    "IIS 短文件名",
 		Remarks: "攻击者可利用此特性猜解出目录与文件名，以达到类似列目录漏洞的效果",
 		Level:   3,
 		Type:    "INFO",
-		Author:   "wolf",
+		Author:  "wolf",
 		References: plugin.References{
 			URL: "",
 			CVE: "",

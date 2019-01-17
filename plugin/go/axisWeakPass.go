@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
-	"github.com/opensec-cn/kunpeng/util"
+
 	"github.com/opensec-cn/kunpeng/plugin"
+	"github.com/opensec-cn/kunpeng/util"
 )
 
 type axisWeakPass struct {
@@ -21,8 +22,8 @@ func (d *axisWeakPass) Init() plugin.Plugin {
 		Name:    "Axis2控制台 弱口令",
 		Remarks: "攻击者通过此漏洞可以登陆管理控制台，通过部署功能可直接获取服务器权限。",
 		Level:   0,
-		Type:    "WEAK",
-		Author:   "wolf",
+		Type:    "WEAKPWD",
+		Author:  "wolf",
 		References: plugin.References{
 			URL: "http://sadadas.com",
 			CVE: "test",

@@ -3,8 +3,9 @@ package goplugin
 import (
 	"net/http"
 	"strings"
-	"github.com/opensec-cn/kunpeng/util"
+
 	"github.com/opensec-cn/kunpeng/plugin"
+	"github.com/opensec-cn/kunpeng/util"
 )
 
 type webServerLFI struct {
@@ -15,17 +16,17 @@ type webServerLFI struct {
 func init() {
 	plugin.Regist("web", &webServerLFI{})
 }
-func (d *webServerLFI) Init() plugin.Plugin{
+func (d *webServerLFI) Init() plugin.Plugin {
 	d.info = plugin.Plugin{
 		Name:    "WebServer 任意文件读取",
 		Remarks: "web容器对请求处理不当，可能导致可以任意文件读取(例：GET ../../../../../etc/passwd)",
 		Level:   1,
 		Type:    "LFI",
-		Author:   "wolf",
-        References: plugin.References{
-        	URL: "https://www.secpulse.com/archives/4276.html",
-        	CVE: "",
-        },
+		Author:  "wolf",
+		References: plugin.References{
+			URL: "https://www.secpulse.com/archives/4276.html",
+			CVE: "",
+		},
 	}
 	return d.info
 }

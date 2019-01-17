@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
-	"github.com/opensec-cn/kunpeng/util"
+
 	"github.com/opensec-cn/kunpeng/plugin"
+	"github.com/opensec-cn/kunpeng/util"
 )
 
 type wordPressWeak struct {
@@ -16,17 +17,17 @@ type wordPressWeak struct {
 func init() {
 	plugin.Regist("wordpress", &wordPressWeak{})
 }
-func (d *wordPressWeak) Init() plugin.Plugin{
+func (d *wordPressWeak) Init() plugin.Plugin {
 	d.info = plugin.Plugin{
 		Name:    "WordPress 后台弱口令",
 		Remarks: "攻击者通过此漏洞可以登陆管理后台，通过编辑插件功能可写入webshell，最终导致服务器被入侵控制。",
 		Level:   0,
-		Type:    "WEAK",
-		Author:   "wolf",
-        References: plugin.References{
-        	URL: "",
-        	CVE: "",
-        },
+		Type:    "WEAKPWD",
+		Author:  "wolf",
+		References: plugin.References{
+			URL: "",
+			CVE: "",
+		},
 	}
 	return d.info
 }

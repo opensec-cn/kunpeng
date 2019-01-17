@@ -3,8 +3,9 @@ package goplugin
 import (
 	"net/http"
 	"strings"
-	"github.com/opensec-cn/kunpeng/util"
+
 	"github.com/opensec-cn/kunpeng/plugin"
+	"github.com/opensec-cn/kunpeng/util"
 )
 
 type webDav struct {
@@ -15,13 +16,13 @@ type webDav struct {
 func init() {
 	plugin.Regist("web", &webDav{})
 }
-func (d *webDav) Init() plugin.Plugin{
+func (d *webDav) Init() plugin.Plugin {
 	d.info = plugin.Plugin{
 		Name:    "WebDav Put开启",
 		Remarks: "开启了WebDav且配置不当导致攻击者可上传文件到web目录",
 		Level:   1,
 		Type:    "CONF",
-		Author:   "wolf",
+		Author:  "wolf",
 		References: plugin.References{
 			URL: "",
 			CVE: "",

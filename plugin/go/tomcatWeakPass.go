@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"net/http"
 	"strings"
-	"github.com/opensec-cn/kunpeng/util"
+
 	"github.com/opensec-cn/kunpeng/plugin"
+	"github.com/opensec-cn/kunpeng/util"
 )
 
 type tomcatWeakPass struct {
@@ -16,13 +17,13 @@ type tomcatWeakPass struct {
 func init() {
 	plugin.Regist("tomcat", &tomcatWeakPass{})
 }
-func (d *tomcatWeakPass) Init() plugin.Plugin{
+func (d *tomcatWeakPass) Init() plugin.Plugin {
 	d.info = plugin.Plugin{
 		Name:    "Apache Tomcat 弱口令",
 		Remarks: "攻击者通过此漏洞可以登陆管理控制台，通过部署功能可直接获取服务器权限。",
 		Level:   0,
-		Type:    "WEAK",
-		Author:   "wolf",
+		Type:    "WEAKPWD",
+		Author:  "wolf",
 		References: plugin.References{
 			URL: "https://github.com/vulhub/vulhub/tree/master/tomcat/tomcat8",
 			CVE: "",

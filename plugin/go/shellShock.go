@@ -3,8 +3,9 @@ package goplugin
 import (
 	"net/http"
 	"strings"
-	"github.com/opensec-cn/kunpeng/util"
+
 	"github.com/opensec-cn/kunpeng/plugin"
+	"github.com/opensec-cn/kunpeng/util"
 )
 
 type shellShock struct {
@@ -15,13 +16,13 @@ type shellShock struct {
 func init() {
 	plugin.Regist("web", &shellShock{})
 }
-func (d *shellShock) Init() plugin.Plugin{
+func (d *shellShock) Init() plugin.Plugin {
 	d.info = plugin.Plugin{
 		Name:    "shellshock 破壳漏洞",
 		Remarks: "攻击者可利用此漏洞改变或绕过环境限制，以执行任意的shell命令,最终完全控制目标系统",
 		Level:   0,
 		Type:    "RCE",
-		Author:   "wolf",
+		Author:  "wolf",
 		References: plugin.References{
 			URL: "https://www.seebug.org/vuldb/ssvid-88877",
 			CVE: "CVE-2014-6271",

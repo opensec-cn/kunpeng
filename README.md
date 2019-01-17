@@ -15,7 +15,7 @@ Kunpeng集成了包括数据库、中间件、web组件、cms等等的漏洞POC�
 
 ## 特点
 开箱即用，无需安装任何依赖
-跨语言使用，编译后为so文件的动态链接库
+跨语言使用，编译后为so后缀的动态链接库
 单文件，更新方便，直接覆盖即可
 开源社区维护，内置常见漏洞POC
 最小化漏洞验证和理论验证，尽量避免攻击行为
@@ -230,7 +230,7 @@ print(json.loads(out))
 
 
 
-更多例子查看: /example 目录
+更多例子查看: [example] 目录
 
 
 
@@ -252,8 +252,8 @@ import (
 
 // 定义插件结构，info，result需固定存在
 type redisWeakPass struct {
-	info   plugin.Plugin //插件信息
-	result []plugin.Plugin //漏洞结果集，可返回多个
+	info   plugin.Plugin // 插件信息
+	result []plugin.Plugin // 漏洞结果集，可返回多个
 }
 
 func init() {
@@ -350,7 +350,7 @@ func (d *webDavRCE) Check(URL string, meta plugin.TaskMeta) bool {
 	if err != nil {
 		return false
 	}
-	// 封装好的HTTP请求
+	// 使用封装好的RequestDo函数发送http请求
 	resp, err := util.RequestDo(request, true)
 	if err != nil {
 		return false
@@ -368,7 +368,7 @@ func (d *webDavRCE) Check(URL string, meta plugin.TaskMeta) bool {
 
 - JSON插件例子（参考使用时需删除注释信息）
 
-```json
+```shell
 {
     "target":"wordpress", // 插件所属应用名，自由定义
     "meta":{
@@ -403,10 +403,10 @@ cd $GOPATH/opensec-cn/kunpeng
 go generate
 
 # 编译c版本（所有语言均可使用）
-go build -buildmode=c-shared -o kunpeng_c.so
+go build -buildmode=c-shared --ldflags="-w -s" -o kunpeng_c.so
 
 # 编译Go专用版本
-go build -buildmode=plugin -o kunpeng_go.so
+go build -buildmode=plugin --ldflags="-w -s" -o kunpeng_go.so
 
 # 样例测试
 python example/call_so_test.py
@@ -415,6 +415,8 @@ go run example/callsoTest.go
 
 ### 效果图
 
+![img](doc/img.png)
+
 
 
 ## 法律法规
@@ -422,3 +424,4 @@ go run example/callsoTest.go
 此项目将严格按照相关法律法规进行，所有检测代码均为无攻击行为的POC以及理论判断。
 
 [releases]: https://github.com/opensec-cn/kunpeng/releases
+[example]: https://github.com/ywolf/kunpeng/tree/master/example

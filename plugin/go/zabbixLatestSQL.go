@@ -5,8 +5,9 @@ import (
 	"net/http"
 	"regexp"
 	"strings"
-	"github.com/opensec-cn/kunpeng/util"
+
 	"github.com/opensec-cn/kunpeng/plugin"
+	"github.com/opensec-cn/kunpeng/util"
 )
 
 type zabbixLatestSQL struct {
@@ -17,17 +18,17 @@ type zabbixLatestSQL struct {
 func init() {
 	plugin.Regist("zabbix", &zabbixLatestSQL{})
 }
-func (d *zabbixLatestSQL) Init() plugin.Plugin{
+func (d *zabbixLatestSQL) Init() plugin.Plugin {
 	d.info = plugin.Plugin{
 		Name:    "Zabbix latest.php SQL注入漏洞",
 		Remarks: "影响版本：2.2.x/3.0.x，攻击者通过此漏洞可获取管理员权限登陆后台，由于后台存在执行命令功能，可导致服务器被入侵控制",
 		Level:   1,
-		Type:    "SQL",
-		Author:   "wolf",
-        References: plugin.References{
-        	URL: "https://github.com/vulhub/vulhub/tree/master/zabbix/CVE-2016-10134",
-        	CVE: "CVE-2016-10134",
-        },
+		Type:    "SQLI",
+		Author:  "wolf",
+		References: plugin.References{
+			URL: "https://github.com/vulhub/vulhub/tree/master/zabbix/CVE-2016-10134",
+			CVE: "CVE-2016-10134",
+		},
 	}
 	return d.info
 }

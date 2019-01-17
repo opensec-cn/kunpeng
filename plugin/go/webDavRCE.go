@@ -3,8 +3,9 @@ package goplugin
 import (
 	"net/http"
 	"strings"
-	"github.com/opensec-cn/kunpeng/util"
+
 	"github.com/opensec-cn/kunpeng/plugin"
+	"github.com/opensec-cn/kunpeng/util"
 )
 
 type webDavRCE struct {
@@ -15,13 +16,13 @@ type webDavRCE struct {
 func init() {
 	plugin.Regist("iis", &webDavRCE{})
 }
-func (d *webDavRCE) Init() plugin.Plugin{
+func (d *webDavRCE) Init() plugin.Plugin {
 	d.info = plugin.Plugin{
 		Name:    "WebDav PROPFIND RCE(理论检测)",
 		Remarks: "Windows Server 2003R2版本IIS6.0的WebDAV服务中的ScStoragePathFromUrl函数存在缓存区溢出漏洞",
 		Level:   0,
 		Type:    "RCE",
-		Author:   "wolf",
+		Author:  "wolf",
 		References: plugin.References{
 			URL: "https://www.seebug.org/vuldb/ssvid-92834",
 			CVE: "CVE-2017-7269",

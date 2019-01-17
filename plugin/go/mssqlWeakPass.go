@@ -4,8 +4,9 @@ import (
 	"database/sql"
 	"fmt"
 	"strings"
-	"github.com/opensec-cn/kunpeng/plugin"
+
 	_ "github.com/denisenkom/go-mssqldb"
+	"github.com/opensec-cn/kunpeng/plugin"
 )
 
 type mssqlWeakPass struct {
@@ -16,13 +17,13 @@ type mssqlWeakPass struct {
 func init() {
 	plugin.Regist("mssql", &mssqlWeakPass{})
 }
-func (d *mssqlWeakPass) Init() plugin.Plugin{
+func (d *mssqlWeakPass) Init() plugin.Plugin {
 	d.info = plugin.Plugin{
 		Name:    "SQLServer 弱口令",
 		Remarks: "导致数据库敏感信息泄露，严重可导致服务器直接被入侵控制。",
 		Level:   0,
-		Type:    "WEAK",
-		Author:   "wolf",
+		Type:    "WEAKPWD",
+		Author:  "wolf",
 		References: plugin.References{
 			URL: "",
 			CVE: "",
@@ -34,7 +35,7 @@ func (d *mssqlWeakPass) GetResult() []plugin.Plugin {
 	return d.result
 }
 func (d *mssqlWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool) {
-	if strings.IndexAny(netloc,"http") == 0{
+	if strings.IndexAny(netloc, "http") == 0 {
 		return
 	}
 	userList := []string{

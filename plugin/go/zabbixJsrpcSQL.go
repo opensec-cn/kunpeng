@@ -3,8 +3,9 @@ package goplugin
 import (
 	"net/http"
 	"strings"
-	"github.com/opensec-cn/kunpeng/util"
+
 	"github.com/opensec-cn/kunpeng/plugin"
+	"github.com/opensec-cn/kunpeng/util"
 )
 
 type zabbixJsrpcSQL struct {
@@ -15,17 +16,17 @@ type zabbixJsrpcSQL struct {
 func init() {
 	plugin.Regist("zabbix", &zabbixJsrpcSQL{})
 }
-func (d *zabbixJsrpcSQL) Init() plugin.Plugin{
+func (d *zabbixJsrpcSQL) Init() plugin.Plugin {
 	d.info = plugin.Plugin{
 		Name:    "Zabbix jsrpc.php SQL注入漏洞",
 		Remarks: "影响版本：v2.2.x, 3.0.0-3.0.3，攻击者通过此漏洞可获取管理员权限登陆后台，由于后台存在执行命令功能，可导致服务器被入侵控制",
 		Level:   1,
-		Type:    "SQL",
-		Author:   "wolf",
-        References: plugin.References{
-        	URL: "https://github.com/Medicean/VulApps/tree/master/z/zabbix/1",
-        	CVE: "",
-        },
+		Type:    "SQLI",
+		Author:  "wolf",
+		References: plugin.References{
+			URL: "https://github.com/Medicean/VulApps/tree/master/z/zabbix/1",
+			CVE: "",
+		},
 	}
 	return d.info
 }

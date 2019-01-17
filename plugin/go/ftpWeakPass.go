@@ -3,8 +3,9 @@ package goplugin
 import (
 	"fmt"
 	"strings"
-	"github.com/opensec-cn/kunpeng/plugin"
+
 	"github.com/jlaffaye/ftp"
+	"github.com/opensec-cn/kunpeng/plugin"
 )
 
 type ftpWeakPass struct {
@@ -15,13 +16,13 @@ type ftpWeakPass struct {
 func init() {
 	plugin.Regist("ftp", &ftpWeakPass{})
 }
-func (d *ftpWeakPass) Init() plugin.Plugin{
+func (d *ftpWeakPass) Init() plugin.Plugin {
 	d.info = plugin.Plugin{
 		Name:    "FTP 弱口令",
 		Remarks: "导致敏感信息泄露，严重可导致服务器直接被入侵控制。",
 		Level:   1,
-		Type:    "WEAK",
-		Author:   "wolf",
+		Type:    "WEAKPWD",
+		Author:  "wolf",
 		References: plugin.References{
 			URL: "",
 			CVE: "",
@@ -33,7 +34,7 @@ func (d *ftpWeakPass) GetResult() []plugin.Plugin {
 	return d.result
 }
 func (d *ftpWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool) {
-	if strings.IndexAny(netloc,"http") == 0{
+	if strings.IndexAny(netloc, "http") == 0 {
 		return
 	}
 	userList := []string{

@@ -3,8 +3,9 @@ package goplugin
 import (
 	"fmt"
 	"net"
-	"time"
 	"strings"
+	"time"
+
 	"github.com/opensec-cn/kunpeng/plugin"
 	"golang.org/x/crypto/ssh"
 )
@@ -17,13 +18,13 @@ type sshWeakPass struct {
 func init() {
 	plugin.Regist("ssh", &sshWeakPass{})
 }
-func (d *sshWeakPass) Init() plugin.Plugin{
+func (d *sshWeakPass) Init() plugin.Plugin {
 	d.info = plugin.Plugin{
 		Name:    "SSH 弱口令",
 		Remarks: "直接导致服务器被入侵控制。",
 		Level:   0,
-		Type:    "WEAK",
-		Author:   "wolf",
+		Type:    "WEAKPWD",
+		Author:  "wolf",
 		References: plugin.References{
 			URL: "",
 			CVE: "",
@@ -35,7 +36,7 @@ func (d *sshWeakPass) GetResult() []plugin.Plugin {
 	return d.result
 }
 func (d *sshWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool) {
-	if strings.IndexAny(netloc,"http") == 0{
+	if strings.IndexAny(netloc, "http") == 0 {
 		return
 	}
 	userList := []string{

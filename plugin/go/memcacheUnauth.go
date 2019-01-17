@@ -3,6 +3,7 @@ package goplugin
 import (
 	"fmt"
 	"strings"
+
 	"github.com/opensec-cn/kunpeng/plugin"
 	"github.com/opensec-cn/kunpeng/util"
 )
@@ -15,13 +16,13 @@ type memcacheUnauth struct {
 func init() {
 	plugin.Regist("memcache", &memcacheUnauth{})
 }
-func (d *memcacheUnauth) Init() plugin.Plugin{
+func (d *memcacheUnauth) Init() plugin.Plugin {
 	d.info = plugin.Plugin{
 		Name:    "Memcache 未授权访问",
 		Remarks: "导致敏感信息泄露。",
 		Level:   2,
-		Type:    "WEAK",
-		Author:   "wolf",
+		Type:    "WEAKPWD",
+		Author:  "wolf",
 		References: plugin.References{
 			URL: "",
 			CVE: "",
@@ -33,11 +34,11 @@ func (d *memcacheUnauth) GetResult() []plugin.Plugin {
 	return d.result
 }
 func (d *memcacheUnauth) Check(netloc string, meta plugin.TaskMeta) bool {
-	if strings.IndexAny(netloc,"http") == 0{
+	if strings.IndexAny(netloc, "http") == 0 {
 		return false
 	}
-	buf,err := util.TCPSend(netloc,[]byte("stats\r\n"))
-	if err == nil && strings.Contains(string(buf),"STAT version") {
+	buf, err := util.TCPSend(netloc, []byte("stats\r\n"))
+	if err == nil && strings.Contains(string(buf), "STAT version") {
 		result := d.info
 		result.Request = fmt.Sprintf("memcache://%s", netloc)
 		result.Response = string(buf)

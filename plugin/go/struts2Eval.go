@@ -4,8 +4,9 @@ import (
 	"net/http"
 	"regexp"
 	"strings"
-	"github.com/opensec-cn/kunpeng/util"
+
 	"github.com/opensec-cn/kunpeng/plugin"
+	"github.com/opensec-cn/kunpeng/util"
 )
 
 type struts2Eval struct {
@@ -16,13 +17,13 @@ type struts2Eval struct {
 func init() {
 	plugin.Regist("java", &struts2Eval{})
 }
-func (d *struts2Eval) Init() plugin.Plugin{
+func (d *struts2Eval) Init() plugin.Plugin {
 	d.info = plugin.Plugin{
 		Name:    "Struts2 远程代码执行",
 		Remarks: "可直接执行任意代码，进而直接导致服务器被入侵控制。",
 		Level:   0,
 		Type:    "RCE",
-		Author:   "wolf",
+		Author:  "wolf",
 		References: plugin.References{
 			URL: "https://github.com/vulhub/vulhub/tree/master/struts2",
 			CVE: "",

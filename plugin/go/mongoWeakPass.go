@@ -21,7 +21,7 @@ func (d *mongoWeakPass) Init() plugin.Plugin{
 		Name:    "MongoDB 未授权访问/弱口令",
 		Remarks: "导致数据库敏感信息泄露，严重可导致服务器直接被入侵控制。",
 		Level:   1,
-		Type:    "WEAK",
+		Type:    "WEAKPWD",
 		Author:   "wolf",
 		References: plugin.References{
 			URL: "",

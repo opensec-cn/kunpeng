@@ -3,6 +3,7 @@ package goplugin
 import (
 	"fmt"
 	"strings"
+
 	"github.com/opensec-cn/kunpeng/plugin"
 	"github.com/stacktitan/smb/smb"
 )
@@ -15,13 +16,13 @@ type smbWeakPass struct {
 func init() {
 	plugin.Regist("smb", &smbWeakPass{})
 }
-func (d *smbWeakPass) Init() plugin.Plugin{
+func (d *smbWeakPass) Init() plugin.Plugin {
 	d.info = plugin.Plugin{
-		Name:    "MongoDB 未授权访问/弱口令",
-		Remarks: "导致数据库敏感信息泄露，严重可导致服务器直接被入侵控制。",
-		Level:   1,
-		Type:    "WEAK",
-		Author:   "wolf",
+		Name:    "SMB 匿名共享/弱口令",
+		Remarks: "敏感文件被窃取，SMB通常使用系统账户密码进行验证，严重可导致服务器直接被入侵控制。",
+		Level:   0,
+		Type:    "WEAKPWD",
+		Author:  "wolf",
 		References: plugin.References{
 			URL: "",
 			CVE: "",
@@ -33,7 +34,7 @@ func (d *smbWeakPass) GetResult() []plugin.Plugin {
 	return d.result
 }
 func (d *smbWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool) {
-	if strings.IndexAny(netloc,"http") == 0{
+	if strings.IndexAny(netloc, "http") == 0 {
 		return
 	}
 	userList := []string{
