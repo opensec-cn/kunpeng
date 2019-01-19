@@ -396,8 +396,11 @@ func (d *webDavRCE) Check(URL string, meta plugin.TaskMeta) bool {
 
 ### 编译
 ```shell
-go get https://github.com/opensec-cn/kunpeng
+go get github.com/opensec-cn/kunpeng
 cd $GOPATH/opensec-cn/kunpeng
+
+# generate 所使用到的命令需要提前安装
+go get github.com/mjibson/esc
 
 # 打包JSON插件到项目代码中
 go generate
