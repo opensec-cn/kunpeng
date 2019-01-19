@@ -29,6 +29,11 @@ func GetMd5(body []byte) string {
 
 // GetRandomString 获取随机字符串
 func GetRandomString(l int) string {
+	return string(GetRandomBytes(l))
+}
+
+// GetRandomBytes 获取包含随机字母的 byte 数组
+func GetRandomBytes(l int) []byte {
 	str := "0123456789abcdefghijklmnopqrstuvwxyz"
 	bytes := []byte(str)
 	result := []byte{}
@@ -36,7 +41,7 @@ func GetRandomString(l int) string {
 	for i := 0; i < l; i++ {
 		result = append(result, bytes[r.Intn(len(bytes))])
 	}
-	return string(result)
+	return result
 }
 
 // InArray 判断字符串是否存在指定列表中，可开启正则判断模式
