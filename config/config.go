@@ -9,6 +9,8 @@ type config struct {
 	PassList  []string `json:"passlist"`
 }
 
+var Debug bool
+
 // Config 全局配置信息
 var Config config
 
@@ -17,6 +19,7 @@ func init() {
 		"{user}", "{user}123", "admin", "123456", "",
 	}
 	Config.Timeout = 15
+	Debug = false
 }
 
 // Set 设置配置信息
@@ -25,4 +28,9 @@ func Set(configJSON string) {
 	if Config.Timeout == 0 {
 		Config.Timeout = 15
 	}
+}
+
+// SetDebug 是否开启debug，即打印日志
+func SetDebug(debug bool) {
+	Debug = debug
 }
