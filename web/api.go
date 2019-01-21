@@ -1,3 +1,4 @@
+// Package web 提供webapi接口调用
 package web
 
 import (

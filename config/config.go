@@ -1,3 +1,4 @@
+// Package config 配置信息定义
 package config
 
 import "encoding/json"
@@ -9,6 +10,7 @@ type config struct {
 	PassList  []string `json:"passlist"`
 }
 
+// Debug 为True时打印过程日志
 var Debug bool
 
 // Config 全局配置信息

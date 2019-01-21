@@ -1,3 +1,4 @@
+// Package plugin 加载插件、执行插件、获取插件信息，支持JSON和Go插件
 package plugin
 
 import (
