@@ -1,7 +1,6 @@
 package plugin
 
 import (
-	"fmt"
 	"strings"
 
 	. "github.com/opensec-cn/kunpeng/config"
@@ -55,17 +54,14 @@ func init() {
 
 // Scan 开始插件扫描
 func Scan(task Task) (result []map[string]interface{}) {
+	util.Logger.Info("new task:",task)
+	util.Logger.Info("go plugin total:",len(GoPlugins))
 	// GO插件
-	fmt.Println(GoPlugins)
 	for n, pluginList := range GoPlugins {
 		if strings.Contains(strings.ToLower(task.Target), strings.ToLower(n)) || task.Target == "all" {
-			fmt.Printf("启动插件集 %s\n", n)
-			count := 0
-			fmt.Println(len(pluginList))
+			util.Logger.Info("启动Go插件集:",n)
 			for _, plugin := range pluginList {
 				plugin.Init()
-				count = count + 1
-				fmt.Println(count)
 				if len(task.Meta.PassList) == 0 {
 					task.Meta.PassList = Config.PassList
 				}
@@ -73,7 +69,7 @@ func Scan(task Task) (result []map[string]interface{}) {
 					continue
 				}
 				for _, res := range plugin.GetResult() {
-					fmt.Println("true:", res.Name)
+					util.Logger.Info("命中插件:",res.Name)
 					result = append(result, util.Struct2Map(res))
 				}
 			}
@@ -83,12 +79,13 @@ func Scan(task Task) (result []map[string]interface{}) {
 		return result
 	}
 	// JSON插件
+	util.Logger.Info("JSON Plugin total: ",len(GoPlugins))
 	for target, pluginList := range JSONPlugins {
 		if strings.Contains(strings.ToLower(task.Target), strings.ToLower(target)) || task.Target == "all" {
-			fmt.Printf("启动JSON插件集 %s\n", target)
+			util.Logger.Info("启动JSON插件集: ",target)
 			for _, plugin := range pluginList {
 				if yes, res := jsonCheck(task.Netloc, plugin); yes {
-					fmt.Println("true:", res.Name)
+					util.Logger.Info("命中插件: ",res.Name)
 					result = append(result, util.Struct2Map(res))
 				}
 			}

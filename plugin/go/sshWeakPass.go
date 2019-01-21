@@ -45,7 +45,6 @@ func (d *sshWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool) {
 	for _, user := range userList {
 		for _, pass := range meta.PassList {
 			pass = strings.Replace(pass, "{user}", user, -1)
-			fmt.Println(pass)
 			config := &ssh.ClientConfig{
 				User: user,
 				Auth: []ssh.AuthMethod{

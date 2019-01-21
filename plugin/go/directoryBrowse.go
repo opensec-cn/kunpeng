@@ -44,13 +44,11 @@ func (d *directoryBrowse) Check(URL string, meta plugin.TaskMeta) bool {
 	}
 	pathList := append(meta.PathList, []string{URL, URL + "/css/", URL + "/js/", URL + "/img/", URL + "/images/", URL + "/upload/", URL + "/inc/"}...)
 	for _, pathURL := range pathList {
-		// fmt.Println(pathURL)
 		request, err := http.NewRequest("GET", pathURL, nil)
 		resp, err := util.RequestDo(request, true)
 		if err != nil {
 			return false
 		}
-		// fmt.Println(resp.ResponseRaw)
 		if resp.Other.StatusCode == 404 {
 			continue
 		}

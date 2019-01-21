@@ -1,20 +1,20 @@
 #coding:utf-8
 
 import time
-from ctypes import *
 import json
+from ctypes import *
 
 # 加载动态连接库
-so = cdll.LoadLibrary('./kunpeng_c.so')
+kunpeng = cdll.LoadLibrary('./kunpeng_c.so')
 
 # 定义出入参变量类型
-so.GetPlugins.restype = c_char_p
-so.Check.argtypes = [c_char_p]
-so.Check.restype = c_char_p
-so.SetConfig.argtypes = [c_char_p]
+kunpeng.GetPlugins.restype = c_char_p
+kunpeng.Check.argtypes = [c_char_p]
+kunpeng.Check.restype = c_char_p
+kunpeng.SetConfig.argtypes = [c_char_p]
 
 # 获取插件信息
-out = so.GetPlugins()
+out = kunpeng.GetPlugins()
 print(out)
 
 # 修改配置
@@ -24,7 +24,10 @@ config = {
     'httpproxy': '',
     'passlist':['xtest']
 }
-so.SetConfig(json.dumps(config))
+kunpeng.SetConfig(json.dumps(config))
+
+# 开启日志打印
+kunpeng.ShowLog()
 
 # 扫描目标
 task = {
@@ -49,7 +52,7 @@ task2 = {
         'passlist':[]
     }
 }
-out = so.Check(json.dumps(task))
+out = kunpeng.Check(json.dumps(task))
 print(json.loads(out))
-out = so.Check(json.dumps(task2))
+out = kunpeng.Check(json.dumps(task2))
 print(json.loads(out))

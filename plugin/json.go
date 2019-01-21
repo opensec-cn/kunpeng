@@ -1,22 +1,22 @@
 package plugin
 
 import (
-	"strings"
-	"fmt"
 	"net/http"
 	"regexp"
+	"strings"
+
 	"github.com/opensec-cn/kunpeng/util"
 )
 
 // JSONPlugin JSON插件
 type JSONPlugin struct {
-	Target string `json:"target"`
+	Target  string `json:"target"`
 	Meta    Plugin `json:"meta"`
 	Request struct {
 		Path     string `json:"path"`
 		PostData string `json:"postdata"`
 	} `json:"request"`
-	Verify  struct {
+	Verify struct {
 		Type  string `json:"type"`
 		Match string `json:"match"`
 	} `json:"verify"`
@@ -26,24 +26,25 @@ type JSONPlugin struct {
 func jsonCheck(URL string, p JSONPlugin) (bool, Plugin) {
 	var request *http.Request
 	var result Plugin
+	var vulURL = URL + p.Request.Path
 	if p.Request.PostData != "" {
-		request, _ = http.NewRequest("POST", URL+p.Request.Path, strings.NewReader(p.Request.PostData))
+		request, _ = http.NewRequest("POST", vulURL, strings.NewReader(p.Request.PostData))
 		request.Header.Set("Content-Type", "application/x-www-form-urlencoded")
 	} else {
-		request, _ = http.NewRequest("GET", URL+p.Request.Path, nil)
+		request, _ = http.NewRequest("GET", vulURL, nil)
 	}
+	util.Logger.Info("request do", vulURL)
 	resp, err := util.RequestDo(request, true)
-	// fmt.Println(resp.ResponseRaw)
 	if err != nil {
 		return false, result
 	}
+	util.Logger.Info("response code:", resp.Other.StatusCode, "len:", resp.Other.ContentLength)
 	switch p.Verify.Type {
 	case "string":
 		if strings.Contains(resp.ResponseRaw, p.Verify.Match) {
 			result = p.Meta
 			result.Request = resp.RequestRaw
 			result.Response = resp.ResponseRaw
-			fmt.Println(true, result)
 			return true, result
 		}
 		break

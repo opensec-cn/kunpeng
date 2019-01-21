@@ -90,8 +90,8 @@ import "encoding/json"
 
 
 type config struct{
-	Timeout int			`json:"timeout"`
-	Aider string		`json:"aider"`
+	Timeout int	`json:"timeout"`
+	Aider string	`json:"aider"`
 	HTTPProxy string	`json:"httpproxy"`
 	PassList []string	`json:"passlist"`
 }
@@ -114,6 +114,7 @@ type Greeter interface {
 	Check(taskJSON string) ([]map[string]string)
 	GetPlugins() []map[string]string
 	SetConfig(configJSON string)
+    ShowLog()
 }
 
 
@@ -145,6 +146,9 @@ func main() {
 	}
 	configJSONBytes, _ := json.Marshal(c)
 	kunpeng.SetConfig(string(configJSONBytes))
+    
+    // 开启日志打印
+	kunpeng.ShowLog()
     
     // 扫描目标
 	task := Task{
@@ -182,24 +186,38 @@ func main() {
 - python
 
 ```python
-import time
-from ctypes import *
-import json
+#coding:utf-8
 
-so = cdll.LoadLibrary('./kunpeng_c.so')
-so.GetPlugins.restype = c_char_p
-out = so.GetPlugins()
+import time
+import json
+from ctypes import *
+
+# 加载动态连接库
+kunpeng = cdll.LoadLibrary('./kunpeng_c.so')
+
+# 定义出入参变量类型
+kunpeng.GetPlugins.restype = c_char_p
+kunpeng.Check.argtypes = [c_char_p]
+kunpeng.Check.restype = c_char_p
+kunpeng.SetConfig.argtypes = [c_char_p]
+
+# 获取插件信息
+out = kunpeng.GetPlugins()
 print(out)
-so.Check.argtypes = [c_char_p]
-so.Check.restype = c_char_p
-so.SetConfig.argtypes = [c_char_p]
+
+# 修改配置
 config = {
     'timeout': 10,
     'aider': '',
     'httpproxy': '',
     'passlist':['xtest']
 }
-so.SetConfig(json.dumps(config))
+kunpeng.SetConfig(json.dumps(config))
+
+# 开启日志打印
+kunpeng.ShowLog()
+
+# 扫描目标
 task = {
     'type': 'web',
     'netloc': 'http://www.google.cn',
@@ -222,9 +240,9 @@ task2 = {
         'passlist':[]
     }
 }
-out = so.Check(json.dumps(task))
+out = kunpeng.Check(json.dumps(task))
 print(json.loads(out))
-out = so.Check(json.dumps(task2))
+out = kunpeng.Check(json.dumps(task2))
 print(json.loads(out))
 ```
 
@@ -266,7 +284,7 @@ func (d *redisWeakPass) Init() plugin.Plugin{
 		Remarks: "导致敏感信息泄露，严重可导致服务器直接被入侵控制。", // 漏洞描述
 		Level:   0, // 漏洞等级 {0:"严重"，1:"高危"，2："中危"，3："低危"，4："提示"}
 		Type:    "WEAK", // 漏洞类型，自由定义
-		Author:   "wolf", // 插件编写作者
+		Author:  "wolf", // 插件编写作者
 	    References: plugin.References{
 		    URL: "https://www.freebuf.com/vuls/162035.html", // 漏洞相关文章
 		    CVE: "", // CVE编号，没有留空
@@ -332,7 +350,7 @@ func (d *webDavRCE) Init() plugin.Plugin{
 		Remarks: "CVE-2017-7269,Windows Server 2003R2版本IIS6.0的WebDAV服务中的ScStoragePathFromUrl函数存在缓存区溢出漏洞",
 		Level:   1,
 		Type:    "RCE",
-		Author:   "wolf",
+		Author:  "wolf",
 		References: plugin.References{
 			URL: "https://www.seebug.org/vuldb/ssvid-92834",
 			CVE: "CVE-2017-7269",
@@ -376,7 +394,7 @@ func (d *webDavRCE) Check(URL string, meta plugin.TaskMeta) bool {
         "remarks": "WordPress example.html jQuery 1.7.2 存在DomXSS漏洞", // 漏洞描述
         "level":   3, // 漏洞等级 {0:"严重"，1:"高危"，2："中危"，3："低危"，4："提示"}
         "type":    "XSS", // 漏洞类型，自由定义
-        "author":   "wolf", // 插件编写作者
+        "author":  "wolf", // 插件编写作者
         "references": {
             "url":"https://www.seebug.org/vuldb/ssvid-89179", // 漏洞相关文章
             "cve":"" // CVE编号，没有留空

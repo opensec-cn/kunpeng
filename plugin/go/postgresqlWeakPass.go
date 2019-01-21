@@ -46,7 +46,6 @@ func (d *postgresqlWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool)
 			pass = strings.Replace(pass, "{user}", user, -1)
 			connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s sslmode=disable", strings.Split(netloc, ":")[0], strings.Split(netloc, ":")[1], user, pass)
 			db, err := sql.Open("postgres", connStr)
-			// fmt.Println(connStr, err)
 			if err == nil && db.Ping() == nil {
 				db.Close()
 				result := d.info

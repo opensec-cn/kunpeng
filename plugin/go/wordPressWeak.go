@@ -39,13 +39,11 @@ func (d *wordPressWeak) getUserList(URL string) (userList []string) {
 	for i := 1; i < 10; i++ {
 		var user string
 		url := fmt.Sprintf("%s/?author=%d", URL, i)
-		// log.Println(url)
 		request, _ := http.NewRequest("GET", url, nil)
 		resp, err := util.RequestDo(request, false)
 		if err != nil || strings.Contains(string(resp.Body), errorFlag) {
 			return
 		}
-		// fmt.Println(resp.Other.Request.URL.String())
 		tmpList := strings.Split(resp.Other.Request.URL.String(), "/author/")
 		if len(tmpList) == 2 {
 			user = strings.TrimSpace(strings.Trim(tmpList[1], "/"))

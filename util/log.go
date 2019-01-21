@@ -7,12 +7,33 @@ import (
 	"github.com/opensec-cn/kunpeng/config"
 )
 
-var logger = log.New(os.Stdout, "", log.LstdFlags|log.Lshortfile)
+type logger struct {
+	info    *log.Logger
+	warning *log.Logger
+	err     *log.Logger
+}
 
-// Log 打印日志
-func Log(level string, log string) {
+// Logger 日志打印
+var Logger logger
+
+func init() {
+	Logger.info = log.New(os.Stdout, "[info] ", log.Ltime|log.Lshortfile)
+	Logger.warning = log.New(os.Stdout, "[warning] ", log.Ltime|log.Lshortfile)
+	Logger.err = log.New(os.Stderr, "[error] ", log.Ltime|log.Lshortfile)
+}
+
+func (l *logger) Info(logs ...interface{}) {
 	if config.Debug == true {
-		logger.SetPrefix("[" + level + "] ")
-		logger.Println(log)
+		l.info.Println(logs)
+	}
+}
+func (l *logger) Warning(logs ...interface{}) {
+	if config.Debug == true {
+		l.warning.Println(logs)
+	}
+}
+func (l *logger) Error(logs ...interface{}) {
+	if config.Debug == true {
+		l.err.Println(logs)
 	}
 }

@@ -26,9 +26,10 @@ type Task struct {
 }
 
 type Greeter interface {
-	Check(taskJSON string) []map[string]string
-	GetPlugins() []map[string]string
+	Check(taskJSON string) []map[string]interface{}
+	GetPlugins() []map[string]interface{}
 	SetConfig(configJSON string)
+	ShowLog()
 }
 
 func main() {
@@ -61,6 +62,9 @@ func main() {
 	}
 	configJSONBytes, _ := json.Marshal(c)
 	kunpeng.SetConfig(string(configJSONBytes))
+
+	// 开启日志打印
+	kunpeng.ShowLog()
 
 	// 扫描目标
 	task := Task{

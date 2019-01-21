@@ -2,9 +2,9 @@ package main
 
 import "C" // required
 import (
-	"fmt"
 	"github.com/opensec-cn/kunpeng/config"
 	"github.com/opensec-cn/kunpeng/plugin"
+	"github.com/opensec-cn/kunpeng/util"
 	_ "github.com/opensec-cn/kunpeng/plugin/go"
 	"github.com/opensec-cn/kunpeng/web"
 	"encoding/json"
@@ -27,6 +27,10 @@ func (g greeting) SetConfig(configJSON string) {
 	config.Set(configJSON)
 }
 
+func (g greeting) ShowLog() {
+	config.SetDebug(true)
+}
+
 //export StartWebServer
 func StartWebServer() {
 	go web.StartServer()
@@ -34,21 +38,21 @@ func StartWebServer() {
 
 //export Check
 func Check(task *C.char) *C.char {
-	fmt.Println(C.GoString(task))
+	util.Logger.Info(C.GoString(task))
 	var m plugin.Task
     err := json.Unmarshal([]byte(C.GoString(task)), &m)
     if err != nil {
-		fmt.Println(err.Error())
+		util.Logger.Error(err.Error())
         return C.CString("[]")
 	}
-	fmt.Println(m)
+	util.Logger.Info(m)
 	result := plugin.Scan(m)
 	if len(result) == 0{
 		return C.CString("[]")
 	}
 	b, err := json.Marshal(result)
     if err != nil {
-		fmt.Println(err.Error())
+		util.Logger.Error(err.Error())
         return C.CString("[]")
 	}
 	return C.CString(string(b))
@@ -60,7 +64,7 @@ func GetPlugins() *C.char {
 	plugins := plugin.GetPlugins()
 	b, err := json.Marshal(plugins)
     if err != nil {
-        fmt.Println("json.Marshal failed:", err)
+        util.Logger.Error(err.Error())
         return C.CString("[]")
 	}
 	result = string(b)
@@ -70,6 +74,11 @@ func GetPlugins() *C.char {
 //export SetConfig
 func SetConfig(configJSON *C.char) {
 	config.Set(C.GoString(configJSON))
+}
+
+//export ShowLog
+func ShowLog() {
+	config.SetDebug(true)
 }
 
 var Greeter greeting

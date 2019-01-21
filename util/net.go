@@ -2,7 +2,6 @@ package util
 
 import (
 	"crypto/tls"
-	"fmt"
 	"io/ioutil"
 	"net"
 	"net/url"
@@ -66,13 +65,14 @@ func RequestDo(request *http.Request, hasRaw bool) (Resp, error) {
 			result.RequestRaw = string(requestOut)
 		}
 	}
-	// fmt.Println(request.URL.String())
+	Logger.Info("request do", request.URL.String())
 	client.Timeout = time.Second * time.Duration(Config.Timeout)
 	result.Other, err = client.Do(request)
 	if err != nil {
-		fmt.Println(1, err)
+		Logger.Error(err.Error())
 		return result, err
 	}
+	Logger.Info("response code: ", result.Other.StatusCode, "len:",result.Other.ContentLength)
 	defer result.Other.Body.Close()
 	if hasRaw {
 		ResponseOut, err := httputil.DumpResponse(result.Other, true)
@@ -91,6 +91,7 @@ func TCPSend(netloc string, data []byte)([]byte ,error){
 		return nil, err
 	}
 	defer conn.Close()
+	Logger.Info( "tcp send", len(data))
 	_ , err = conn.Write(data)
 	if err != nil {
 		return nil, err
@@ -100,6 +101,6 @@ func TCPSend(netloc string, data []byte)([]byte ,error){
 	if err != nil {
 		return nil, err
 	}
-	fmt.Println(string(buf[:n]))
+	Logger.Info("tcp recv", n)
 	return buf[:n], nil
 }
