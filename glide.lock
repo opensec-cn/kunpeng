@@ -1,5 +1,5 @@
-hash: b0831219ad9f834a214c391574189bbf210ef2a3d5979f5494ea0e548a42c1b5
-updated: 2019-01-17T10:29:26.383845+08:00
+hash: 0e8f64d625efbc38769959947f7ce5a0c5e6479b987b7859944f028f018b7339
+updated: 2019-01-22T10:53:38.074185+08:00
 imports:
 - name: cloud.google.com/go
   version: 105f0564f8d67e66e7ea5ecc5a6e46dad440aa09
@@ -42,6 +42,8 @@ imports:
   - oid
 - name: github.com/mattn/go-isatty
   version: 3fb116b820352b7f0c281308a4d6250c22d94e27
+- name: github.com/mjibson/esc
+  version: 58d9cde84f237ecdd89bd7f61c2de2853f4c5c6e
 - name: github.com/stacktitan/smb
   version: ba124664fd6b2f18c67fa57b0af6e56168ab3b44
   subpackages:
