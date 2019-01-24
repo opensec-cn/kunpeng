@@ -1,14 +1,18 @@
 package main
 
-import "plugin"
-import "fmt"
-import "encoding/json"
+import (
+	"encoding/json"
+	"fmt"
+	"plugin"
+	"time"
+)
 
 type config struct {
-	Timeout   int      `json:"timeout"`
-	Aider     string   `json:"aider"`
-	HTTPProxy string   `json:"httpproxy"`
-	PassList  []string `json:"passlist"`
+	Timeout         int      `json:"timeout"`
+	Aider           string   `json:"aider"`
+	HTTPProxy       string   `json:"http_proxy"`
+	PassList        []string `json:"pass_list"`
+	ExtraPluginPath string   `json:"extra_plugin_path"`
 }
 
 type Meta struct {
@@ -49,22 +53,22 @@ func main() {
 		fmt.Println("unexpected type from module symbol")
 		return
 	}
+	// 开启日志打印
+	kunpeng.ShowLog()
 
 	// 获取插件信息
-	fmt.Println(kunpeng.GetPlugins())
+	// fmt.Println(kunpeng.GetPlugins())
 
 	// 修改配置
 	c := &config{
-		Timeout:   15,
-		Aider:     "",
-		HTTPProxy: "",
-		PassList:  []string{"ptest"},
+		Timeout: 15,
+		// Aider:     "",
+		// HTTPProxy: "",
+		// PassList:  []string{"ptest"},
+		// ExtraPluginPath: "/home/test/plugin/",
 	}
 	configJSONBytes, _ := json.Marshal(c)
 	kunpeng.SetConfig(string(configJSONBytes))
-
-	// 开启日志打印
-	kunpeng.ShowLog()
 
 	// 扫描目标
 	task := Task{
@@ -92,6 +96,7 @@ func main() {
 	jsonBytes, _ := json.Marshal(task)
 	result := kunpeng.Check(string(jsonBytes))
 	fmt.Println(result)
+	time.Sleep(time.Second * 21)
 	jsonBytes, _ = json.Marshal(task2)
 	result = kunpeng.Check(string(jsonBytes))
 	fmt.Println(result)

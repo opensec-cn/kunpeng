@@ -15,9 +15,10 @@ print(plugin_list)
 
 config = {
     'timeout': 10,
-    'aider': '',
-    'httpproxy': '',
-    'passlist':['xtest']
+    # 'aider': 'http://xxxx:8080',
+    # 'http_proxy': 'http://xxxxx:1080',
+    'pass_list':['xtest'],
+    # 'extra_plugin_path': '/home/test/plugin/',
 }
 requests.post(api + '/api/config',json=config)
 

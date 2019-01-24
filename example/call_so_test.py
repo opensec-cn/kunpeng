@@ -15,14 +15,15 @@ kunpeng.SetConfig.argtypes = [c_char_p]
 
 # 获取插件信息
 out = kunpeng.GetPlugins()
-print(out)
+# print(out)
 
 # 修改配置
 config = {
     'timeout': 10,
-    'aider': '',
-    'httpproxy': '',
-    'passlist':['xtest']
+    # 'aider': 'http://xxxx:8080',
+    # 'http_proxy': 'http://xxxxx:1080',
+    # 'pass_list':['xtest']
+    # 'extra_plugin_path': '/home/test/plugin/',
 }
 kunpeng.SetConfig(json.dumps(config))
 
@@ -52,6 +53,7 @@ task2 = {
         'passlist':[]
     }
 }
+
 out = kunpeng.Check(json.dumps(task))
 print(json.loads(out))
 out = kunpeng.Check(json.dumps(task2))
