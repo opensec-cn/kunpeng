@@ -6,6 +6,7 @@ import (
 	"github.com/opensec-cn/kunpeng/plugin"
 	"github.com/opensec-cn/kunpeng/util"
 	_ "github.com/opensec-cn/kunpeng/plugin/go"
+	_ "github.com/opensec-cn/kunpeng/plugin/json"
 	"github.com/opensec-cn/kunpeng/web"
 	"encoding/json"
 )
