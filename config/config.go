@@ -1,13 +1,17 @@
 // Package config 配置信息定义
 package config
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"strings"
+)
 
 type config struct {
-	Timeout   int      `json:"timeout"`
-	Aider     string   `json:"aider"`
-	HTTPProxy string   `json:"httpproxy"`
-	PassList  []string `json:"passlist"`
+	Timeout         int      `json:"timeout"`
+	Aider           string   `json:"aider"`
+	HTTPProxy       string   `json:"http_proxy"`
+	PassList        []string `json:"pass_list"`
+	ExtraPluginPath string   `json:"extra_plugin_path"`
 }
 
 // Debug 为True时打印过程日志
@@ -29,6 +33,9 @@ func Set(configJSON string) {
 	json.Unmarshal([]byte(configJSON), &Config)
 	if Config.Timeout == 0 {
 		Config.Timeout = 15
+	}
+	if !strings.HasSuffix(Config.ExtraPluginPath, "/") {
+		Config.ExtraPluginPath = Config.ExtraPluginPath + "/"
 	}
 }
 
