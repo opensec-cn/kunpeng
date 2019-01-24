@@ -22,6 +22,10 @@ func init() {
 	Logger.err = log.New(os.Stderr, "[error] ", log.Ltime|log.Lshortfile)
 }
 
+func (l *logger) Println(logs ...interface{}) {
+	l.info.Println(logs)
+}
+
 func (l *logger) Info(logs ...interface{}) {
 	if config.Debug == true {
 		l.info.Println(logs)

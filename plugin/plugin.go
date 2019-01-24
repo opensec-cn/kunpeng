@@ -80,7 +80,7 @@ func Scan(task Task) (result []map[string]interface{}) {
 		return result
 	}
 	// JSON插件
-	util.Logger.Info("JSON Plugin total: ",len(GoPlugins))
+	util.Logger.Info("JSON Plugin total: ",len(JSONPlugins))
 	for target, pluginList := range JSONPlugins {
 		if strings.Contains(strings.ToLower(task.Target), strings.ToLower(target)) || task.Target == "all" {
 			util.Logger.Info("启动JSON插件集: ",target)

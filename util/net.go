@@ -72,7 +72,7 @@ func RequestDo(request *http.Request, hasRaw bool) (Resp, error) {
 		Logger.Error(err.Error())
 		return result, err
 	}
-	Logger.Info("response code: ", result.Other.StatusCode, "len:",result.Other.ContentLength)
+	Logger.Info("response code:", result.Other.StatusCode, "len:",result.Other.ContentLength)
 	defer result.Other.Body.Close()
 	if hasRaw {
 		ResponseOut, err := httputil.DumpResponse(result.Other, true)
@@ -91,7 +91,7 @@ func TCPSend(netloc string, data []byte)([]byte ,error){
 		return nil, err
 	}
 	defer conn.Close()
-	Logger.Info( "tcp send", len(data))
+	Logger.Info("tcp send", len(data))
 	_ , err = conn.Write(data)
 	if err != nil {
 		return nil, err

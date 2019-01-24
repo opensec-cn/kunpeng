@@ -33,12 +33,10 @@ func jsonCheck(URL string, p JSONPlugin) (bool, Plugin) {
 	} else {
 		request, _ = http.NewRequest("GET", vulURL, nil)
 	}
-	util.Logger.Info("request do", vulURL)
 	resp, err := util.RequestDo(request, true)
 	if err != nil {
 		return false, result
 	}
-	util.Logger.Info("response code:", resp.Other.StatusCode, "len:", resp.Other.ContentLength)
 	switch p.Verify.Type {
 	case "string":
 		if strings.Contains(resp.ResponseRaw, p.Verify.Match) {
