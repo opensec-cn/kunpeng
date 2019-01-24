@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"plugin"
-	"time"
+	// "time"
 )
 
 type config struct {
@@ -96,7 +96,7 @@ func main() {
 	jsonBytes, _ := json.Marshal(task)
 	result := kunpeng.Check(string(jsonBytes))
 	fmt.Println(result)
-	time.Sleep(time.Second * 21)
+	// time.Sleep(time.Second * 21)
 	jsonBytes, _ = json.Marshal(task2)
 	result = kunpeng.Check(string(jsonBytes))
 	fmt.Println(result)
