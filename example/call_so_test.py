@@ -1,8 +1,17 @@
-#coding:utf-8
+# coding:utf-8
 
+import sys
 import time
 import json
 from ctypes import *
+
+
+def _args_encode(args_string):
+    '''Encode by utf-8 in PY3.'''
+    if sys.version_info >= (3, 0):
+        args_string = args_string.encode('utf-8')
+    return args_string
+
 
 # 加载动态连接库
 kunpeng = cdll.LoadLibrary('./kunpeng_c.so')
@@ -15,7 +24,6 @@ kunpeng.SetConfig.argtypes = [c_char_p]
 
 # 获取插件信息
 out = kunpeng.GetPlugins()
-# print(out)
 
 # 修改配置
 config = {
@@ -25,7 +33,9 @@ config = {
     # 'pass_list':['xtest']
     # 'extra_plugin_path': '/home/test/plugin/',
 }
-kunpeng.SetConfig(json.dumps(config))
+
+conf_args = json.dumps(config)
+kunpeng.SetConfig(_args_encode(conf_args))
 
 # 开启日志打印
 kunpeng.ShowLog()
@@ -54,7 +64,10 @@ task2 = {
     }
 }
 
-out = kunpeng.Check(json.dumps(task))
+task = _args_encode(json.dumps(task))
+task2 = _args_encode(json.dumps(task2))
+
+out = kunpeng.Check(task)
 print(json.loads(out))
-out = kunpeng.Check(json.dumps(task2))
+out = kunpeng.Check(task2)
 print(json.loads(out))
