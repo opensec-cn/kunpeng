@@ -1,6 +1,6 @@
 ﻿# Kunpeng
 
-[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)](https://github.com/opensec-cn/kunpeng/blob/master/LICENSE) [![Golang](https://img.shields.io/badge/Golang-1.9-yellow.svg?style=flat-square)](https://www.golang.org/) 
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)](https://github.com/opensec-cn/kunpeng/blob/master/LICENSE) [![Golang](https://img.shields.io/badge/Golang-1.10-yellow.svg?style=flat-square)](https://www.golang.org/) 
 
 
 ## 简介
@@ -32,7 +32,7 @@ Kunpeng是一个Golang编写的开源POC检测框架，集成了包括数据库�
 [releases]
 
 
-kunpeng_go_v{xx}.zip 为GO语言专版，其余语言使用 kunpeng_c_v{xx}.zip
+压缩包内的kunpeng_go.so为GO语言专版，其余语言使用 kunpeng_c.so
 
 ## 使用方法
 
@@ -248,7 +248,7 @@ print(json.loads(out))
 
 
 
-更多例子查看: [example] 目录
+更多例子查看: [example] 目录，欢迎提交更多语言的调用样例。
 
 
 
@@ -426,7 +426,7 @@ esc -include='\.json$' -o plugin/json/JSONPlugin.go -pkg jsonplugin plugin/json/
 # 编译c版本（所有语言均可使用）
 go build -buildmode=c-shared --ldflags="-w -s" -o kunpeng_c.so
 
-# 编译Go专用版本
+# 编译Go专用版本（不支持win）
 go build -buildmode=plugin --ldflags="-w -s" -o kunpeng_go.so
 
 # 样例测试
