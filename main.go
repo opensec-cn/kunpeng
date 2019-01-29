@@ -10,7 +10,6 @@ import (
 	"github.com/opensec-cn/kunpeng/web"
 	"encoding/json"
 )
-//go:generate esc -include='\.json$' -o plugin/json/JSONPlugin.go -pkg jsonplugin plugin/json/
 
 type greeting string
 

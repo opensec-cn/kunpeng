@@ -411,17 +411,17 @@ func (d *webDavRCE) Check(URL string, meta plugin.TaskMeta) bool {
 }
 ```
 
-
 ### 编译
+
 ```shell
 go get github.com/opensec-cn/kunpeng
 cd $GOPATH/opensec-cn/kunpeng
 
 # generate 所使用到的命令需要提前安装
-go get github.com/mjibson/esc
+go install ./vendor/github.com/mjibson/esc
 
 # 打包JSON插件到项目代码中
-go generate
+esc -include='\.json$' -o plugin/json/JSONPlugin.go -pkg jsonplugin plugin/json/
 
 # 编译c版本（所有语言均可使用）
 go build -buildmode=c-shared --ldflags="-w -s" -o kunpeng_c.so
