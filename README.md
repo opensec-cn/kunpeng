@@ -388,29 +388,42 @@ func (d *webDavRCE) Check(URL string, meta plugin.TaskMeta) bool {
 }
 ```
 
-- JSON插件例子（参考使用时需删除注释信息）
+- JSON插件例子
 
-```shell
+```javascript
 {
-    "target":"wordpress", // 插件所属应用名，自由定义
+    "//": "用 Google 的方式进行注释",
+    "//": "插件所属应用名，自由定义",
+    "target": "wordpress",
     "meta":{
-        "name":    "WordPress example.html jQuery DomXSS", // 插件名称
-        "remarks": "WordPress example.html jQuery 1.7.2 存在DomXSS漏洞", // 漏洞描述
-        "level":   3, // 漏洞等级 {0:"严重"，1:"高危"，2："中危"，3："低危"，4："提示"}
-        "type":    "XSS", // 漏洞类型，自由定义
-        "author":  "wolf", // 插件编写作者
+        "//": "插件名称",
+        "name": "WordPress example.html jQuery DomXSS",
+        "//": "漏洞描述",
+        "remarks": "WordPress example.html jQuery 1.7.2 存在DomXSS漏洞",
+        "//": "漏洞等级 {0:严重，1:高危，2：中危，3：低危，4：提示}",
+        "level":   3,
+        "//": "漏洞类型，自由定义",
+        "type":    "XSS",
+        "//": "插件编写作者",
+        "author":  "wolf",
         "references": {
-            "url":"https://www.seebug.org/vuldb/ssvid-89179", // 漏洞相关文章
-            "cve":"" // CVE编号，没有留空
+            "//": "漏洞相关文章",
+            "url":"https://www.seebug.org/vuldb/ssvid-89179",
+            "//": "CVE编号，没有留空",
+            "cve":""
         }
     },
     "request":{
-        "path":     "/wp-content/themes/twentyfifteen/genericons/example.html", // 漏洞请求URL
-        "postData": "" // 请求POST内容，留空即为GET
+        "//": "漏洞请求URL",
+        "path": "/wp-content/themes/twentyfifteen/genericons/example.html",
+        "//": "请求POST内容，留空即为GET",
+        "postData": ""
     },
     "verify":{
-        "type":  "string", // 漏洞验证类型 {"string"："字符串判断","regex"："正则匹配","md5"："文件md5"}
-        "match": "jquery/1.7.2/jquery.min.js" // 漏洞验证值，与type相关联
+        "//": "漏洞验证类型 {string：字符串判断,regex：正则匹配,md5：文件md5}",
+        "type":  "string",
+        "//": "漏洞验证值，与type相关联",
+        "match": "jquery/1.7.2/jquery.min.js"
     }
 }
 ```
@@ -441,8 +454,6 @@ go run example/callsoTest.go
 ### 效果图
 
 ![img](doc/img.png)
-
-
 
 [releases]: https://github.com/opensec-cn/kunpeng/releases
 [example]: https://github.com/ywolf/kunpeng/tree/master/example
