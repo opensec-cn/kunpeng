@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	_ "github.com/go-sql-driver/mysql"
+	. "github.com/opensec-cn/kunpeng/config"
 	"github.com/opensec-cn/kunpeng/plugin"
 )
 
@@ -44,9 +45,13 @@ func (d *mysqlWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool) {
 	for _, user := range userList {
 		for _, pass := range meta.PassList {
 			pass = strings.Replace(pass, "{user}", user, -1)
-			connStr := fmt.Sprintf("%s:%s@tcp(%s)/", user, pass, netloc)
+			connStr := fmt.Sprintf("%s:%s@tcp(%s)/?timeout=%ds", user, pass, netloc, Config.Timeout)
 			db, err := sql.Open("mysql", connStr)
-			if err == nil && db.Ping() == nil {
+			if err != nil {
+				break
+			}
+			err = db.Ping()
+			if err == nil {
 				db.Close()
 				result := d.info
 				result.Request = connStr
@@ -54,6 +59,10 @@ func (d *mysqlWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool) {
 				d.result = append(d.result, result)
 				b = true
 				break
+			} else if strings.Contains(err.Error(), "Access denied") {
+				continue
+			} else {
+				return
 			}
 		}
 	}
