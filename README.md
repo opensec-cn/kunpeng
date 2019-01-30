@@ -48,12 +48,12 @@ Kunpeng是一个Golang编写的开源POC检测框架，集成了包括数据库�
         "type": "web", //目标类型web或者service
         "netloc": "http://xxx.com", //目标地址，web为URL，service格式为123.123.123.123:22
         "target": "wordpress", //目标名称，决定使用哪些POC进行检测
-        'meta':{
-            'system': 'windows',  //操作系统，部分漏洞检测方法不同系统存在差异，提供给插件进行判断
-            'pathlist':[], //目录路径URL列表，部分插件需要此类信息，例如列目录漏洞插件
-            'filelist':[], //文件路径URL列表，部分插件需要此类信息，例如struts2漏洞相关插件
-            'passlist':[] //自定义密码字典，留空则使用内置默认字典
-        }
+        "meta":{
+            "system": "windows",  //操作系统，部分漏洞检测方法不同系统存在差异，提供给插件进行判断
+            "pathlist":[], //目录路径URL列表，部分插件需要此类信息，例如列目录漏洞插件
+            "filelist":[], //文件路径URL列表，部分插件需要此类信息，例如struts2漏洞相关插件
+            "passlist":[] //自定义密码字典
+        } // 非必填
     }
     返回是否存在漏洞和漏洞检测结果
 */
@@ -69,8 +69,8 @@ GetPlugins() []map[string]string
         "aider": "http://123.123.123.123:8088", // 漏洞辅助验证接口，部分漏洞无法通过回显判断是否存在漏洞，可通过辅助验证接口进行判断。python -c'import socket,base64;exec(base64.b64decode("aGlzdG9yeSA9IFtdCndlYiA9IHNvY2tldC5zb2NrZXQoc29ja2V0LkFGX0lORVQsc29ja2V0LlNPQ0tfU1RSRUFNKQp3ZWIuYmluZCgoJzAuMC4wLjAnLDgwODgpKQp3ZWIubGlzdGVuKDEwKQp3aGlsZSBUcnVlOgogICAgdHJ5OgogICAgICAgIGNvbm4sYWRkciA9IHdlYi5hY2NlcHQoKQogICAgICAgIGRhdGEgPSBjb25uLnJlY3YoNDA5NikKICAgICAgICByZXFfbGluZSA9IGRhdGEuc3BsaXQoIlxyXG4iKVswXQogICAgICAgIGFjdGlvbiA9IHJlcV9saW5lLnNwbGl0KClbMV0uc3BsaXQoJy8nKVsxXQogICAgICAgIHJhbmtfc3RyID0gcmVxX2xpbmUuc3BsaXQoKVsxXS5zcGxpdCgnLycpWzJdCiAgICAgICAgaHRtbCA9ICJORVcwMCIKICAgICAgICBpZiBhY3Rpb24gPT0gImFkZCI6CiAgICAgICAgICAgIGhpc3RvcnkuYXBwZW5kKHJhbmtfc3RyKQogICAgICAgICAgICBwcmludCAiYWRkIityYW5rX3N0cgogICAgICAgIGVsaWYgYWN0aW9uID09ICJjaGVjayI6CiAgICAgICAgICAgIHByaW50ICJjaGVjayIrcmFua19zdHIKICAgICAgICAgICAgaWYgcmFua19zdHIgaW4gaGlzdG9yeToKICAgICAgICAgICAgICAgIGh0bWw9IlZVTDAwIgogICAgICAgICAgICAgICAgaGlzdG9yeS5yZW1vdmUocmFua19zdHIpCiAgICAgICAgcmF3ID0gIkhUVFAvMS4wIDIwMCBPS1xyXG5Db250ZW50LVR5cGU6IGFwcGxpY2F0aW9uL2pzb247IGNoYXJzZXQ9dXRmLThcclxuQ29udGVudC1MZW5ndGg6ICVkXHJcbkNvbm5lY3Rpb246IGNsb3NlXHJcblxyXG4lcyIgJShsZW4oaHRtbCksaHRtbCkKICAgICAgICBjb25uLnNlbmQocmF3KQogICAgICAgIGNvbm4uY2xvc2UoKQogICAgZXhjZXB0OnBhc3M="))'
 在辅助验证机器上运行以上代码，填入http://IP:8088，不开启则留空。
         "http_proxy": "wordpress", // HTTP代理，所有插件http请求流量将通过代理发送（需使用内置的http请求函数util.RequestDo）
-        'pass_list': ['passtest'], // 默认密码字典
-        'extra_plugin_path': '/tmp/plugin/' // 除已编译好的插件（Go、JSON）外，可指定额外插件目录（仅支持JSON插件），指定后程序会周期读取加载插件
+        "pass_list": ["passtest"], // 默认密码字典
+        "extra_plugin_path": "/tmp/plugin/" // 除已编译好的插件（Go、JSON）外，可指定额外插件目录（仅支持JSON插件），指定后程序会周期读取加载插件
     }
 */
 SetConfig(configJSON string)
