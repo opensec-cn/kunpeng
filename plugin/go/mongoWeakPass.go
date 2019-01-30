@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"strings"
 	"time"
+	. "github.com/opensec-cn/kunpeng/config"
 	"github.com/opensec-cn/kunpeng/plugin"
 	"gopkg.in/mgo.v2"
 )
@@ -54,7 +55,7 @@ func (d *mongoWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool) {
 			dialInfo := &mgo.DialInfo{
 				Addrs:     []string{netloc},
 				Direct:    false,
-				Timeout:   time.Second * 1,
+				Timeout:   time.Second * time.Duration(Config.Timeout),
 				Database:  "admin",
 				Source:    "admin",
 				Username:  user,
