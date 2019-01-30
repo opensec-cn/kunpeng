@@ -418,8 +418,8 @@ func (d *webDavRCE) Check(URL string, meta plugin.TaskMeta) bool {
 ### 编译
 
 ```shell
-go get github.com/opensec-cn/kunpeng
-cd $GOPATH/opensec-cn/kunpeng
+go get -d github.com/opensec-cn/kunpeng
+cd $GOPATH/src/github.com/opensec-cn/kunpeng
 
 # 静态资源打包进工程的小程序
 go install ./vendor/github.com/mjibson/esc
