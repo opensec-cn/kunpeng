@@ -9,8 +9,8 @@ Kunpeng是一个Golang编写的开源POC检测框架，集成了包括数据库�
 
 这不是一个POC框架轮子，而是为了解决轮子问题而设计的，也不仅仅只是框架，定位是期望成为一个大家共同维护的漏洞POC库，安全开发人员只需专注于相关安全检测系统的业务逻辑代码实现，而不必各自重复的耗费精力维护漏洞库。
 
-运行环境：Windows，Linux，Darwin
-工作形态：动态链接库，so、dll、go plugin
+运行环境：Windows，Linux，Darwin  
+工作形态：动态链接库，so、dll、go plugin  
 
 
 ## 特点
