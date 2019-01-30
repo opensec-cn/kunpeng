@@ -9,9 +9,13 @@ Kunpeng是一个Golang编写的开源POC检测框架，集成了包括数据库�
 
 这不是一个POC框架轮子，而是为了解决轮子问题而设计的，也不仅仅只是框架，定位是期望成为一个大家共同维护的漏洞POC库，安全开发人员只需专注于相关安全检测系统的业务逻辑代码实现，而不必各自重复的耗费精力维护漏洞库。
 
+运行环境：Windows，Linux，Darwin
+工作形态：动态链接库，so、dll、go plugin
+
+
 ## 特点
 - 开箱即用，无需安装任何依赖
-- 跨语言使用，编译后为so后缀的动态链接库
+- 跨语言使用，动态链接库形式提供调用
 - 单文件，更新方便，直接覆盖即可
 - 开源社区维护，内置常见漏洞POC
 - 最小化漏洞验证和理论验证，尽量避免攻击行为
@@ -182,7 +186,7 @@ func main() {
 
 ```
 
-- python
+- python2
 
 ```python
 #coding:utf-8
@@ -253,7 +257,7 @@ print(json.loads(out))
 
 
 ## 插件开发
-支持2种类型插件，Go和JSON插件，大部分漏洞使用JSON插件即可实现验证，分别存放在goplugin和jsonplugin目录中，JSON插件会在编译时利用generate编译进去。
+支持2种类型插件，Go和JSON插件，大部分漏洞使用JSON插件即可实现验证，分别存放在plugin/go/和plugin/json/目录中。
 
 - golang插件例子1
 
@@ -283,7 +287,7 @@ func (d *redisWeakPass) Init() plugin.Plugin{
 		Name:    "Redis 未授权访问/弱口令", // 插件名称
 		Remarks: "导致敏感信息泄露，严重可导致服务器直接被入侵控制。", // 漏洞描述
 		Level:   0, // 漏洞等级 {0:"严重"，1:"高危"，2："中危"，3："低危"，4："提示"}
-		Type:    "WEAK", // 漏洞类型，自由定义
+		Type:    "WEAKPASS", // 漏洞类型，自由定义
 		Author:  "wolf", // 插件编写作者
 	    References: plugin.References{
 		    URL: "https://www.freebuf.com/vuls/162035.html", // 漏洞相关文章
@@ -417,7 +421,7 @@ func (d *webDavRCE) Check(URL string, meta plugin.TaskMeta) bool {
 go get github.com/opensec-cn/kunpeng
 cd $GOPATH/opensec-cn/kunpeng
 
-# generate 所使用到的命令需要提前安装
+# 静态资源打包进工程的小程序
 go install ./vendor/github.com/mjibson/esc
 
 # 打包JSON插件到项目代码中
