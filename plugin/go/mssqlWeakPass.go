@@ -46,7 +46,11 @@ func (d *mssqlWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool) {
 			pass = strings.Replace(pass, "{user}", user, -1)
 			connStr := fmt.Sprintf("sqlserver://%s:%s@%s", user, pass, netloc)
 			db, err := sql.Open("mssql", connStr)
-			if err == nil && db.Ping() == nil {
+			if err != nil {
+				break
+			}
+			err = db.Ping()
+			if err == nil {
 				db.Close()
 				result := d.info
 				result.Request = connStr
@@ -54,6 +58,10 @@ func (d *mssqlWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool) {
 				d.result = append(d.result, result)
 				b = true
 				break
+			} else if strings.Contains(err.Error(), "Login error") {
+				continue
+			} else {
+				return
 			}
 		}
 	}
