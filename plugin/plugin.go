@@ -63,7 +63,7 @@ func Scan(task Task) (result []map[string]interface{}) {
 	// GO插件
 	for n, pluginList := range GoPlugins {
 		if strings.Contains(strings.ToLower(task.Target), strings.ToLower(n)) || task.Target == "all" {
-			util.Logger.Info("启动Go插件集:",n)
+			util.Logger.Info("run go plugins:",n)
 			for _, plugin := range pluginList {
 				plugin.Init()
 				if len(task.Meta.PassList) == 0 {
@@ -73,7 +73,7 @@ func Scan(task Task) (result []map[string]interface{}) {
 					continue
 				}
 				for _, res := range plugin.GetResult() {
-					util.Logger.Info("命中插件:",res.Name)
+					util.Logger.Info("hit plugin:",res.Name)
 					result = append(result, util.Struct2Map(res))
 				}
 			}
@@ -86,10 +86,10 @@ func Scan(task Task) (result []map[string]interface{}) {
 	util.Logger.Info("JSON Plugin total: ",len(JSONPlugins))
 	for target, pluginList := range JSONPlugins {
 		if strings.Contains(strings.ToLower(task.Target), strings.ToLower(target)) || task.Target == "all" {
-			util.Logger.Info("启动JSON插件集: ",target)
+			util.Logger.Info("run go plugins:",target)
 			for _, plugin := range pluginList {
 				if yes, res := jsonCheck(task.Netloc, plugin); yes {
-					util.Logger.Info("命中插件: ",res.Name)
+					util.Logger.Info("hit plugin:",res.Name)
 					result = append(result, util.Struct2Map(res))
 				}
 			}
