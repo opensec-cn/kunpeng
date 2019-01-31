@@ -1,7 +1,7 @@
 {
     "target":"weblogic",
     "meta":{
-        "name":    "Weblogic SSRF",
+        "name":    "Weblogic 任意文件上传漏洞",
         "remarks": "配置中启用 Web 服务测试页后，未授权的两个页面存在任意上传getshell漏洞，利用该漏洞可以上传任意jsp文件，进而获取服务器权限。",
         "level":   0,
         "type":    "RCE",
