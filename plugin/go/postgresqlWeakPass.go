@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	_ "github.com/lib/pq"
+	. "github.com/opensec-cn/kunpeng/config"
 	"github.com/opensec-cn/kunpeng/plugin"
 )
 
@@ -39,14 +40,16 @@ func (d *postgresqlWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool)
 		return
 	}
 	userList := []string{
-		"postgres", "admin",
+		"vulhub", "postgres", "admin",
 	}
 	for _, user := range userList {
 		for _, pass := range meta.PassList {
 			pass = strings.Replace(pass, "{user}", user, -1)
-			connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s sslmode=disable", strings.Split(netloc, ":")[0], strings.Split(netloc, ":")[1], user, pass)
+			connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s sslmode=disable connect_timeout=%d",
+				strings.Split(netloc, ":")[0], strings.Split(netloc, ":")[1], user, pass, Config.Timeout)
 			db, err := sql.Open("postgres", connStr)
-			if err == nil && db.Ping() == nil {
+			err = db.Ping()
+			if err == nil {
 				db.Close()
 				result := d.info
 				result.Request = connStr
@@ -54,8 +57,12 @@ func (d *postgresqlWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool)
 				d.result = append(d.result, result)
 				b = true
 				break
+			} else if strings.Contains(err.Error(), "authentication failed") {
+				continue
+			} else {
+				return
 			}
 		}
 	}
-	return b
+	return
 }
