@@ -26,7 +26,7 @@ func (d *postgresqlWeakPass) Init() plugin.Plugin {
 		Type:    "WEAKPWD",
 		Author:  "wolf",
 		References: plugin.References{
-			URL: "",
+			URL: "https://helpcdn.aliyun.com/knowledge_detail/37544.html",
 			CVE: "",
 		},
 	}
@@ -40,7 +40,7 @@ func (d *postgresqlWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool)
 		return
 	}
 	userList := []string{
-		"vulhub", "postgres", "admin",
+		"postgres", "admin",
 	}
 	for _, user := range userList {
 		for _, pass := range meta.PassList {
