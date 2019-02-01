@@ -3,6 +3,7 @@
 // npm install ffi
 var ffi = require('ffi');
 
+// mac下要把链接库后缀改为.dylib
 var kunpeng = ffi.Library('./kunpeng_c', {
     'GetPlugins': ['string',[]],
     'Check': ['string',['string']],
