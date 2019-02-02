@@ -32,8 +32,8 @@ func (g greeting) ShowLog() {
 }
 
 //export StartWebServer
-func StartWebServer() {
-	go web.StartServer()
+func StartWebServer(bindAddr string) {
+	go web.StartServer(C.GoString(bindAddr))
 }
 
 //export Check
