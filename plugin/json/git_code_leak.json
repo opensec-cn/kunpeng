@@ -1,0 +1,21 @@
+{
+    "target":"web",
+    "meta":{
+        "name":"git code leak",
+        "remarks":"git代码泄露",
+        "type":"leak",
+        "author":"v1xingyue",
+        "reference":{
+            "url":"",
+            "cve":""
+        }
+    },
+    "request":{
+        "path":"/.git/config",
+        "postData": ""
+    },
+    "verify":{
+        "type":"string",
+        "match":"repositoryformatversion"
+    }
+}
