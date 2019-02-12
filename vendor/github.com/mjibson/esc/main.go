@@ -3,12 +3,16 @@ package main
 import (
 	"flag"
 	"log"
+	"os"
+	"strings"
 
 	"github.com/mjibson/esc/embed"
 )
 
 func main() {
-	conf := &embed.Config{}
+	conf := &embed.Config{
+		Invocation: strings.Join(os.Args[1:], " "),
+	}
 
 	flag.StringVar(&conf.OutputFile, "o", "", "Output file, else stdout.")
 	flag.StringVar(&conf.Package, "pkg", "main", "Package.")
@@ -21,7 +25,16 @@ func main() {
 	flag.Parse()
 	conf.Files = flag.Args()
 
-	if err := embed.Run(conf); err != nil {
+	var err error
+	out := os.Stdout
+	if conf.OutputFile != "" {
+		if out, err = os.Create(conf.OutputFile); err != nil {
+			log.Fatal(err)
+		}
+		defer out.Close()
+	}
+
+	if err = embed.Run(conf, out); err != nil {
 		log.Fatal(err)
 	}
 }

@@ -18,4 +18,3 @@ import:
   - ssh
 - package: gopkg.in/mgo.v2
 - package: github.com/mjibson/esc
-  version: v0.1.0
