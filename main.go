@@ -32,7 +32,7 @@ func (g greeting) ShowLog() {
 }
 
 //export StartWebServer
-func StartWebServer(bindAddr string) {
+func StartWebServer(bindAddr *C.char) {
 	go web.StartServer(C.GoString(bindAddr))
 }
 
