@@ -47,7 +47,7 @@ Kunpeng是一个Golang编写的开源POC检测框架，集成了包括数据库�
     {
         "type": "web", //目标类型web或者service
         "netloc": "http://xxx.com", //目标地址，web为URL，service格式为123.123.123.123:22
-        "target": "wordpress", //目标名称，决定使用哪些POC进行检测
+        "target": "wordpress", //目标名称，GO插件注册时使用的字符串（模糊匹配）、JSON插件的target属性（模糊匹配）、CVE编号，决定使用哪些POC进行检测
         "meta":{
             "system": "windows",  //操作系统，部分漏洞检测方法不同系统存在差异，提供给插件进行判断
             "pathlist":[], //目录路径URL列表，部分插件需要此类信息，例如列目录漏洞插件
@@ -159,9 +159,6 @@ func main() {
 		Netloc: "192.168.0.105:3306",
 		Target: "mysql",
 		Meta : Meta{
-			System : "",
-			PathList: []string{},
-			FileList: []string{},
 			PassList: []string{"ttest"},
 		},
 	}
@@ -169,12 +166,6 @@ func main() {
 		Type: "web",
 		Netloc: "http://www.google.cn",
 		Target: "web",
-		Meta : Meta{
-			System : "",
-			PathList: []string{},
-			FileList: []string{},
-			PassList: []string{},
-		},
 	}
 	jsonBytes, _ := json.Marshal(task)
 	result:= kunpeng.Check(string(jsonBytes))
@@ -225,24 +216,12 @@ kunpeng.ShowLog()
 task = {
     'type': 'web',
     'netloc': 'http://www.google.cn',
-    'target': 'web',
-    'meta':{
-        'system': '',
-        'pathlist':[],
-        'filelist':[],
-        'passlist':[]
-    }
+    'target': 'web'
 }
 task2 = {
     'type': 'service',
     'netloc': '192.168.0.105:3306',
-    'target': 'mysql',
-    'meta':{
-        'system': '',
-        'pathlist':[],
-        'filelist':[],
-        'passlist':[]
-    }
+    'target': 'mysql'
 }
 out = kunpeng.Check(json.dumps(task))
 print(json.loads(out))
