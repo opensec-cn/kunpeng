@@ -17,7 +17,7 @@
 import com.sun.jna.Library;
 import com.sun.jna.Native;
 
-public class Kunpeng_exp {
+public class call_so_test{
 
     public interface Kunpeng extends Library {
         Kunpeng INSTANCE = (Kunpeng)Native.load("/YourPath/kunpeng_c.dylib", Kunpeng.class);
