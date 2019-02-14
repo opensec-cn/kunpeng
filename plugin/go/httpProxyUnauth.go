@@ -6,9 +6,8 @@ import (
 	"net/url"
 	"net/http"
 	"io/ioutil"
-	"crypto/tls"
 	"time"
-	
+
 	"github.com/opensec-cn/kunpeng/plugin"
 	. "github.com/opensec-cn/kunpeng/config"
 )
@@ -47,7 +46,6 @@ func (d *httpProxyUnauth) Check(netloc string, meta plugin.TaskMeta) bool {
 	client := &http.Client{
 		Transport: &http.Transport{
 			Proxy:           proxy,
-			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 		},
 		Timeout:   time.Second * time.Duration(Config.Timeout),
 	}
