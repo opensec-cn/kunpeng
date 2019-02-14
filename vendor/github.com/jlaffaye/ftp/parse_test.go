@@ -24,7 +24,7 @@ type line struct {
 
 type unsupportedLine struct {
 	line string
-	err  string
+	err  error
 }
 
 var listTests = []line{
@@ -72,14 +72,14 @@ var listTests = []line{
 
 // Not supported, we expect a specific error message
 var listTestsFail = []unsupportedLine{
-	{"d [R----F--] supervisor            512       Jan 16 18:53 login", "Unsupported LIST line"},
-	{"- [R----F--] rhesus             214059       Oct 20 15:27 cx.exe", "Unsupported LIST line"},
-	{"drwxr-xr-x    3 110      1002            3 Dec 02  209 pub", "Invalid year format in time string"},
-	{"modify=20150806235817;invalid;UNIX.owner=0; movies", "Unsupported LIST line"},
-	{"Zrwxrwxrwx   1 root     other          7 Jan 25 00:17 bin -> usr/bin", "Unknown entry type"},
-	{"total 1", "Unsupported LIST line"},
-	{"000000000x ", "Unsupported LIST line"}, // see https://github.com/jlaffaye/ftp/issues/97
-	{"", "Unsupported LIST line"},
+	{"d [R----F--] supervisor            512       Jan 16 18:53 login", errUnsupportedListLine},
+	{"- [R----F--] rhesus             214059       Oct 20 15:27 cx.exe", errUnsupportedListLine},
+	{"drwxr-xr-x    3 110      1002            3 Dec 02  209 pub", errUnsupportedListDate},
+	{"modify=20150806235817;invalid;UNIX.owner=0; movies", errUnsupportedListLine},
+	{"Zrwxrwxrwx   1 root     other          7 Jan 25 00:17 bin -> usr/bin", errUnknownListEntryType},
+	{"total 1", errUnsupportedListLine},
+	{"000000000x ", errUnsupportedListLine}, // see https://github.com/jlaffaye/ftp/issues/97
+	{"", errUnsupportedListLine},
 }
 
 func TestParseValidListLine(t *testing.T) {
@@ -110,8 +110,8 @@ func TestParseUnsupportedListLine(t *testing.T) {
 		if err == nil {
 			t.Errorf("parseListLine(%v) expected to fail", lt.line)
 		}
-		if err.Error() != lt.err {
-			t.Errorf("parseListLine(%v) expected to fail with error: '%s'; was: '%s'", lt.line, lt.err, err.Error())
+		if err != lt.err {
+			t.Errorf("parseListLine(%v) expected to fail with error: '%s'; was: '%s'", lt.line, lt.err.Error(), err.Error())
 		}
 	}
 }
