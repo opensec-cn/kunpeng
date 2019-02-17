@@ -1,16 +1,16 @@
-hash: 0e8f64d625efbc38769959947f7ce5a0c5e6479b987b7859944f028f018b7339
-updated: 2019-01-22T10:53:38.074185+08:00
+hash: b8ff747d369bb6ac8e2ac521d86acae661fcec3569a2c703f9fb941ca7c3d641
+updated: 2019-02-15T01:25:35.320022+08:00
 imports:
 - name: cloud.google.com/go
-  version: 105f0564f8d67e66e7ea5ecc5a6e46dad440aa09
+  version: 35685ad21ad4a9ba8011fa0abed10660d9379f33
   subpackages:
   - civil
 - name: github.com/denisenkom/go-mssqldb
-  version: 2fea367d496dade570d9c1959be58a98a9061522
+  version: df6d76eb92899e4dfe4db66d53b187c89d34be37
   subpackages:
   - internal/cp
 - name: github.com/gin-contrib/sse
-  version: 22d885f9ecc78bf4ee5d72b937e4bbcdc58e8cae
+  version: a7658810eb745c2f22927282dea478278103a897
 - name: github.com/gin-gonic/gin
   version: b869fe1415e4b9eb52f247441830d502aece2d4d
   subpackages:
@@ -29,13 +29,13 @@ imports:
 - name: github.com/go-sql-driver/mysql
   version: 72cd26f257d44c1114970e19afddcd812016007e
 - name: github.com/golang/protobuf
-  version: 1643683e1b54a9e88ad26d98f81400c8c9d9f4f9
+  version: c823c79ea1570fb5ff454033735a8e68575d1d0f
   subpackages:
   - proto
 - name: github.com/jlaffaye/ftp
-  version: 47f21d10f0ee0d0921769ca3618072e53c12c5a3
+  version: 8019e6774408f0ef24753bccba660ae36ff4038d
 - name: github.com/json-iterator/go
-  version: 13f86432b882000a51c6e610c620974462691a97
+  version: 5bc93205020f6311d7e4a34f82c5616a18ec35e5
 - name: github.com/lib/pq
   version: 4ded0e9383f75c197b3a2aaa6d590ac52df6fd79
   subpackages:
@@ -43,7 +43,11 @@ imports:
 - name: github.com/mattn/go-isatty
   version: 3fb116b820352b7f0c281308a4d6250c22d94e27
 - name: github.com/mjibson/esc
-  version: 58d9cde84f237ecdd89bd7f61c2de2853f4c5c6e
+  version: 0ea7db170df78dcddf3e223365f444163147fe89
+- name: github.com/modern-go/concurrent
+  version: bacd9c7ef1dd9b15be4a9909b8ac7a4e313eec94
+- name: github.com/modern-go/reflect2
+  version: 94122c33edd36123c84d5368cfb2b69df93a0ec8
 - name: github.com/stacktitan/smb
   version: ba124664fd6b2f18c67fa57b0af6e56168ab3b44
   subpackages:
@@ -52,23 +56,31 @@ imports:
   - smb
   - smb/encoder
 - name: github.com/ugorji/go
-  version: 772ced7fd4c2f6322c07537a9a93b68d74551fa6
+  version: e444a5086c436778cf9281a7059a3d58b9e17935
   subpackages:
   - codec
 - name: golang.org/x/crypto
-  version: 81e90905daefcd6fd217b62423c0908922eadb30
+  version: 74369b46fc6756741c016591724fd1cb8e26845f
   subpackages:
   - curve25519
   - ed25519
   - ed25519/internal/edwards25519
+  - internal/chacha20
+  - internal/subtle
   - md4
+  - poly1305
   - ssh
+- name: golang.org/x/net
+  version: 3a22650c66bd7f4fb6d1e8072ffd7b75c8a27898
+  subpackages:
+  - internal/socks
+  - proxy
 - name: golang.org/x/sys
-  version: 95c6576299259db960f6c5b9b69ea52422860fce
+  version: 983097b1a8a340cd1cc7df17d735154d89e10b1a
   subpackages:
   - unix
 - name: google.golang.org/appengine
-  version: e9657d882bb81064595ca3b56cbe2546bbabf7b1
+  version: 99bc4335fe23898c0a61f5b35afabb6d11f29094
   subpackages:
   - cloudsql
 - name: gopkg.in/go-playground/validator.v8
@@ -81,5 +93,5 @@ imports:
   - internal/sasl
   - internal/scram
 - name: gopkg.in/yaml.v2
-  version: 670d4cfef0544295bc27a114dbac37980d83185a
+  version: 51d6538a90f86fe93ac480b35f37b2be17fef232
 testImports: []

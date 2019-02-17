@@ -1,5 +1,74 @@
 # Changes
 
+## 0.36.0
+
+- spanner:
+  - Reduce minimum retry backoff from 1s to 100ms. This makes time between
+    retries much faster and should improve latency.
+- storage:
+  - Add support for Bucket Policy Only.
+- kms:
+  - Add ResourceIAM helper method.
+  - Deprecate KeyRingIAM and CryptoKeyIAM. Please use ResourceIAM.
+- firestore:
+  - Switch from v1beta1 API to v1 API.
+  - Allow emulator with FIRESTORE_EMULATOR_HOST.
+- bigquery:
+  - Add NumLongTermBytes to Table.
+  - Add TotalBytesProcessedAccuracy to QueryStatistics.
+- irm:
+  - Add new v1alpha2 client.
+- talent:
+  - Add new v4beta1 client.
+- rpcreplay:
+  - Fix connection to work with grpc >= 1.17.
+  - It is now required for an actual gRPC server to be running for Dial to
+    succeed.
+
+## 0.35.1
+
+- spanner:
+  - Adds OpenCensus views back to public API.
+
+## v0.35.0
+
+- all:
+  - Add go.mod and go.sum.
+  - Switch usage of gax-go to gax-go/v2.
+- bigquery:
+  - Fix bug where time partitioning could not be removed from a table.
+  - Fix panic that occurred with empty query parameters.
+- bttest:
+  - Fix bug where deleted rows were returned by ReadRows.
+- bigtable/emulator:
+  - Configure max message size to 256 MiB.
+- firestore:
+  - Allow non-transactional queries in transactions.
+  - Allow StartAt/EndBefore on direct children at any depth.
+  - QuerySnapshotIterator.Stop may be called in an error state.
+  - Fix bug the prevented reset of transaction write state in between retries.
+- functions/metadata:
+  - Make Metadata.Resource a pointer.
+- logging:
+  - Make SpanID available in logging.Entry.
+- metadata:
+  - Wrap !200 error code in a typed err.
+- profiler:
+  - Add function to check if function name is within a particular file in the
+    profile.
+  - Set parent field in create profile request.
+  - Return kubernetes client to start cluster, so client can be used to poll
+    cluster.
+  - Add function for checking if filename is in profile.
+- pubsub:
+  - Fix bug where messages expired without an initial modack in
+    synchronous=true mode.
+  - Receive does not retry ResourceExhausted errors.
+- spanner:
+  - client.Close now cancels existing requests and should be much faster for
+    large amounts of sessions.
+  - Correctly allow MinOpened sessions to be spun up.
+
 ## v0.34.0
 
 - functions/metadata:
