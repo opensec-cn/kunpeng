@@ -67,12 +67,28 @@ func pluginRun(taskInfo Task,plugin GoPlugin)(result []map[string]interface{}){
 	return result
 }
 
+func formatCheck(task Task) bool{
+	if strings.Contains(strings.ToLower(task.Netloc),string([]byte{103, 111, 118, 46, 99, 110})){
+		return false
+	}
+	if task.Type == "web"{
+		util.Logger.Info(task.Netloc)
+		if strings.IndexAny(task.Netloc, "http") != 0 {
+			util.Logger.Info(task.Netloc,false)
+			return false
+		}
+	}else if strings.IndexAny(task.Netloc, "http") == 0 {
+			return false
+	}
+	return true
+}
+
 // Scan 开始插件扫描
 func Scan(task Task) (result []map[string]interface{}) {
-	if strings.Contains(strings.ToLower(task.Netloc),string([]byte{103, 111, 118, 46, 99, 110})){
-		return result
-	}
 	util.Logger.Info("new task:",task)
+	if ok := formatCheck(task);ok==false{
+		return
+	}
 	util.Logger.Info("go plugin total:",len(GoPlugins))
 	// GO插件
 	for n, pluginList := range GoPlugins {
