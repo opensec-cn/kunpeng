@@ -72,9 +72,7 @@ func formatCheck(task Task) bool{
 		return false
 	}
 	if task.Type == "web"{
-		util.Logger.Info(task.Netloc)
 		if strings.IndexAny(task.Netloc, "http") != 0 {
-			util.Logger.Info(task.Netloc,false)
 			return false
 		}
 	}else if strings.IndexAny(task.Netloc, "http") == 0 {
