@@ -7,7 +7,7 @@ local kunpeng = ffi.load("./kunpeng_c.so")
 
 ffi.cdef[[
     void ShowLog();
-    void StartWebServer();
+    void StartWebServer(char* p0);
     char* Check(char* p0);
     char* GetPlugins();
     void SetConfig(char* p0);
@@ -33,4 +33,8 @@ local taskArg = ffi.cast('char *',taskString)
 local result_str = ffi.string(kunpeng.Check(taskArg))
 
 print(result_str)
+
+--- 测试StartWebServer 
+kunpeng.StartWebServer( ffi.cast('char *',"0.0.0.0:3000") )
+io.stdin:read("*line")
 

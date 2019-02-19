@@ -10,7 +10,7 @@ import (
 )
 
 // StartServer 启动web服务接口
-func StartServer() {
+func StartServer(bindAddr string) {
 	router := gin.Default()
 	router.GET("/api/pluginList", func(c *gin.Context) {
 		c.JSON(200, plugin.GetPlugins())
@@ -31,5 +31,5 @@ func StartServer() {
 		c.JSON(200, map[string]bool{"success": true})
 	})
 
-	router.Run(":38080")
+	router.Run(bindAddr)
 }
