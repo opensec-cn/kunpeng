@@ -26,8 +26,8 @@ func (d *postgresqlWeakPass) Init() plugin.Plugin {
 		Type:    "WEAKPWD",
 		Author:  "wolf",
 		References: plugin.References{
-			URL: "https://helpcdn.aliyun.com/knowledge_detail/37544.html",
-			CVE: "",
+			URL:  "https://helpcdn.aliyun.com/knowledge_detail/37544.html",
+			KPID: "KP-0004",
 		},
 	}
 	return d.info

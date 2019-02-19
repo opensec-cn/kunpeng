@@ -8,7 +8,8 @@
         "author":   "wolf",
         "references": {
             "url":"https://github.com/vulhub/vulhub/blob/master/django/CVE-2018-14574/README.zh-cn.md",
-            "cve":"CVE-2018-14574"
+            "cve":"CVE-2018-14574",
+            "kpid":"KP-0055"
         }
     },
     "request":{

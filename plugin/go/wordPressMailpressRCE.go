@@ -25,8 +25,8 @@ func (d *wordPressMailpressRCE) Init() plugin.Plugin {
 		Type:    "RCE",
 		Author:  "wolf",
 		References: plugin.References{
-			URL: "https://github.com/Medicean/VulApps/tree/master/w/wordpress/2",
-			CVE: "",
+			URL:  "https://github.com/Medicean/VulApps/tree/master/w/wordpress/2",
+			KPID: "KP-0030",
 		},
 	}
 	return d.info

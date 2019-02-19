@@ -24,8 +24,7 @@ func (d *webDav) Init() plugin.Plugin {
 		Type:    "CONF",
 		Author:  "wolf",
 		References: plugin.References{
-			URL: "",
-			CVE: "",
+			KPID: "KP-0022",
 		},
 	}
 	return d.info

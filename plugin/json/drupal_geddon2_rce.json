@@ -8,7 +8,8 @@
         "author":   "wolf",
         "references": {
             "url":"https://github.com/vulhub/vulhub/blob/master/drupal/CVE-2018-7600/README.zh-cn.md",
-            "cve":"CVE-2018-7600"
+            "cve":"CVE-2018-7600",
+            "kpid":"KP-0057"
         }
     },
     "request":{

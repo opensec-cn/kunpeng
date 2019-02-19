@@ -24,8 +24,7 @@ func (d *iisPath) Init() plugin.Plugin {
 		Type:    "INFO",
 		Author:  "wolf",
 		References: plugin.References{
-			URL: "",
-			CVE: "",
+			KPID: "KP-0016",
 		},
 	}
 	return d.info

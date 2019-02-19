@@ -25,8 +25,8 @@ func (d *weblogicWeak) Init() plugin.Plugin {
 		Type:    "WEAKPWD",
 		Author:  "wolf",
 		References: plugin.References{
-			URL: "https://github.com/vulhub/vulhub/tree/master/weblogic/weak_password",
-			CVE: "",
+			URL:  "https://github.com/vulhub/vulhub/tree/master/weblogic/weak_password",
+			KPID: "KP-0024",
 		},
 	}
 	return d.info

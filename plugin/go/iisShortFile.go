@@ -17,14 +17,14 @@ func init() {
 }
 func (d *iisShortFile) Init() plugin.Plugin {
 	d.info = plugin.Plugin{
-		Name:    "IIS 短文件名",
+		Name:    "IIS 短文件名枚举",
 		Remarks: "攻击者可利用此特性猜解出目录与文件名，以达到类似列目录漏洞的效果",
 		Level:   3,
 		Type:    "INFO",
 		Author:  "wolf",
 		References: plugin.References{
-			URL: "",
-			CVE: "",
+			URL:  "https://www.freebuf.com/articles/web/172561.html",
+			KPID: "KP-0017",
 		},
 	}
 	return d.info

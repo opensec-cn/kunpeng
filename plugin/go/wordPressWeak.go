@@ -25,8 +25,7 @@ func (d *wordPressWeak) Init() plugin.Plugin {
 		Type:    "WEAKPWD",
 		Author:  "wolf",
 		References: plugin.References{
-			URL: "",
-			CVE: "",
+			KPID: "KP-0026",
 		},
 	}
 	return d.info

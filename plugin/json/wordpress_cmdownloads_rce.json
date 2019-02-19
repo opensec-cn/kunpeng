@@ -7,8 +7,9 @@
         "type":    "RCE",
         "author":   "wolf",
         "references": {
-            "url":"http://sadadas.com",
-            "cve":"cev-123123-123123"
+            "url":"",
+            "cve":"",
+            "kpid":"KP-0068"
         }
     },
     "request":{

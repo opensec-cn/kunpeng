@@ -25,8 +25,8 @@ func (d *grafanaWeakPass) Init() plugin.Plugin {
 		Type:    "WEAKPWD",
 		Author:  "wolf",
 		References: plugin.References{
-			URL: "https://hackerone.com/reports/174883",
-			CVE: "",
+			URL:  "https://hackerone.com/reports/174883",
+			KPID: "KP-0014",
 		},
 	}
 	return d.info

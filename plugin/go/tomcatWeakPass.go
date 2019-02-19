@@ -25,8 +25,8 @@ func (d *tomcatWeakPass) Init() plugin.Plugin {
 		Type:    "WEAKPWD",
 		Author:  "wolf",
 		References: plugin.References{
-			URL: "https://github.com/vulhub/vulhub/tree/master/tomcat/tomcat8",
-			CVE: "",
+			URL:  "https://github.com/vulhub/vulhub/tree/master/tomcat/tomcat8",
+			KPID: "KP-0020",
 		},
 	}
 	return d.info

@@ -25,8 +25,7 @@ func (d *mssqlWeakPass) Init() plugin.Plugin {
 		Type:    "WEAKPWD",
 		Author:  "wolf",
 		References: plugin.References{
-			URL: "",
-			CVE: "",
+			KPID: "KP-0006",
 		},
 	}
 	return d.info

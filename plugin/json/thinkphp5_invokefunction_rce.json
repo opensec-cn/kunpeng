@@ -8,7 +8,8 @@
         "author":   "phith0n",
         "references": {
             "url":"https://github.com/vulhub/vulhub/blob/master/thinkphp/5-rce/README.zh-cn.md",
-            "cve":""
+            "cve":"",
+            "kpid":"KP-0065"
         }
     },
     "request":{

@@ -24,8 +24,8 @@ func (d *discuzSSRF) Init() plugin.Plugin {
 		Type:    "SSRF",
 		Author:  "wolf",
 		References: plugin.References{
-			URL: "https://www.seebug.org/vuldb/ssvid-91879",
-			CVE: "",
+			URL:  "https://www.seebug.org/vuldb/ssvid-91879",
+			KPID: "KP-0010",
 		},
 	}
 	return d.info

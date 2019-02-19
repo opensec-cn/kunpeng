@@ -24,8 +24,7 @@ func (d *smbWeakPass) Init() plugin.Plugin {
 		Type:    "WEAKPWD",
 		Author:  "wolf",
 		References: plugin.References{
-			URL: "",
-			CVE: "",
+			KPID: "KP-0002",
 		},
 	}
 	return d.info

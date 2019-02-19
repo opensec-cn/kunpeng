@@ -24,8 +24,8 @@ func (d *zabbixJsrpcSQL) Init() plugin.Plugin {
 		Type:    "SQLI",
 		Author:  "wolf",
 		References: plugin.References{
-			URL: "https://github.com/Medicean/VulApps/tree/master/z/zabbix/1",
-			CVE: "",
+			URL:  "https://github.com/Medicean/VulApps/tree/master/z/zabbix/1",
+			KPID: "KP-0027",
 		},
 	}
 	return d.info

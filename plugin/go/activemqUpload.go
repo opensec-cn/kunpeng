@@ -24,8 +24,9 @@ func (d *activemqUpload) Init() plugin.Plugin {
 		Type:    "UPLOAD",
 		Author:  "wolf",
 		References: plugin.References{
-			URL: "https://github.com/vulhub/vulhub/tree/master/activemq/CVE-2016-3088",
-			CVE: "CVE-2016-3088",
+			URL:  "https://github.com/vulhub/vulhub/tree/master/activemq/CVE-2016-3088",
+			CVE:  "CVE-2016-3088",
+			KPID: "KP-0033",
 		},
 	}
 	return d.info

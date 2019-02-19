@@ -24,8 +24,8 @@ func (d *memcacheUnauth) Init() plugin.Plugin {
 		Type:    "WEAKPWD",
 		Author:  "wolf",
 		References: plugin.References{
-			URL: "",
-			CVE: "",
+			URL:  "https://help.aliyun.com/knowledge_detail/37553.html",
+			KPID: "KP-0008",
 		},
 	}
 	return d.info

@@ -32,8 +32,9 @@ type TaskMeta struct {
 
 //References 插件附加信息
 type References struct {
-	URL string `json:"url"`
-	CVE string `json:"cve"`
+	URL  string `json:"url"`
+	CVE  string `json:"cve"`
+	KPID string `json:"kpid"`
 }
 
 // Plugin 漏洞插件信息
@@ -53,7 +54,7 @@ func init() {
 	JSONPlugins = make(map[string][]JSONPlugin)
 }
 
-func pluginRun(taskInfo Task,plugin GoPlugin)(result []map[string]interface{}){
+func pluginRun(taskInfo Task, plugin GoPlugin) (result []map[string]interface{}) {
 	if len(taskInfo.Meta.PassList) == 0 {
 		taskInfo.Meta.PassList = Config.PassList
 	}
@@ -61,52 +62,52 @@ func pluginRun(taskInfo Task,plugin GoPlugin)(result []map[string]interface{}){
 		return
 	}
 	for _, res := range plugin.GetResult() {
-		util.Logger.Info("hit plugin:",res.Name)
+		util.Logger.Info("hit plugin:", res.Name)
 		result = append(result, util.Struct2Map(res))
 	}
 	return result
 }
 
-func formatCheck(task Task) bool{
-	if strings.Contains(strings.ToLower(task.Netloc),string([]byte{103, 111, 118, 46, 99, 110})){
+func formatCheck(task Task) bool {
+	if strings.Contains(strings.ToLower(task.Netloc), string([]byte{103, 111, 118, 46, 99, 110})) {
 		return false
 	}
-	if task.Type == "web"{
+	if task.Type == "web" {
 		if strings.IndexAny(task.Netloc, "http") != 0 {
 			return false
 		}
-	}else if strings.IndexAny(task.Netloc, "http") == 0 {
-			return false
+	} else if strings.IndexAny(task.Netloc, "http") == 0 {
+		return false
 	}
 	return true
 }
 
 // Scan 开始插件扫描
 func Scan(task Task) (result []map[string]interface{}) {
-	util.Logger.Info("new task:",task)
-	if ok := formatCheck(task);ok==false{
+	util.Logger.Info("new task:", task)
+	if ok := formatCheck(task); ok == false {
 		return
 	}
-	util.Logger.Info("go plugin total:",len(GoPlugins))
+	util.Logger.Info("go plugin total:", len(GoPlugins))
 	// GO插件
 	for n, pluginList := range GoPlugins {
-		if strings.Contains(strings.ToLower(task.Target),"cve-"){
-			for _, plugin := range pluginList{
-				pluginInfo := plugin.Init()
-				if strings.ToLower(pluginInfo.References.CVE) != strings.ToLower(task.Target){
-					continue
-				}
-				util.Logger.Info("run plugin:",pluginInfo.Name)
-				resultList := pluginRun(task,plugin)
-				result = append(result,resultList...)
-				break
-			}
-		}else if strings.Contains(strings.ToLower(task.Target), strings.ToLower(n)) || task.Target == "all" {
+		if strings.Contains(strings.ToLower(task.Target), "cve-") {
 			for _, plugin := range pluginList {
 				pluginInfo := plugin.Init()
-				util.Logger.Info("run plugin:",pluginInfo.Name)
-				resultList := pluginRun(task,plugin)
-				result = append(result,resultList...)
+				if strings.ToLower(pluginInfo.References.CVE) != strings.ToLower(task.Target) {
+					continue
+				}
+				util.Logger.Info("run plugin:", pluginInfo.Name)
+				resultList := pluginRun(task, plugin)
+				result = append(result, resultList...)
+				break
+			}
+		} else if strings.Contains(strings.ToLower(task.Target), strings.ToLower(n)) || task.Target == "all" {
+			for _, plugin := range pluginList {
+				pluginInfo := plugin.Init()
+				util.Logger.Info("run plugin:", pluginInfo.Name)
+				resultList := pluginRun(task, plugin)
+				result = append(result, resultList...)
 			}
 		}
 	}
@@ -114,16 +115,16 @@ func Scan(task Task) (result []map[string]interface{}) {
 		return result
 	}
 	// JSON插件
-	util.Logger.Info("json plugin total:",len(JSONPlugins))
+	util.Logger.Info("json plugin total:", len(JSONPlugins))
 	for target, pluginList := range JSONPlugins {
-		if strings.Contains(strings.ToLower(task.Target),"cve-"){
+		if strings.Contains(strings.ToLower(task.Target), "cve-") {
 			for _, plugin := range pluginList {
-				if strings.ToLower(plugin.Meta.References.CVE) != strings.ToLower(task.Target){
+				if strings.ToLower(plugin.Meta.References.CVE) != strings.ToLower(task.Target) {
 					continue
 				}
-				util.Logger.Info("run json plugin:",plugin.Meta.Name)
+				util.Logger.Info("run json plugin:", plugin.Meta.Name)
 				if yes, res := jsonCheck(task.Netloc, plugin); yes {
-					util.Logger.Info("hit plugin:",res.Name)
+					util.Logger.Info("hit plugin:", res.Name)
 					result = append(result, util.Struct2Map(res))
 				}
 				break
@@ -131,9 +132,9 @@ func Scan(task Task) (result []map[string]interface{}) {
 		}
 		if strings.Contains(strings.ToLower(task.Target), strings.ToLower(target)) || task.Target == "all" {
 			for _, plugin := range pluginList {
-				util.Logger.Info("run json plugin:",plugin.Meta.Name)
+				util.Logger.Info("run json plugin:", plugin.Meta.Name)
 				if yes, res := jsonCheck(task.Netloc, plugin); yes {
-					util.Logger.Info("hit plugin:",res.Name)
+					util.Logger.Info("hit plugin:", res.Name)
 					result = append(result, util.Struct2Map(res))
 				}
 			}
@@ -153,14 +154,14 @@ func GetPlugins() (plugins []map[string]interface{}) {
 			pluginMap["target"] = name
 			plugins = append(plugins, pluginMap)
 		}
-		for name, pluginList := range JSONPlugins {
-			for _, plugin := range pluginList {
-				pluginMap := util.Struct2Map(plugin.Meta)
-				delete(pluginMap, "request")
-				delete(pluginMap, "response")
-				pluginMap["target"] = name
-				plugins = append(plugins, pluginMap)
-			}
+	}
+	for name, pluginList := range JSONPlugins {
+		for _, plugin := range pluginList {
+			pluginMap := util.Struct2Map(plugin.Meta)
+			delete(pluginMap, "request")
+			delete(pluginMap, "response")
+			pluginMap["target"] = name
+			plugins = append(plugins, pluginMap)
 		}
 	}
 	return plugins

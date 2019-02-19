@@ -7,8 +7,9 @@
         "type":    "XSS",
         "author":   "wolf",
         "references": {
-            "url":"http://sadadas.com",
-            "cve":"cev-123123-123123"
+            "url":"https://www.freebuf.com/news/66695.html",
+            "cve":"",
+            "kpid":"KP-0070"
         }
     },
     "request":{

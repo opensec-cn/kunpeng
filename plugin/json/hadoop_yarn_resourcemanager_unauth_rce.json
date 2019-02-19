@@ -8,7 +8,8 @@
         "author":   "wolf",
         "references": {
             "url":"https://github.com/vulhub/vulhub/tree/master/hadoop/unauthorized-yarn",
-            "cve":""
+            "cve":"",
+            "kpid":"KP-0060"
         }
     },
     "request":{

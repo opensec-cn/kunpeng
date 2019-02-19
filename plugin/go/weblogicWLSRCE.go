@@ -25,8 +25,9 @@ func (d *weblogicWLSRCE) Init() plugin.Plugin {
 		Type:    "RCE",
 		Author:  "wolf",
 		References: plugin.References{
-			URL: "https://github.com/vulhub/vulhub/tree/master/weblogic/CVE-2017-10271",
-			CVE: "CVE-2017-10271",
+			URL:  "https://github.com/vulhub/vulhub/tree/master/weblogic/CVE-2017-10271",
+			CVE:  "CVE-2017-10271",
+			KPID: "KP-0031",
 		},
 	}
 	return d.info

@@ -25,8 +25,9 @@ func (d *nexusRCE) Init() plugin.Plugin {
 		Type:    "RCE",
 		Author:  "wolf",
 		References: plugin.References{
-			URL: "https://www.anquanke.com/post/id/171116",
-			CVE: "CVE-2019-7238",
+			URL:  "https://www.anquanke.com/post/id/171116",
+			CVE:  "CVE-2019-7238",
+			KPID: "KP-0035",
 		},
 	}
 	return d.info

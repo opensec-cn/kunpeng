@@ -8,7 +8,8 @@
         "author":   "wolf",
         "references": {
             "url":"https://paper.seebug.org/305/",
-            "cve":"CVE-2017-8917"
+            "cve":"CVE-2017-8917",
+            "kpid":"KP-0061"
         }
     },
     "request":{

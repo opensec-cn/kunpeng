@@ -2,14 +2,14 @@ package goplugin
 
 import (
 	"fmt"
-	"strings"
-	"net/url"
-	"net/http"
 	"io/ioutil"
+	"net/http"
+	"net/url"
+	"strings"
 	"time"
 
-	"github.com/opensec-cn/kunpeng/plugin"
 	. "github.com/opensec-cn/kunpeng/config"
+	"github.com/opensec-cn/kunpeng/plugin"
 )
 
 type httpProxyUnauth struct {
@@ -27,6 +27,9 @@ func (d *httpProxyUnauth) Init() plugin.Plugin {
 		Level:   1,
 		Type:    "UNAUTH",
 		Author:  "wolf",
+		References: plugin.References{
+			KPID: "KP-0015",
+		},
 	}
 	return d.info
 }
@@ -37,7 +40,7 @@ func (d *httpProxyUnauth) Check(netloc string, meta plugin.TaskMeta) bool {
 	var proxyURL string
 	if strings.IndexAny(netloc, "http") == 0 {
 		proxyURL = netloc
-	}else{
+	} else {
 		proxyURL = "http://" + netloc
 	}
 	proxy := func(_ *http.Request) (*url.URL, error) {
@@ -45,9 +48,9 @@ func (d *httpProxyUnauth) Check(netloc string, meta plugin.TaskMeta) bool {
 	}
 	client := &http.Client{
 		Transport: &http.Transport{
-			Proxy:           proxy,
+			Proxy: proxy,
 		},
-		Timeout:   time.Second * time.Duration(Config.Timeout),
+		Timeout: time.Second * time.Duration(Config.Timeout),
 	}
 	resp, err := client.Get("https://www.apple.com/contact/")
 	if err != nil {
@@ -57,7 +60,7 @@ func (d *httpProxyUnauth) Check(netloc string, meta plugin.TaskMeta) bool {
 	if err != nil {
 		return false
 	}
-	if strings.Contains(string(body),"Contacting Apple"){
+	if strings.Contains(string(body), "Contacting Apple") {
 		result := d.info
 		result.Request = proxyURL
 		result.Remarks = fmt.Sprintf("HTTP代理无身份认证，%s", result.Remarks)

@@ -24,8 +24,7 @@ func (d *redisWeakPass) Init() plugin.Plugin {
 		Type:    "WEAKPWD",
 		Author:  "wolf",
 		References: plugin.References{
-			URL: "",
-			CVE: "",
+			KPID: "KP-0003",
 		},
 	}
 	return d.info

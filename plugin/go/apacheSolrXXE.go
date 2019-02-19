@@ -24,8 +24,9 @@ func (d *apacheSolrXXE) Init() plugin.Plugin {
 		Type:    "XXE",
 		Author:  "wolf",
 		References: plugin.References{
-			URL: "https://github.com/vulhub/vulhub/tree/master/solr/CVE-2017-12629-XXE",
-			CVE: "CVE-2017-12629",
+			URL:  "https://github.com/vulhub/vulhub/tree/master/solr/CVE-2017-12629-XXE",
+			CVE:  "CVE-2017-12629",
+			KPID: "KP-0034",
 		},
 	}
 	return d.info

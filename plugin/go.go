@@ -13,5 +13,5 @@ type GoPlugin interface {
 func Regist(target string, plugin GoPlugin) {
 	GoPlugins[target] = append(GoPlugins[target], plugin)
 	var pluginInfo = plugin.Init()
-	util.Logger.Println("init plugin:", pluginInfo.Name)
+	util.Logger.Println("init plugin:", pluginInfo.References.KPID, pluginInfo.Name)
 }

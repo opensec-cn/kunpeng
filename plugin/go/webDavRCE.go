@@ -24,8 +24,9 @@ func (d *webDavRCE) Init() plugin.Plugin {
 		Type:    "RCE",
 		Author:  "wolf",
 		References: plugin.References{
-			URL: "https://www.seebug.org/vuldb/ssvid-92834",
-			CVE: "CVE-2017-7269",
+			URL:  "https://www.seebug.org/vuldb/ssvid-92834",
+			CVE:  "CVE-2017-7269",
+			KPID: "KP-0023",
 		},
 	}
 	return d.info

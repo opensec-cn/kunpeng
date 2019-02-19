@@ -27,6 +27,9 @@ func (d *socks5ProxyUnauth) Init() plugin.Plugin {
 		Level:   1,
 		Type:    "UNAUTH",
 		Author:  "wolf",
+		References: plugin.References{
+			KPID: "KP-0019",
+		},
 	}
 	return d.info
 }

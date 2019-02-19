@@ -25,8 +25,7 @@ func (d *axisWeakPass) Init() plugin.Plugin {
 		Type:    "WEAKPWD",
 		Author:  "wolf",
 		References: plugin.References{
-			URL: "http://sadadas.com",
-			CVE: "test",
+			KPID: "KP-0012",
 		},
 	}
 	return d.info

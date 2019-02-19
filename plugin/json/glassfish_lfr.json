@@ -8,7 +8,8 @@
         "author":   "wolf",
         "references": {
             "url":"https://github.com/vulhub/vulhub/tree/master/glassfish/4.1.0",
-            "cve":""
+            "cve":"",
+            "kpid":"KP-0059"
         }
     },
     "request":{

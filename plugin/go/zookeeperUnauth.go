@@ -24,8 +24,7 @@ func (d *zookeeperUnauth) Init() plugin.Plugin {
 		Type:    "UNAUTH",
 		Author:  "wolf",
 		References: plugin.References{
-			URL: "",
-			CVE: "",
+			KPID: "KP-0029",
 		},
 	}
 	return d.info

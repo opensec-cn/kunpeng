@@ -8,7 +8,8 @@
         "author":   "wolf",
         "references": {
             "url":"",
-            "cve":""
+            "cve":"",
+            "kpid":"KP-0045"
         }
     },
     "request":{

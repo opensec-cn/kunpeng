@@ -25,8 +25,7 @@ func (d *jbossWeak) Init() plugin.Plugin {
 		Type:    "WEAKPWD",
 		Author:  "wolf",
 		References: plugin.References{
-			URL: "",
-			CVE: "",
+			KPID: "KP-0018",
 		},
 	}
 	return d.info

@@ -26,8 +26,8 @@ func (d *thinkphp5SQLIResult) Init() plugin.Plugin {
 		Type:    "SQLI",
 		Author:  "neargle",
 		References: plugin.References{
-			URL: "https://www.leavesongs.com/PENETRATION/thinkphp5-in-sqlinjection.html",
-			CVE: "",
+			URL:  "https://www.leavesongs.com/PENETRATION/thinkphp5-in-sqlinjection.html",
+			KPID: "KP-0032",
 		},
 	}
 	return d.info

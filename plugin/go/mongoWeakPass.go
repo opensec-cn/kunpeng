@@ -2,11 +2,11 @@ package goplugin
 
 import (
 	"fmt"
-	"strings"
-	"time"
 	. "github.com/opensec-cn/kunpeng/config"
 	"github.com/opensec-cn/kunpeng/plugin"
 	"gopkg.in/mgo.v2"
+	"strings"
+	"time"
 )
 
 type mongoWeakPass struct {
@@ -17,16 +17,15 @@ type mongoWeakPass struct {
 func init() {
 	plugin.Regist("mongodb", &mongoWeakPass{})
 }
-func (d *mongoWeakPass) Init() plugin.Plugin{
+func (d *mongoWeakPass) Init() plugin.Plugin {
 	d.info = plugin.Plugin{
 		Name:    "MongoDB 未授权访问/弱口令",
 		Remarks: "导致数据库敏感信息泄露，严重可导致服务器直接被入侵控制。",
 		Level:   1,
 		Type:    "WEAKPWD",
-		Author:   "wolf",
+		Author:  "wolf",
 		References: plugin.References{
-			URL: "",
-			CVE: "",
+			KPID: "KP-0007",
 		},
 	}
 	return d.info
@@ -35,7 +34,7 @@ func (d *mongoWeakPass) GetResult() []plugin.Plugin {
 	return d.result
 }
 func (d *mongoWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool) {
-	if strings.IndexAny(netloc,"http") == 0{
+	if strings.IndexAny(netloc, "http") == 0 {
 		return
 	}
 	userList := []string{

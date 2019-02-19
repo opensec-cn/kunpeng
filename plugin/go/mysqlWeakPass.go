@@ -26,8 +26,8 @@ func (d *mysqlWeakPass) Init() plugin.Plugin {
 		Type:    "WEAKPWD",
 		Author:  "wolf",
 		References: plugin.References{
-			URL: "",
-			CVE: "",
+			URL:  "https://www.cnblogs.com/yunsicai/p/4080864.html",
+			KPID: "KP-0005",
 		},
 	}
 	return d.info

@@ -26,8 +26,8 @@ func (d *directoryBrowse) Init() plugin.Plugin {
 		Type:    "INFO",
 		Author:  "wolf",
 		References: plugin.References{
-			URL: "",
-			CVE: "",
+			URL:  "https://blog.csdn.net/wutianxu123/article/details/82634893",
+			KPID: "KP-0013",
 		},
 	}
 	return d.info
