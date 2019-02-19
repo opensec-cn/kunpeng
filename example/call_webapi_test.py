@@ -3,9 +3,9 @@ from ctypes import *
 import json
 import requests
 
-so = cdll.LoadLibrary('./kunpeng_c.so')
-# listen 0.0.0.0:38080
-so.StartWebServer()
+kunpeng = cdll.LoadLibrary('./kunpeng_c.so')
+kunpeng.StartWebServer.argtypes = [c_char_p]
+kunpeng.StartWebServer("0.0.0.0:38080")
 time.sleep(5)
 
 api = 'http://127.0.0.1:38080'

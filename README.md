@@ -75,8 +75,8 @@ GetPlugins() []map[string]string
 */
 SetConfig(configJSON string)
 
-// 开启web接口，如果觉得类型转换麻烦，可开启后通过web接口进行调用，webapi调用格式请查看例子：/example/call_webapi_test.py
-StartWebServer()
+// 开启web接口，开启后可通过web接口进行调用，webapi调用格式请查看例子：/example/call_webapi_test.py
+StartWebServer(bindAddr string)
 
 ```
 
