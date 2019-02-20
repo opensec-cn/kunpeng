@@ -97,7 +97,18 @@ func Scan(task Task) (result []map[string]interface{}) {
 				if strings.ToLower(pluginInfo.References.CVE) != strings.ToLower(task.Target) {
 					continue
 				}
-				util.Logger.Info("run plugin:", pluginInfo.Name)
+				util.Logger.Info("run plugin:", pluginInfo.References.CVE, pluginInfo.Name)
+				resultList := pluginRun(task, plugin)
+				result = append(result, resultList...)
+				break
+			}
+		} else if strings.Contains(strings.ToLower(task.Target), "kp-") {
+			for _, plugin := range pluginList {
+				pluginInfo := plugin.Init()
+				if strings.ToLower(pluginInfo.References.KPID) != strings.ToLower(task.Target) {
+					continue
+				}
+				util.Logger.Info("run plugin:", pluginInfo.References.KPID, pluginInfo.Name)
 				resultList := pluginRun(task, plugin)
 				result = append(result, resultList...)
 				break
@@ -105,7 +116,7 @@ func Scan(task Task) (result []map[string]interface{}) {
 		} else if strings.Contains(strings.ToLower(task.Target), strings.ToLower(n)) || task.Target == "all" {
 			for _, plugin := range pluginList {
 				pluginInfo := plugin.Init()
-				util.Logger.Info("run plugin:", pluginInfo.Name)
+				util.Logger.Info("run plugin:", task.Target, pluginInfo.Name)
 				resultList := pluginRun(task, plugin)
 				result = append(result, resultList...)
 			}
@@ -122,17 +133,28 @@ func Scan(task Task) (result []map[string]interface{}) {
 				if strings.ToLower(plugin.Meta.References.CVE) != strings.ToLower(task.Target) {
 					continue
 				}
-				util.Logger.Info("run json plugin:", plugin.Meta.Name)
+				util.Logger.Info("run json plugin:", plugin.Meta.References.CVE, plugin.Meta.Name)
 				if yes, res := jsonCheck(task.Netloc, plugin); yes {
 					util.Logger.Info("hit plugin:", res.Name)
 					result = append(result, util.Struct2Map(res))
 				}
 				break
 			}
-		}
-		if strings.Contains(strings.ToLower(task.Target), strings.ToLower(target)) || task.Target == "all" {
+		} else if strings.Contains(strings.ToLower(task.Target), "kp-") {
 			for _, plugin := range pluginList {
-				util.Logger.Info("run json plugin:", plugin.Meta.Name)
+				if strings.ToLower(plugin.Meta.References.KPID) != strings.ToLower(task.Target) {
+					continue
+				}
+				util.Logger.Info("run json plugin:", plugin.Meta.References.KPID, plugin.Meta.Name)
+				if yes, res := jsonCheck(task.Netloc, plugin); yes {
+					util.Logger.Info("hit plugin:", res.Name)
+					result = append(result, util.Struct2Map(res))
+				}
+				break
+			}
+		} else if strings.Contains(strings.ToLower(task.Target), strings.ToLower(target)) || task.Target == "all" {
+			for _, plugin := range pluginList {
+				util.Logger.Info("run json plugin:", plugin.Target, plugin.Meta.Name)
 				if yes, res := jsonCheck(task.Netloc, plugin); yes {
 					util.Logger.Info("hit plugin:", res.Name)
 					result = append(result, util.Struct2Map(res))
