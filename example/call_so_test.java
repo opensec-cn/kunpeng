@@ -17,16 +17,59 @@
 import com.sun.jna.Library;
 import com.sun.jna.Native;
 
-public class call_so_test{
+import java.lang.reflect.Array;
+import java.net.*;
+import java.util.List;
+import java.util.Map;
+
+
+public class call_so_test {
 
     public interface Kunpeng extends Library {
-        Kunpeng INSTANCE = (Kunpeng)Native.load("/YourPath/kunpeng_c.dylib", Kunpeng.class);
+        Kunpeng INSTANCE = (Kunpeng)Native.load("/Users/ppg/Downloads/kunpeng_darwin_v20190212/kunpeng_c.dylib", Kunpeng.class);
+        /*
+            启动服务器
+         */
         public void StartWebServer();
+
+        /*  配置设置，传入配置JSON，格式为：
+           {
+               "timeout": 15, // 插件连接超时
+               "aider": "http://123.123.123.123:8088", // 漏洞辅助验证接口，部分漏洞无法通过回显判断是否存在漏洞，可通过辅助验证接口进行判断。
+               "http_proxy": "http://123.123.123.123:1080", // HTTP代理，所有插件http请求流量将通过代理发送（需使用内置的http请求函数util.RequestDo）
+               "pass_list": ["passtest"], // 默认密码字典，不定义则使用硬编码在代码里的小字典
+               "extra_plugin_path": "/tmp/plugin/" // 除已编译好的插件（Go、JSON）外，可指定额外插件目录（仅支持JSON插件），指定后程序会周期读取加载插件
+           }
+       */
+        public  void SetConfig(String configJSON);
+        public  String GetPlugins();
+        public  String Check(String taskJSON);
+
     }
 
 
     public static void main(String[] args) {
-        System.out.println("Hello Kunpeng");
-        Kunpeng.INSTANCE.StartWebServer();
+
+            System.out.println("Hello Kunpeng");
+
+            String cfg_json = "{ \"timeout\":15 }";
+
+            Kunpeng.INSTANCE.SetConfig(cfg_json);
+
+            String task_json =  "{\"type\": \"web\", \"netloc\": \"http://www.baidu.cn\",  \"target\": \"web\"}";
+
+            String resut = Kunpeng.INSTANCE.Check(task_json);
+            System.out.println(resut);
+            System.out.println("-==========");
+
+            Kunpeng.INSTANCE.StartWebServer();
+            while (true) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    return;
+                }
+            }
+
     }
 }
