@@ -426,6 +426,7 @@ func TestPoll(t *testing.T) {
 		t.Skip("mkfifo syscall is not available on android and iOS, skipping test")
 	}
 
+	defer chtmpdir(t)()
 	f, cleanup := mktmpfifo(t)
 	defer cleanup()
 

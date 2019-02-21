@@ -1,5 +1,5 @@
-hash: b8ff747d369bb6ac8e2ac521d86acae661fcec3569a2c703f9fb941ca7c3d641
-updated: 2019-02-15T01:25:35.320022+08:00
+hash: bf392a6ef124cd97a113526456aa99b1b3c596f1f2d6eafecd206c70fd7bde22
+updated: 2019-02-21T19:58:04.457731+08:00
 imports:
 - name: cloud.google.com/go
   version: 35685ad21ad4a9ba8011fa0abed10660d9379f33
@@ -48,6 +48,8 @@ imports:
   version: bacd9c7ef1dd9b15be4a9909b8ac7a4e313eec94
 - name: github.com/modern-go/reflect2
   version: 94122c33edd36123c84d5368cfb2b69df93a0ec8
+- name: github.com/pkg/errors
+  version: 856c240a51a2bf8fb8269ea7f3f9b046aadde36e
 - name: github.com/stacktitan/smb
   version: ba124664fd6b2f18c67fa57b0af6e56168ab3b44
   subpackages:
@@ -60,7 +62,7 @@ imports:
   subpackages:
   - codec
 - name: golang.org/x/crypto
-  version: 74369b46fc6756741c016591724fd1cb8e26845f
+  version: a4c6cb3142f211c99e4bf4cd769535b29a9b616f
   subpackages:
   - curve25519
   - ed25519
@@ -76,11 +78,15 @@ imports:
   - internal/socks
   - proxy
 - name: golang.org/x/sys
-  version: 983097b1a8a340cd1cc7df17d735154d89e10b1a
+  version: b4e8571b14e03cc164df06f72b640ebce3899579
   subpackages:
   - unix
+- name: golang.org/x/tools
+  version: a754db16a40a9d94359b6600b825419c0ca6f986
+  subpackages:
+  - imports
 - name: google.golang.org/appengine
-  version: 99bc4335fe23898c0a61f5b35afabb6d11f29094
+  version: 54a98f90d1c46b7731eb8fb305d2a321c30ef610
   subpackages:
   - cloudsql
 - name: gopkg.in/go-playground/validator.v8

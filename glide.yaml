@@ -16,5 +16,9 @@ import:
 - package: golang.org/x/crypto
   subpackages:
   - ssh
+- package: golang.org/x/tools
+  subpackages:
+  - imports
+- package: github.com/pkg/errors
 - package: gopkg.in/mgo.v2
 - package: github.com/mjibson/esc
