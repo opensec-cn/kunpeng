@@ -27,10 +27,6 @@ public class call_so_test {
 
     public interface Kunpeng extends Library {
         Kunpeng INSTANCE = (Kunpeng)Native.load("/Users/ppg/Downloads/kunpeng_darwin_v20190212/kunpeng_c.dylib", Kunpeng.class);
-        /*
-            启动服务器
-         */
-        public void StartWebServer();
 
         /*  配置设置，传入配置JSON，格式为：
            {
@@ -61,15 +57,6 @@ public class call_so_test {
             String resut = Kunpeng.INSTANCE.Check(task_json);
             System.out.println(resut);
             System.out.println("-==========");
-
-            Kunpeng.INSTANCE.StartWebServer();
-            while (true) {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-                    return;
-                }
-            }
 
     }
 }
