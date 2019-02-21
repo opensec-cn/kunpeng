@@ -116,7 +116,7 @@ type Greeter interface {
 	Check(taskJSON string) ([]map[string]string)
 	GetPlugins() []map[string]string
 	SetConfig(configJSON string)
-    ShowLog()
+    	ShowLog()
 }
 
 
@@ -270,7 +270,8 @@ func (d *redisWeakPass) Init() plugin.Plugin{
 		Author:  "wolf", // 插件编写作者
 	    	References: plugin.References{
 		    URL: "https://www.freebuf.com/vuls/162035.html", // 漏洞相关文章
-		    CVE: "", // CVE编号，没有留空
+		    CVE: "", // CVE编号，没有留空或不申明
+		    KPID: "KP-0008", // kunpeng的POC编号，累加数字
 		},
 	}
 	return d.info
@@ -337,6 +338,7 @@ func (d *webDavRCE) Init() plugin.Plugin{
 		References: plugin.References{
 			URL: "https://www.seebug.org/vuldb/ssvid-92834",
 			CVE: "CVE-2017-7269",
+			KPID: "KP-0009",
 		},
 	}
 	return d.info
@@ -389,7 +391,9 @@ func (d *webDavRCE) Check(URL string, meta plugin.TaskMeta) bool {
             "//": "漏洞相关文章",
             "url":"https://www.seebug.org/vuldb/ssvid-89179",
             "//": "CVE编号，没有留空",
-            "cve":""
+            "cve":"",
+	    "//": "kunpeng的POC编号，累加数字",
+	    "kpid":"KP-0003"
         }
     },
     "request":{
