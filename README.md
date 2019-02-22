@@ -5,12 +5,12 @@
 
 ## 简介
 
-Kunpeng是一个Golang编写的开源POC检测框架，集成了包括数据库、中间件、web组件、cms等等的漏洞POC，可检测弱口令、SQL注入、XSS、RCE等漏洞类型，以动态链接库的形式提供调用，通过此项目可快速对目标进行安全漏洞检测，比攻击者快一步发现风险漏洞。
+Kunpeng是一个Golang编写的开源POC检测框架，集成了包括数据库、中间件、web组件、cms等等的漏洞POC（[查看已收录POC列表](doc/plugin.md)），可检测弱口令、SQL注入、XSS、RCE等漏洞类型，以动态链接库的形式提供调用，通过此项目可快速对目标进行安全漏洞检测，比攻击者快一步发现风险漏洞。
 
 这不是一个POC框架轮子，而是为了解决轮子问题而设计的，也不仅仅只是框架，定位是期望成为一个大家共同维护的漏洞POC库，安全开发人员只需专注于相关安全检测系统的业务逻辑代码实现，而不必各自重复的耗费精力维护漏洞库。
 
 运行环境：Windows，Linux，Darwin  
-工作形态：动态链接库，so、dll、go plugin  
+工作形态：动态链接库，so、dll、dylib、go plugin  
 
 
 ## 特点
@@ -47,7 +47,7 @@ Kunpeng是一个Golang编写的开源POC检测框架，集成了包括数据库�
     {
         "type": "web", //目标类型web或者service
         "netloc": "http://xxx.com", //目标地址，web为URL，service格式为123.123.123.123:22
-        "target": "wordpress", //目标名称，GO插件注册时使用的字符串（模糊匹配）、JSON插件的target属性（模糊匹配）、CVE编号（例：CVE-xx-xxx）、KPID(例：KP-0013)编号，决定使用哪些POC进行检测
+        "target": "wordpress", //目标名称，GO插件注册时使用的字符串（模糊匹配）、JSON插件的target属性（模糊匹配）、CVE编号（例：CVE-xx-xxx）、KPID(例：KP-0013)编号，决定使用哪些POC进行检测，具体查看 /doc/plguin.md
         "meta":{
             "system": "windows",  //操作系统，部分漏洞检测方法不同系统存在差异，提供给插件进行判断
             "pathlist":[], //目录路径URL列表，部分插件需要此类信息，例如列目录漏洞插件
@@ -57,10 +57,10 @@ Kunpeng是一个Golang编写的开源POC检测框架，集成了包括数据库�
     }
     返回是否存在漏洞和漏洞检测结果
 */
-Check(taskJSON string) (bool, []map[string]string) 
+Check(taskJSON string) string
 
 // 获取插件列表信息
-GetPlugins() []map[string]string
+GetPlugins() string
 
 
 /*  配置设置，传入配置JSON，格式为：
@@ -81,103 +81,7 @@ StartWebServer(bindAddr string)
 ```
 
 ## 使用例子
-- Golang
-
-```go
-package main
-
-import "plugin"
-import "fmt"
-import "encoding/json"
-
-
-type config struct{
-	Timeout int	`json:"timeout"`
-	Aider string	`json:"aider"`
-	HTTPProxy string	`json:"httpproxy"`
-	PassList []string	`json:"passlist"`
-}
-
-type Meta struct{
-	System string `json:"system"`
-	PathList []string `json:"pathlist"`
-	FileList []string `json:"filelist"`
-	PassList []string `json:"passlist"`
-}
-
-type Task struct {
-	Type string `json:"type"`
-	Netloc string `json:"netloc"`
-	Target string `json:"target"`
-	Meta Meta `json:"meta"`
-}
-
-type Greeter interface {
-	Check(taskJSON string) ([]map[string]string)
-	GetPlugins() []map[string]string
-	SetConfig(configJSON string)
-    	ShowLog()
-}
-
-
-func main() {
-	plug, err := plugin.Open("./kunpeng_go.so")
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	symGreeter, err := plug.Lookup("Greeter")
-	if err != nil {
-		fmt.Println(err)
-		return
-	}
-	kunpeng, ok := symGreeter.(Greeter)
-	if !ok {
-		fmt.Println("unexpected type from module symbol")
-		return
-	}
-    // 获取插件信息
-	fmt.Println(kunpeng.GetPlugins())
-    
-    // 修改配置
-	c := &config{
-		Timeout: 15,
-		// Aider: "",
-		// HTTPProxy: "",
-		// PassList: []string{"ptest"},
-        // ExtraPluginPath: "/home/test/plugin/",
-	}
-	configJSONBytes, _ := json.Marshal(c)
-	kunpeng.SetConfig(string(configJSONBytes))
-    
-    // 开启日志打印
-	kunpeng.ShowLog()
-    
-    // 扫描目标
-	task := Task{
-		Type: "service",
-		Netloc: "192.168.0.105:3306",
-		Target: "mysql",
-		Meta : Meta{
-			PassList: []string{"ttest"},
-		},
-	}
-	task2 := Task{
-		Type: "web",
-		Netloc: "http://www.google.cn",
-		Target: "web",
-	}
-	jsonBytes, _ := json.Marshal(task)
-	result:= kunpeng.Check(string(jsonBytes))
-	fmt.Println(result)
-	jsonBytes, _ = json.Marshal(task2)
-	result= kunpeng.Check(string(jsonBytes))
-	fmt.Println(result)
-}
-
-```
-
-- python2
+Python
 
 ```python
 #coding:utf-8
@@ -231,7 +135,7 @@ print(json.loads(out))
 
 
 
-更多例子查看: [example] 目录，欢迎提交更多语言的调用样例。
+更多例子查看: [example] 目录，目前已提供python、golang、nodejs、lua、java的调用例子，欢迎提交更多语言的调用样例。
 
 
 
