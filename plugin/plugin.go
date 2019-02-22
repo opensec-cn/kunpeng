@@ -52,6 +52,14 @@ type Plugin struct {
 func init() {
 	GoPlugins = make(map[string][]GoPlugin)
 	JSONPlugins = make(map[string][]JSONPlugin)
+	welcome := `
+_
+| | ___   _ _ __  _ __   ___ _ __   __ _
+| |/ / | | | '_ \| '_ \ / _ \ '_ \ / _' |
+|   <| |_| | | | | |_) |  __/ | | | (_| |
+|_|\_\\__,_|_| |_| .__/ \___|_| |_|\__, |
+                 |_|               |___/`
+	fmt.Println(welcome)
 }
 
 func pluginRun(taskInfo Task, plugin GoPlugin) (result []map[string]interface{}) {
