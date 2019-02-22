@@ -2,6 +2,7 @@
 package plugin
 
 import (
+	"fmt"
 	"strings"
 
 	. "github.com/opensec-cn/kunpeng/config"

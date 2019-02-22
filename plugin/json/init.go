@@ -16,7 +16,7 @@ import (
 var extraPluginCache []string
 
 func init() {
-	util.Logger.Println("init json plugin")
+	// util.Logger.Println("init json plugin")
 	loadJSONPlugin(false, "/plugin/json/")
 	go loadExtraJSONPlugin()
 }
@@ -76,7 +76,7 @@ func loadJSONPlugin(useLocal bool, pluginPath string) {
 		if len(p.Meta.Name) == 0 || util.InArray(extraPluginCache, p.Meta.Name, false) {
 			continue
 		} else {
-			util.Logger.Println("init plugin:", p.Meta.References.KPID, p.Meta.Name)
+			// util.Logger.Println("init plugin:", p.Meta.References.KPID, p.Meta.Name)
 			plugin.JSONPlugins[p.Target] = append(plugin.JSONPlugins[p.Target], p)
 			extraPluginCache = append(extraPluginCache, p.Meta.Name)
 		}
