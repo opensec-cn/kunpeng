@@ -80,4 +80,5 @@
 | KP-0074 | WordPress Wpml Plugin XSS                               | wordpress  |                ||
 | KP-0075 | Jenkins Script Security and Pipeline RCE | jenkins | CVE-2019-1003000 |[vulhub](https://github.com/vulhub/vulhub/tree/master/jenkins/CVE-2017-1000353)|
 | KP-0076 | Socks5代理 未授权访问 | proxy | ||
+| KP-0077 | Struts2 s2-046 远程代码执行 | struts2 | CVE-2017-5638 |[vulapps](https://github.com/Medicean/VulApps/tree/master/s/struts2/s2-046)|
 
