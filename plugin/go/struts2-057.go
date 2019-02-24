@@ -49,12 +49,11 @@ func (d *struts2_57) Check(URL string, meta plugin.TaskMeta) bool {
 			}
 			request, err := http.NewRequest("GET", strings.Replace(url, "/"+m[1], poc, 1), nil)
 			if err != nil {
-				return false
+				continue
 			}
 			resp, err := util.RequestDo(request, true)
 			if err != nil {
-				util.Logger.Println(err.Error())
-				return false
+				continue
 			}
 			if strings.Contains(resp.Other.Request.URL.String(), "53333") {
 				result := d.info
