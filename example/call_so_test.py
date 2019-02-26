@@ -21,6 +21,9 @@ kunpeng.GetPlugins.restype = c_char_p
 kunpeng.Check.argtypes = [c_char_p]
 kunpeng.Check.restype = c_char_p
 kunpeng.SetConfig.argtypes = [c_char_p]
+kunpeng.GetVersion.restype = c_char_p
+
+print(kunpeng.GetVersion())
 
 # 获取插件信息
 out = kunpeng.GetPlugins()

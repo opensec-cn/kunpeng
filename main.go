@@ -2,14 +2,16 @@ package main
 
 import "C" // required
 import (
+	"encoding/json"
 	"github.com/opensec-cn/kunpeng/config"
 	"github.com/opensec-cn/kunpeng/plugin"
-	"github.com/opensec-cn/kunpeng/util"
 	_ "github.com/opensec-cn/kunpeng/plugin/go"
 	_ "github.com/opensec-cn/kunpeng/plugin/json"
+	"github.com/opensec-cn/kunpeng/util"
 	"github.com/opensec-cn/kunpeng/web"
-	"encoding/json"
 )
+
+var VERSION string
 
 type greeting string
 
@@ -31,6 +33,10 @@ func (g greeting) ShowLog() {
 	config.SetDebug(true)
 }
 
+func (g greeting) GetVersion() string {
+	return VERSION
+}
+
 //export StartWebServer
 func StartWebServer(bindAddr *C.char) {
 	go web.StartServer(C.GoString(bindAddr))
@@ -40,20 +46,20 @@ func StartWebServer(bindAddr *C.char) {
 func Check(task *C.char) *C.char {
 	util.Logger.Info(C.GoString(task))
 	var m plugin.Task
-    err := json.Unmarshal([]byte(C.GoString(task)), &m)
-    if err != nil {
+	err := json.Unmarshal([]byte(C.GoString(task)), &m)
+	if err != nil {
 		util.Logger.Error(err.Error())
-        return C.CString("[]")
+		return C.CString("[]")
 	}
 	util.Logger.Info(m)
 	result := plugin.Scan(m)
-	if len(result) == 0{
+	if len(result) == 0 {
 		return C.CString("[]")
 	}
 	b, err := json.Marshal(result)
-    if err != nil {
+	if err != nil {
 		util.Logger.Error(err.Error())
-        return C.CString("[]")
+		return C.CString("[]")
 	}
 	return C.CString(string(b))
 }
@@ -63,9 +69,9 @@ func GetPlugins() *C.char {
 	var result string
 	plugins := plugin.GetPlugins()
 	b, err := json.Marshal(plugins)
-    if err != nil {
-        util.Logger.Error(err.Error())
-        return C.CString("[]")
+	if err != nil {
+		util.Logger.Error(err.Error())
+		return C.CString("[]")
 	}
 	result = string(b)
 	return C.CString(result)
@@ -79,6 +85,11 @@ func SetConfig(configJSON *C.char) {
 //export ShowLog
 func ShowLog() {
 	config.SetDebug(true)
+}
+
+//export GetVersion
+func GetVersion() *C.char {
+	return C.CString(VERSION)
 }
 
 var Greeter greeting

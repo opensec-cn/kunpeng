@@ -328,10 +328,10 @@ go install ./vendor/github.com/mjibson/esc
 esc -include='\.json$' -o plugin/json/JSONPlugin.go -pkg jsonplugin plugin/json/
 
 # 编译c版本（所有语言均可使用）
-go build -buildmode=c-shared --ldflags="-w -s" -o kunpeng_c.so
+go build -buildmode=c-shared --ldflags="-w -s -X main.VERSION=20190226" -o kunpeng_c.so
 
 # 编译Go专用版本（不支持win）
-go build -buildmode=plugin --ldflags="-w -s" -o kunpeng_go.so
+go build -buildmode=plugin --ldflags="-w -s -X main.VERSION=20190226" -o kunpeng_go.so
 
 # 样例测试
 python example/call_so_test.py
