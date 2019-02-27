@@ -43,7 +43,7 @@ Kunpeng是一个Golang编写的开源POC检测框架，集成了包括数据库�
 ```go
 接口调用说明
 
-/*  发起任务，传入任务JSON，格式为：
+/*  传入需检测的目标JSON，格式为：
     {
         "type": "web", //目标类型web或者service
         "netloc": "http://xxx.com", //目标地址，web为URL，service格式为123.123.123.123:22
@@ -78,6 +78,10 @@ SetConfig(configJSON string)
 // 开启web接口，开启后可通过web接口进行调用，webapi调用格式请查看例子：/example/call_webapi_test.py
 StartWebServer(bindAddr string)
 
+// 获取当前版本 例如：20190227
+GetVersion() string
+
+
 ```
 
 ## 使用例子
@@ -98,6 +102,7 @@ kunpeng.GetPlugins.restype = c_char_p
 kunpeng.Check.argtypes = [c_char_p]
 kunpeng.Check.restype = c_char_p
 kunpeng.SetConfig.argtypes = [c_char_p]
+kunpeng.GetVersion.restype = c_char_p
 
 # 获取插件信息
 out = kunpeng.GetPlugins()
