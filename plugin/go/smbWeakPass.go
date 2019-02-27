@@ -2,6 +2,7 @@ package goplugin
 
 import (
 	"fmt"
+	"github.com/opensec-cn/kunpeng/util"
 	"strings"
 
 	"github.com/opensec-cn/kunpeng/plugin"
@@ -57,12 +58,16 @@ func (d *smbWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool) {
 		d.result = append(d.result, result)
 		return true
 	}
+	host, port := util.ParseNetLoc(netloc)
+	if port == 0 {
+		port = 445
+	}
 	for _, user := range userList {
 		for _, pass := range meta.PassList {
 			pass = strings.Replace(pass, "{user}", user, -1)
 			options := smb.Options{
-				Host:        strings.Split(netloc, ":")[0],
-				Port:        445,
+				Host:        host,
+				Port:        port,
 				User:        user,
 				Domain:      "",
 				Workstation: "workgroup",

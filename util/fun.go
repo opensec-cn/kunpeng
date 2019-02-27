@@ -8,6 +8,8 @@ import (
 	"log"
 	"math/rand"
 	"regexp"
+	"strconv"
+	"strings"
 	"time"
 )
 
@@ -60,4 +62,17 @@ func InArray(list []string, value string, regex bool) bool {
 		}
 	}
 	return false
+}
+
+// ParseNetloc 把 netloc 拆分为 host 和 port, 如果有的话
+func ParseNetLoc(netloc string) (host string, port int) {
+	results := strings.SplitN(netloc, ":", 2)
+	if len(results) == 1 {
+		return results[0],  0
+	}
+	port, err := strconv.Atoi(results[1])
+	if err != nil {
+		return results[0], 0
+	}
+	return results[0], port
 }

@@ -3,12 +3,11 @@ package plugin
 
 import (
 	"fmt"
+	. "github.com/opensec-cn/kunpeng/config"
+	"github.com/opensec-cn/kunpeng/util"
 	"sort"
 	"strconv"
 	"strings"
-
-	. "github.com/opensec-cn/kunpeng/config"
-	"github.com/opensec-cn/kunpeng/util"
 )
 
 // GoPlugins GO插件集

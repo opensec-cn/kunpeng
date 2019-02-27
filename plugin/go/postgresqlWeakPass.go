@@ -3,6 +3,7 @@ package goplugin
 import (
 	"database/sql"
 	"fmt"
+	"github.com/opensec-cn/kunpeng/util"
 	"strings"
 
 	_ "github.com/lib/pq"
@@ -42,11 +43,15 @@ func (d *postgresqlWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool)
 	userList := []string{
 		"postgres", "admin",
 	}
+	host, port := util.ParseNetLoc(netloc)
+	if port == 0 {
+		port = 5432
+	}
 	for _, user := range userList {
 		for _, pass := range meta.PassList {
 			pass = strings.Replace(pass, "{user}", user, -1)
-			connStr := fmt.Sprintf("host=%s port=%s user=%s password=%s sslmode=disable connect_timeout=%d",
-				strings.Split(netloc, ":")[0], strings.Split(netloc, ":")[1], user, pass, Config.Timeout)
+			connStr := fmt.Sprintf("host=%s port=%d user=%s password=%s sslmode=disable connect_timeout=%d",
+				host, port, user, pass, Config.Timeout)
 			db, err := sql.Open("postgres", connStr)
 			err = db.Ping()
 			if err == nil {
