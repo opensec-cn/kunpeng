@@ -36,7 +36,10 @@ func (d *directoryBrowse) GetResult() []plugin.Plugin {
 	return d.result
 }
 func (d *directoryBrowse) Check(URL string, meta plugin.TaskMeta) bool {
-	u, _ := url.Parse(URL)
+	u, err := url.Parse(URL)
+	if err != nil {
+		return false
+	}
 	flagList := []string{
 		`<title>index of \/`,
 		`<title>directory listing for`,
