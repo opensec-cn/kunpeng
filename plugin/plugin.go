@@ -60,15 +60,30 @@ _
 | |/ / | | | '_ \| '_ \ / _ \ '_ \ / _' |
 |   <| |_| | | | | |_) |  __/ | | | (_| |
 |_|\_\\__,_|_| |_| .__/ \___|_| |_|\__, |
-                 |_|               |___/`
+				 |_|               |___/
+`
 	fmt.Println(welcome)
+}
+func Try(fun func(), handler func(interface{})) {
+	defer func() {
+		if err := recover(); err != nil {
+			handler(err)
+		}
+	}()
+	fun()
 }
 
 func pluginRun(taskInfo Task, plugin GoPlugin) (result []map[string]interface{}) {
 	if len(taskInfo.Meta.PassList) == 0 {
 		taskInfo.Meta.PassList = Config.PassList
 	}
-	if !plugin.Check(taskInfo.Netloc, taskInfo.Meta) {
+	var hasVul bool
+	Try(func() {
+		hasVul = plugin.Check(taskInfo.Netloc, taskInfo.Meta)
+	}, func(e interface{}) {
+		util.Logger.Println("panic", e)
+	})
+	if hasVul == false {
 		return
 	}
 	for _, res := range plugin.GetResult() {
