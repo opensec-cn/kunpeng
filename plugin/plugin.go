@@ -55,16 +55,17 @@ func init() {
 	GoPlugins = make(map[string][]GoPlugin)
 	JSONPlugins = make(map[string][]JSONPlugin)
 	welcome := `
-_
+ _
 | | ___   _ _ __  _ __   ___ _ __   __ _
 | |/ / | | | '_ \| '_ \ / _ \ '_ \ / _' |
 |   <| |_| | | | | |_) |  __/ | | | (_| |
 |_|\_\\__,_|_| |_| .__/ \___|_| |_|\__, |
-				 |_|               |___/
+                 |_|               |___/
 `
 	fmt.Println(welcome)
 }
-func Try(fun func(), handler func(interface{})) {
+
+func try(fun func(), handler func(interface{})) {
 	defer func() {
 		if err := recover(); err != nil {
 			handler(err)
@@ -78,7 +79,7 @@ func pluginRun(taskInfo Task, plugin GoPlugin) (result []map[string]interface{})
 		taskInfo.Meta.PassList = Config.PassList
 	}
 	var hasVul bool
-	Try(func() {
+	try(func() {
 		hasVul = plugin.Check(taskInfo.Netloc, taskInfo.Meta)
 	}, func(e interface{}) {
 		util.Logger.Println("panic", e)

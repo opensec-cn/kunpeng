@@ -59,6 +59,7 @@ func (d *directoryBrowse) Check(URL string, meta plugin.TaskMeta) bool {
 			result := d.info
 			result.Response = resp.ResponseRaw
 			result.Request = resp.RequestRaw
+			result.Remarks = "path: " + pathURL + " " + result.Remarks
 			d.result = append(d.result, result)
 			return true
 		}
