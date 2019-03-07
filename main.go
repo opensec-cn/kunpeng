@@ -92,6 +92,16 @@ func GetVersion() *C.char {
 	return C.CString(VERSION)
 }
 
+//export StartBuffer
+func StartBuffer() {
+	util.Logger.StartBuffer()
+}
+
+//export BufferContent
+func BufferContent(sep *C.char) *C.char {
+	return C.CString(util.Logger.BufferContent(C.GoString(sep)))
+}
+
 var Greeter greeting
 
 func main() {}
