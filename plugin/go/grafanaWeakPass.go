@@ -32,7 +32,9 @@ func (d *grafanaWeakPass) Init() plugin.Plugin {
 	return d.info
 }
 func (d *grafanaWeakPass) GetResult() []plugin.Plugin {
-	return d.result
+	var result = d.result
+	d.result = []plugin.Plugin{}
+	return result
 }
 func (d *grafanaWeakPass) Check(URL string, meta plugin.TaskMeta) bool {
 	for _, pass := range meta.PassList {

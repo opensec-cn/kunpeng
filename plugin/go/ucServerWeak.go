@@ -31,7 +31,9 @@ func (d *ucServerWeak) Init() plugin.Plugin {
 	return d.info
 }
 func (d *ucServerWeak) GetResult() []plugin.Plugin {
-	return d.result
+	var result = d.result
+	d.result = []plugin.Plugin{}
+	return result
 }
 func (d *ucServerWeak) Check(URL string, meta plugin.TaskMeta) bool {
 	for _, pass := range meta.PassList {

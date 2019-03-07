@@ -32,7 +32,9 @@ func (d *wordPressMailpressRCE) Init() plugin.Plugin {
 	return d.info
 }
 func (d *wordPressMailpressRCE) GetResult() []plugin.Plugin {
-	return d.result
+	var result = d.result
+	d.result = []plugin.Plugin{}
+	return result
 }
 func (d *wordPressMailpressRCE) Check(URL string, meta plugin.TaskMeta) bool {
 	poc := "/wp-content/plugins/mailpress/mp-includes/action.php"

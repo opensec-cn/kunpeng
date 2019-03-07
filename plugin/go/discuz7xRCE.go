@@ -32,7 +32,9 @@ func (d *discuz7xRCE) Init() plugin.Plugin {
 	return d.info
 }
 func (d *discuz7xRCE) GetResult() []plugin.Plugin {
-	return d.result
+	var result = d.result
+	d.result = []plugin.Plugin{}
+	return result
 }
 func (d *discuz7xRCE) getTIDList(URL string) (tIDList []string) {
 	request, err := http.NewRequest("GET", URL, nil)

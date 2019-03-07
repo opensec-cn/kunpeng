@@ -32,7 +32,9 @@ func (d *webDavRCE) Init() plugin.Plugin {
 	return d.info
 }
 func (d *webDavRCE) GetResult() []plugin.Plugin {
-	return d.result
+	var result = d.result
+	d.result = []plugin.Plugin{}
+	return result
 }
 func (d *webDavRCE) Check(URL string, meta plugin.TaskMeta) bool {
 	request, err := http.NewRequest("OPTIONS", URL, nil)

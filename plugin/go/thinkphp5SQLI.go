@@ -34,7 +34,9 @@ func (d *thinkphp5SQLIResult) Init() plugin.Plugin {
 }
 
 func (d *thinkphp5SQLIResult) GetResult() []plugin.Plugin {
-	return d.result
+	var result = d.result
+	d.result = []plugin.Plugin{}
+	return result
 }
 
 func (d *thinkphp5SQLIResult) Check(URL string, meta plugin.TaskMeta) bool {

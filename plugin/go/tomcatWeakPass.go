@@ -32,7 +32,9 @@ func (d *tomcatWeakPass) Init() plugin.Plugin {
 	return d.info
 }
 func (d *tomcatWeakPass) GetResult() []plugin.Plugin {
-	return d.result
+	var result = d.result
+	d.result = []plugin.Plugin{}
+	return result
 }
 func (d *tomcatWeakPass) Check(URL string, meta plugin.TaskMeta) bool {
 	userList := []string{

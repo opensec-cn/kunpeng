@@ -31,7 +31,9 @@ func (d *wordPressWeak) Init() plugin.Plugin {
 	return d.info
 }
 func (d *wordPressWeak) GetResult() []plugin.Plugin {
-	return d.result
+	var result = d.result
+	d.result = []plugin.Plugin{}
+	return result
 }
 func (d *wordPressWeak) getUserList(URL string) (userList []string) {
 	errorFlag := "error-404 not-found"

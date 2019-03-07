@@ -34,7 +34,9 @@ func (d *zabbixLatestSQL) Init() plugin.Plugin {
 	return d.info
 }
 func (d *zabbixLatestSQL) GetResult() []plugin.Plugin {
-	return d.result
+	var result = d.result
+	d.result = []plugin.Plugin{}
+	return result
 }
 func (d *zabbixLatestSQL) Check(URL string, meta plugin.TaskMeta) bool {
 	request, err := http.NewRequest("GET", URL+"/dashboard.php", nil)

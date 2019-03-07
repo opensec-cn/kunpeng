@@ -33,7 +33,9 @@ func (d *struts2_20) Init() plugin.Plugin {
 	return d.info
 }
 func (d *struts2_20) GetResult() []plugin.Plugin {
-	return d.result
+	var result = d.result
+	d.result = []plugin.Plugin{}
+	return result
 }
 func (d *struts2_20) Check(URL string, meta plugin.TaskMeta) (b bool) {
 	poc := "class[%27classLoader%27][%27jarPath%27]=1024"

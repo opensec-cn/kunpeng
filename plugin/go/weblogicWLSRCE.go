@@ -33,7 +33,9 @@ func (d *weblogicWLSRCE) Init() plugin.Plugin {
 	return d.info
 }
 func (d *weblogicWLSRCE) GetResult() []plugin.Plugin {
-	return d.result
+	var result = d.result
+	d.result = []plugin.Plugin{}
+	return result
 }
 func (d *weblogicWLSRCE) Check(URL string, meta plugin.TaskMeta) bool {
 	if util.GetAiderNetloc() == "" {

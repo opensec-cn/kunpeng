@@ -32,7 +32,9 @@ func (d *sshWeakPass) Init() plugin.Plugin {
 	return d.info
 }
 func (d *sshWeakPass) GetResult() []plugin.Plugin {
-	return d.result
+	var result = d.result
+	d.result = []plugin.Plugin{}
+	return result
 }
 func (d *sshWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool) {
 	if strings.IndexAny(netloc, "http") == 0 {

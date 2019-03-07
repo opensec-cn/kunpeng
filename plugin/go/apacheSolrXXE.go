@@ -32,7 +32,9 @@ func (d *apacheSolrXXE) Init() plugin.Plugin {
 	return d.info
 }
 func (d *apacheSolrXXE) GetResult() []plugin.Plugin {
-	return d.result
+	var result = d.result
+	d.result = []plugin.Plugin{}
+	return result
 }
 func (d *apacheSolrXXE) Check(URL string, meta plugin.TaskMeta) bool {
 	if util.GetAiderNetloc() == "" {

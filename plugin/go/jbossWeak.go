@@ -31,7 +31,9 @@ func (d *jbossWeak) Init() plugin.Plugin {
 	return d.info
 }
 func (d *jbossWeak) GetResult() []plugin.Plugin {
-	return d.result
+	var result = d.result
+	d.result = []plugin.Plugin{}
+	return result
 }
 func (d *jbossWeak) Check(URL string, meta plugin.TaskMeta) bool {
 	loginURLList := []string{

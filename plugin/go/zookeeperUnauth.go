@@ -30,7 +30,9 @@ func (d *zookeeperUnauth) Init() plugin.Plugin {
 	return d.info
 }
 func (d *zookeeperUnauth) GetResult() []plugin.Plugin {
-	return d.result
+	var result = d.result
+	d.result = []plugin.Plugin{}
+	return result
 }
 func (d *zookeeperUnauth) Check(netloc string, meta plugin.TaskMeta) bool {
 	if strings.IndexAny(netloc, "http") == 0 {

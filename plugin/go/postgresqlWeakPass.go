@@ -34,7 +34,9 @@ func (d *postgresqlWeakPass) Init() plugin.Plugin {
 	return d.info
 }
 func (d *postgresqlWeakPass) GetResult() []plugin.Plugin {
-	return d.result
+	var result = d.result
+	d.result = []plugin.Plugin{}
+	return result
 }
 func (d *postgresqlWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool) {
 	if strings.IndexAny(netloc, "http") == 0 {

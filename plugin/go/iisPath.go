@@ -30,7 +30,9 @@ func (d *iisPath) Init() plugin.Plugin {
 	return d.info
 }
 func (d *iisPath) GetResult() []plugin.Plugin {
-	return d.result
+	var result = d.result
+	d.result = []plugin.Plugin{}
+	return result
 }
 func (d *iisPath) Check(URL string, meta plugin.TaskMeta) bool {
 	request400, err := http.NewRequest("GET", URL+"/404-test.asp", nil)

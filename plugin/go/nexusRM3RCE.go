@@ -33,7 +33,9 @@ func (d *nexusRCE) Init() plugin.Plugin {
 	return d.info
 }
 func (d *nexusRCE) GetResult() []plugin.Plugin {
-	return d.result
+	var result = d.result
+	d.result = []plugin.Plugin{}
+	return result
 }
 func (d *nexusRCE) Check(URL string, meta plugin.TaskMeta) bool {
 	if util.GetAiderNetloc() == "" {

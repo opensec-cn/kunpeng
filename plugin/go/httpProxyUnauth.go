@@ -34,7 +34,9 @@ func (d *httpProxyUnauth) Init() plugin.Plugin {
 	return d.info
 }
 func (d *httpProxyUnauth) GetResult() []plugin.Plugin {
-	return d.result
+	var result = d.result
+	d.result = []plugin.Plugin{}
+	return result
 }
 func (d *httpProxyUnauth) Check(netloc string, meta plugin.TaskMeta) bool {
 	var proxyURL string

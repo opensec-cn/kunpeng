@@ -32,7 +32,9 @@ func (d *shellShock) Init() plugin.Plugin {
 	return d.info
 }
 func (d *shellShock) GetResult() []plugin.Plugin {
-	return d.result
+	var result = d.result
+	d.result = []plugin.Plugin{}
+	return result
 }
 func (d *shellShock) Check(URL string, meta plugin.TaskMeta) bool {
 	if meta.System == "windows" {

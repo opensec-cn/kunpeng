@@ -30,7 +30,9 @@ func (d *iisShortFile) Init() plugin.Plugin {
 	return d.info
 }
 func (d *iisShortFile) GetResult() []plugin.Plugin {
-	return d.result
+	var result = d.result
+	d.result = []plugin.Plugin{}
+	return result
 }
 func (d *iisShortFile) Check(URL string, meta plugin.TaskMeta) bool {
 	request400, err := http.NewRequest("GET", URL+"/otua*~1.*/.aspx", nil)

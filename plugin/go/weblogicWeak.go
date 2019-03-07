@@ -32,7 +32,9 @@ func (d *weblogicWeak) Init() plugin.Plugin {
 	return d.info
 }
 func (d *weblogicWeak) GetResult() []plugin.Plugin {
-	return d.result
+	var result = d.result
+	d.result = []plugin.Plugin{}
+	return result
 }
 func (d *weblogicWeak) Check(URL string, meta plugin.TaskMeta) bool {
 	loginURL := URL + "/console/j_security_check"

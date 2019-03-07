@@ -32,7 +32,9 @@ func (d *activemqUpload) Init() plugin.Plugin {
 	return d.info
 }
 func (d *activemqUpload) GetResult() []plugin.Plugin {
-	return d.result
+	var result = d.result
+	d.result = []plugin.Plugin{}
+	return result
 }
 func (d *activemqUpload) Check(URL string, meta plugin.TaskMeta) bool {
 	putURL := URL + "/fileserver/" + util.GetRandomString(6) + ".txt"

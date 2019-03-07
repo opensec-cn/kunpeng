@@ -187,7 +187,9 @@ func (d *redisWeakPass) Init() plugin.Plugin{
 }
 
 func (d *redisWeakPass) GetResult() []plugin.Plugin {
-	return d.result
+	var result = d.result
+	d.result = []plugin.Plugin{}
+	return result
 }
 
 func (d *redisWeakPass) Check(netloc string, meta plugin.TaskMeta) bool {
@@ -254,7 +256,9 @@ func (d *webDavRCE) Init() plugin.Plugin{
 }
 
 func (d *webDavRCE) GetResult() []plugin.Plugin {
-	return d.result
+	var result = d.result
+	d.result = []plugin.Plugin{}
+	return result
 }
 
 func (d *webDavRCE) Check(URL string, meta plugin.TaskMeta) bool {
