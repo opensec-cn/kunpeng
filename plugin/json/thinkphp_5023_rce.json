@@ -18,6 +18,6 @@
     },
     "verify":{
         "type":  "string",
-        "match": "string(4) \"pGiopzVOki1L\""
+        "match": "string(12) \"pGiopzVOki1L\""
     }
 }
