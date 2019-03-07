@@ -37,6 +37,14 @@ func (g greeting) GetVersion() string {
 	return VERSION
 }
 
+func (g greeting) StartBuffer() {
+	util.Logger.StartBuffer()
+}
+
+func (g greeting) GetLog(sep string) string {
+	return util.Logger.BufferContent(sep)
+}
+
 //export StartWebServer
 func StartWebServer(bindAddr *C.char) {
 	go web.StartServer(C.GoString(bindAddr))
@@ -97,8 +105,8 @@ func StartBuffer() {
 	util.Logger.StartBuffer()
 }
 
-//export BufferContent
-func BufferContent(sep *C.char) *C.char {
+//export GetLog
+func GetLog(sep *C.char) *C.char {
 	return C.CString(util.Logger.BufferContent(C.GoString(sep)))
 }
 
