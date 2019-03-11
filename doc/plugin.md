@@ -82,4 +82,8 @@
 | KP-0076 | Socks5代理 未授权访问 | proxy | ||
 | KP-0077 | Struts2 s2-046 远程代码执行 | struts2 | CVE-2017-5638 |[vulapps](https://github.com/Medicean/VulApps/tree/master/s/struts2/s2-046)|
 | KP-0078 | Struts2 s2-057 远程代码执行 | struts2 | CVE-2018-11776 |[vulapps](https://github.com/Medicean/VulApps/tree/master/s/struts2/s2-057)|
+| KP-0079 | ThinkPHP5 5.0.23 远程代码执行 | thinkphp |  |[vulhub](https://github.com/vulhub/vulhub/tree/master/thinkphp/5.0.23-rce)|
+| KP-0080 | Apache Solr ConfigAPI 远程代码执行 | solr | CVE-2019-0192 ||
+
+
 
