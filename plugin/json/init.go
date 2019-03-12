@@ -5,6 +5,7 @@ import (
 	. "github.com/opensec-cn/kunpeng/config"
 	"github.com/opensec-cn/kunpeng/plugin"
 	"github.com/opensec-cn/kunpeng/util"
+	"io"
 	"io/ioutil"
 	"net/http"
 	"os"
@@ -63,6 +64,9 @@ func loadJSONPlugin(useLocal bool, pluginPath string) {
 		}
 	}
 	fileList, err := f.Readdir(2000)
+	if err == io.EOF {
+		return
+	}
 	if err != nil {
 		util.Logger.Error(err.Error(), pluginPath)
 		return
