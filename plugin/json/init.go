@@ -43,6 +43,7 @@ func readPlugin(useLocal bool, filePath string) (p plugin.JSONPlugin, ok bool) {
 		util.Logger.Error(err.Error(), string(pluginBytes))
 		return p, false
 	}
+	p.Extra = useLocal
 	return p, true
 }
 
@@ -67,20 +68,55 @@ func loadJSONPlugin(useLocal bool, pluginPath string) {
 		util.Logger.Error(err.Error(), pluginPath)
 		return
 	}
+	var extarPluginNameList []string
 	for _, v := range fileList {
 		p, ok := readPlugin(useLocal, pluginPath+v.Name())
 		if !ok {
 			continue
 		}
+		if p.Extra == true {
+			extarPluginNameList = append(extarPluginNameList, p.Meta.Name)
+		}
 		// 防止重复加载
 		if len(p.Meta.Name) == 0 || util.InArray(extraPluginCache, p.Meta.Name, false) {
 			continue
 		} else {
-			// util.Logger.Println("init plugin:", p.Meta.References.KPID, p.Meta.Name)
+			if useLocal == true {
+				util.Logger.Warning("init plugin:", p.Meta.References.KPID, p.Meta.Name)
+			}
 			plugin.JSONPlugins[p.Target] = append(plugin.JSONPlugins[p.Target], p)
 			extraPluginCache = append(extraPluginCache, p.Meta.Name)
 		}
 	}
+	ExtarPluginList := getExtarPluginList()
+	for _, v := range ExtarPluginList {
+		if util.InArray(extarPluginNameList, v.Meta.Name, false) == false {
+			util.Logger.Warning("delete plugin:", v.Meta.Name)
+			plugin.JSONPlugins[v.Target] = getNewPluginList(plugin.JSONPlugins[v.Target], v.Meta.Name)
+			util.DeleteSliceValue(&extraPluginCache, v.Meta.Name)
+		}
+	}
+}
+
+func getExtarPluginList() (ExtarPluginList []plugin.JSONPlugin) {
+	for _, v := range plugin.JSONPlugins {
+		for _, p := range v {
+			if p.Extra == true {
+				ExtarPluginList = append(ExtarPluginList, p)
+			}
+		}
+	}
+	return ExtarPluginList
+}
+
+func getNewPluginList(oldPluginList []plugin.JSONPlugin, name string) []plugin.JSONPlugin {
+	newPluginList := make([]plugin.JSONPlugin, 0, len(oldPluginList))
+	for _, p := range oldPluginList {
+		if p.Meta.Name != name {
+			newPluginList = append(newPluginList, p)
+		}
+	}
+	return newPluginList
 }
 
 func loadExtraJSONPlugin() {

@@ -68,11 +68,22 @@ func InArray(list []string, value string, regex bool) bool {
 func ParseNetLoc(netloc string) (host string, port int) {
 	results := strings.SplitN(netloc, ":", 2)
 	if len(results) == 1 {
-		return results[0],  0
+		return results[0], 0
 	}
 	port, err := strconv.Atoi(results[1])
 	if err != nil {
 		return results[0], 0
 	}
 	return results[0], port
+}
+
+// DeleteSliceValue 删除切片里指定的值
+func DeleteSliceValue(list *[]string, value string) {
+	newList := make([]string, 0, len(*list))
+	for _, v := range *list {
+		if v != value {
+			newList = append(newList, v)
+		}
+	}
+	*list = newList
 }

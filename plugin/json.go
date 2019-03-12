@@ -20,6 +20,7 @@ type JSONPlugin struct {
 		Type  string `json:"type"`
 		Match string `json:"match"`
 	} `json:"verify"`
+	Extra bool
 }
 
 // jsonCheck JSON插件漏洞检测
