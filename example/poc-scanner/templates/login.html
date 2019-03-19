@@ -1,0 +1,98 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- This file has been downloaded from Bootsnipp.com. Enjoy! -->
+<title>登录到Poc Scanner </title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+<script src="//cdn.bootcss.com/jquery/1.11.1/jquery.js"></script>
+<script src="//cdn.bootcss.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="//cdn.bootcss.com/sweetalert/2.1.2/sweetalert.min.js"></script>
+<script src="/static/js/md5.min.js"></script>
+
+</script>
+
+</head>
+<body>
+
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="javascript:;">Poc Scanner</a>
+    </div>
+ </div>
+
+</nav>
+<div class="container" style="margin-top:230px;">
+  <div class="row">
+    <div class="col-md-4 col-md-offset-4">
+      <div class="panel panel-default" id="loginpanel">
+
+        <div class="panel-heading">
+          <h3 class="panel-title">登录到 Poc Scanner </h3>
+        </div>
+
+        <div class="panel-body">
+  
+          <form accept-charset="UTF-8" role="form">
+            <fieldset>
+              <div class="form-group">
+                <input class="form-control" placeholder="用户名" name="email" type="text">
+              </div>
+              <div class="form-group">
+                <input class="form-control" placeholder="密码" name="password" type="password" value="">
+              </div>
+              <div class="checkbox">
+              <label>
+                <input name="remember" type="checkbox" value="Remember Me"> Remember Me
+              </label>
+              </div>
+              <input id="login" class="btn btn-lg btn-primary btn-block" type="button" value="登录">
+            </fieldset>
+          </form>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+$(function(){
+
+    function realLogin(){
+        var username = $("input[name=email]").val();
+        var p = md5($("input[name=password]").val());
+        $.post("/api/user/auth",{u:username,p:p},function(data){
+            if(data == "ok") {
+                location.href = "/"; 
+            } else {
+                swal({
+                    title:"登录错误",
+                    text:"用户名密码错！",
+                    icon:"error"
+                })
+            }
+        });
+        return false;  
+    }
+
+    $("#login").click(realLogin);    
+
+    $("input[name=password]").keyup(function(e){
+        if(e.keyCode == 13){
+            realLogin(); 
+        } 
+    });;
+});
+</script>
+</body>
+
+
+</html>
+

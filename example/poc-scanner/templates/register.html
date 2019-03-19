@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>北冥有鱼，其名为鲲</title>
+        <meta name="description" content="" />
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
+        <script src="//cdn.bootcss.com/jquery/1.11.1/jquery.js"></script>
+        <script src="//cdn.bootcss.com/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <link href="//cdn.bootcss.com/codemirror/5.43.0/codemirror.min.css" rel="stylesheet">
+        <script src="//cdn.bootcss.com/codemirror/5.43.0/codemirror.min.js"></script>
+
+        <link href="//cdn.bootcss.com/codemirror/5.43.0/theme/blackboard.min.css" rel="stylesheet">
+        <script src="//cdn.bootcss.com/codemirror/5.43.0/mode/javascript/javascript.min.js"></script>
+        <style>
+            .CodeMirror {
+                height:500px;
+            }
+        </style>
+    </head>
+    <body>
+
+        {% include navbar.html %}
+
+        <div class="panel panel-default"> 
+            <div class="panel-heading">鲲之大，不知其几千里也! 如果列表为空，可能cdn资源没有加载到，请检查网络</div> 
+            <div class="panel-body">
+                <form class="form-horizontal" action="" method="post">
+                     <div class="form-group">
+                        <textarea class="form-control" id="code" name="code" ></textarea>
+                     </div>
+                    <input class="btn btn-default" type="submit" value="提交">
+                </form>
+            </div>
+        </div>
+        <script>
+            $(function(){
+                var options = {
+                    lineNumbers:true,
+                    mode:{
+                        name:'text/javascript'
+                    },
+                    theme:'blackboard',
+                };
+                var editor = CodeMirror.fromTextArea(document.getElementById("code"),options); 
+                editor.setValue("{\n\t\"target\":\"\",\n\t\"meta\":{\n\t\t\"name\":\"\",\n\t\t\"remarks\": \"\",\n\t\t\"level\":3,\n\t\t\"type\":\"\",\n\t\t\"author\":\"\",\n\t\t\"references\":{\n\t\t\t\"url\":\"\",\n\t\t\t\"cve\":\"\",\n\t\t\t\"kpid\":\"\"\n\t\t}\n\t},\n\t\"request\":{\n\t\t\"path\":\"\",\n\t\t\"postData\": \"\"\n\t},\n\t\"verify\":{\n\t\t\"type\":  \"string\",\n\t\t\"match\": \"\"\n\t}\n}"); 
+            });
+        </script>
+    </body>
+</html>
