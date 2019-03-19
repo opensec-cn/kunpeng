@@ -21,7 +21,7 @@ func (d *webServerLFI) Init() plugin.Plugin {
 		Name:    "WebServer 任意文件读取",
 		Remarks: "web容器对请求处理不当，可能导致可以任意文件读取(例：GET ../../../../../etc/passwd)",
 		Level:   1,
-		Type:    "LFI",
+		Type:    "LFR",
 		Author:  "wolf",
 		References: plugin.References{
 			URL:  "https://www.secpulse.com/archives/4276.html",
