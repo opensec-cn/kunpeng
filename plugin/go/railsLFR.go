@@ -54,7 +54,6 @@ func (d *railsLFR) Check(URL string, meta plugin.TaskMeta) bool {
 	if err != nil {
 		return false
 	}
-	util.Logger.Info(resp.ResponseRaw)
 	if strings.Contains(resp.ResponseRaw, "root:x:") && strings.Contains(resp.ResponseRaw, "bin/nologin") {
 		result := d.info
 		result.Response = resp.ResponseRaw
