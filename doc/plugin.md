@@ -86,6 +86,7 @@
 | KP-0080 | Apache Solr ConfigAPI 远程代码执行 | solr | CVE-2019-0192 ||
 | KP-0081 | Ruby on Rails 任意文件读取漏洞 | rails | CVE-2019-5418 |[vulhub](https://github.com/vulhub/vulhub/tree/master/rails/CVE-2019-5418)|
 | KP-0082 | Gitlab OAuth Jira blind SSRF | gitlab | CVE-2019-6793 ||
+| KP-0083 | Atlassian Confluence Widget Connector macro RCE | confluence | CVE-2019-3396 |[dockerhub](https://hub.docker.com/r/atlassian/confluence-server)|
 
 
 
