@@ -2,16 +2,15 @@ package util
 
 import (
 	"crypto/tls"
+	. "github.com/opensec-cn/kunpeng/config"
 	"io/ioutil"
 	"net"
-	"net/url"
 	"net/http"
 	"net/http/cookiejar"
 	"net/http/httputil"
-	. "github.com/opensec-cn/kunpeng/config"
+	"net/url"
 	"time"
 )
-
 
 var client *http.Client
 
@@ -26,7 +25,8 @@ type Resp struct {
 func init() {
 	jar, _ := cookiejar.New(nil)
 	transport := &http.Transport{
-		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+		TLSClientConfig:   &tls.Config{InsecureSkipVerify: true},
+		DisableKeepAlives: true,
 	}
 	client = &http.Client{
 		Transport: transport,
@@ -36,18 +36,20 @@ func init() {
 }
 
 // setProxy 根据配置信息设置http代理
-func setProxy(){
+func setProxy() {
 	if Config.HTTPProxy == "" {
 		client.Transport = &http.Transport{
-			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+			TLSClientConfig:   &tls.Config{InsecureSkipVerify: true},
+			DisableKeepAlives: true,
 		}
 	} else {
 		proxy := func(_ *http.Request) (*url.URL, error) {
 			return url.Parse(Config.HTTPProxy)
 		}
 		transport := &http.Transport{
-			Proxy:           proxy,
-			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+			Proxy:             proxy,
+			TLSClientConfig:   &tls.Config{InsecureSkipVerify: true},
+			DisableKeepAlives: true,
 		}
 		client.Transport = transport
 	}
@@ -72,7 +74,7 @@ func RequestDo(request *http.Request, hasRaw bool) (Resp, error) {
 		Logger.Error(err.Error())
 		return result, err
 	}
-	Logger.Info("response code:", result.Other.StatusCode, "len:",result.Other.ContentLength)
+	Logger.Info("response code:", result.Other.StatusCode, "len:", result.Other.ContentLength)
 	defer result.Other.Body.Close()
 	if hasRaw {
 		ResponseOut, err := httputil.DumpResponse(result.Other, true)
@@ -85,14 +87,14 @@ func RequestDo(request *http.Request, hasRaw bool) (Resp, error) {
 }
 
 // TCPSend 指定目标发送tcp报文，返回结果（仅适用于一次交互即可判断漏洞的场景）
-func TCPSend(netloc string, data []byte)([]byte ,error){
-	conn, err := net.DialTimeout("tcp", netloc, time.Second * time.Duration(Config.Timeout))
+func TCPSend(netloc string, data []byte) ([]byte, error) {
+	conn, err := net.DialTimeout("tcp", netloc, time.Second*time.Duration(Config.Timeout))
 	if err != nil {
 		return nil, err
 	}
 	defer conn.Close()
 	Logger.Info("tcp send", len(data))
-	_ , err = conn.Write(data)
+	_, err = conn.Write(data)
 	if err != nil {
 		return nil, err
 	}
