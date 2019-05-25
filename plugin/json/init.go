@@ -63,6 +63,7 @@ func loadJSONPlugin(useLocal bool, pluginPath string) {
 			return
 		}
 	}
+	defer f.Close()
 	fileList, err := f.Readdir(2000)
 	if err != nil {
 		util.Logger.Error(err.Error(), pluginPath)
