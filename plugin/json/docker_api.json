@@ -13,11 +13,11 @@
         }
     },
     "request":{
-        "path":     "/containers/json",
+        "path":     "/info",
         "postData": ""
     },
     "verify":{
         "type":  "string",
-        "match": "HostConfig"
+        "match": "ContainersRunning"
     }
 }
