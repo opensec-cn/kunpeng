@@ -89,4 +89,4 @@
 | KP-0083 | Atlassian Confluence Widget Connector macro RCE | confluence | CVE-2019-3396 |[dockerhub](https://hub.docker.com/r/atlassian/confluence-server)|
 | KP-0084 | Microsoft Remote Desktop RCE | rdp | CVE-2019-0708 ||
 | KP-0085 | coremail 配置文件读取 | coremail |||
-
+| KP-0085 | Webmin 远程命令注入/执行 | webmin | CVE-2019-15107 |[vulhub](https://github.com/vulhub/vulhub/blob/master/webmin/CVE-2019-15107/README.zh-cn.md)|
