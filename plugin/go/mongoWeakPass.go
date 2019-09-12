@@ -67,7 +67,11 @@ func (d *mongoWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool) {
 			if err != nil {
 				return
 			}
-			if err == nil {
+			res, err := session.DatabaseNames()
+			if err != nil {
+				return
+			}
+			if res != nil {
 				session.Close()
 				result := d.info
 				result.Request = fmt.Sprintf("mgo://%s:%s@%s/admin", user, pass, netloc)
