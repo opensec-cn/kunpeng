@@ -69,7 +69,7 @@ func (d *mongoWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool) {
 			}
 			res, err := session.DatabaseNames()
 			if err != nil {
-				log.Fatalln(err)
+				return
 			}
 			if res != nil {
 				session.Close()
