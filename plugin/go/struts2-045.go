@@ -50,8 +50,8 @@ func (d *struts2_45) Check(URL string, meta plugin.TaskMeta) (b bool) {
 	}
 	if strings.Contains(resp.ResponseRaw, "[safetest]") {
 		result := d.info
-		result.Response = resp.RequestRaw
-		result.Request = resp.ResponseRaw
+		result.Response = resp.ResponseRaw
+		result.Request = resp.RequestRaw
 		d.result = append(d.result, result)
 		return true
 	}
