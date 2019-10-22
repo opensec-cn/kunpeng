@@ -43,7 +43,7 @@ func (d *mongoWeakPass) Check(netloc string, meta plugin.TaskMeta) (b bool) {
 		"admin",
 	}
 	session, err := mgo.Dial(netloc)
-	if err == nil && session.Ping() == nil {
+	if err == nil && session.Run("serverStatus", nil) == nil {
 		result := d.info
 		result.Request = fmt.Sprintf("mgo://%s/admin", netloc)
 		result.Remarks = "未授权访问," + result.Remarks
