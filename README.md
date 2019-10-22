@@ -328,12 +328,15 @@ func (d *webDavRCE) Check(URL string, meta plugin.TaskMeta) bool {
 
 ### 编译
 
+**注意, 第三方库管理已更改为GoMod**
+
 ```shell
 go get -d github.com/opensec-cn/kunpeng
 cd $GOPATH/src/github.com/opensec-cn/kunpeng
 
+
 # 静态资源打包进工程的小程序
-go install ./vendor/github.com/mjibson/esc
+go install github.com/mjibson/esc
 
 # 打包JSON插件到项目代码中
 esc -include='\.json$' -o plugin/json/JSONPlugin.go -pkg jsonplugin plugin/json/
