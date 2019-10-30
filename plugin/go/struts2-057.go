@@ -59,8 +59,8 @@ func (d *struts2_57) Check(URL string, meta plugin.TaskMeta) bool {
 			}
 			if strings.Contains(resp.Other.Request.URL.String(), "53333") {
 				result := d.info
-				result.Response = resp.RequestRaw
-				result.Request = resp.ResponseRaw
+				result.Response = resp.ResponseRaw
+				result.Request = resp.RequestRaw
 				d.result = append(d.result, result)
 				return true
 			}
