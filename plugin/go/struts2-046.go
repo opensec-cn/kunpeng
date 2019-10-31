@@ -65,13 +65,13 @@ foo
 	} else {
 		port = u.Port()
 	}
-	result, err := util.TCPSend(u.Hostname()+":"+port, rawBytes)
+	respResult, err := util.TCPSend(u.Hostname()+":"+port, rawBytes)
 	if err != nil {
 		return false
 	}
-	if strings.Contains(string(result), "X-Test-1234") {
+	if strings.Contains(string(respResult), "X-Test-1234") {
 		result := d.info
-		result.Response = string(rawBytes)
+		result.Response = string(respResult)
 		result.Request = string(rawBytes)
 		d.result = append(d.result, result)
 		return true
