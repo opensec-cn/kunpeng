@@ -47,6 +47,9 @@ public class call_so_test {
     public static void main(String[] args) {
 
             System.out.println("Hello Kunpeng");
+            
+            //解决部分打包发布方式下dll文件返回值被默认为其他格式编码造成的乱码
+            //System.setProperty("jna.encoding", "UTF-8");
 
             String cfg_json = "{ \"timeout\":15 }";
 
