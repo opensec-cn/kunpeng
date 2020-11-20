@@ -1,4 +1,4 @@
-﻿# Kunpeng
+# Kunpeng
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg?style=flat-square)](https://github.com/opensec-cn/kunpeng/blob/master/LICENSE) [![Golang](https://img.shields.io/badge/Golang-1.10-yellow.svg?style=flat-square)](https://www.golang.org/) 
 
@@ -14,6 +14,12 @@ Kunpeng是一个Golang编写的开源POC检测框架，集成了包括数据库�
 运行环境：Windows，Linux，Darwin  
 工作形态：动态链接库，so、dll、dylib、go plugin  
 
+## 404StarLink 2.0 - Galaxy
+![](https://github.com/knownsec/404StarLink-Project/raw/master/logo.png)
+
+Kunpeng 是 404Team [星链计划2.0](https://github.com/knownsec/404StarLink2.0-Galaxy)中的一环，如果对Kunpeng有任何疑问又或是想要找小伙伴交流，可以参考星链计划的加群方式。
+
+- [https://github.com/knownsec/404StarLink2.0-Galaxy#community](https://github.com/knownsec/404StarLink2.0-Galaxy#community)
 
 ## 特点
 - 开箱即用，无需安装任何依赖
