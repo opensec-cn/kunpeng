@@ -14,7 +14,7 @@
 | KP-0008 | Memcache 未授权访问                                     | memcache   |                ||
 | KP-0009 | FTP 弱口令                                              | ftp        |                ||
 | KP-0010 | Discuz 3.X SSRF                                         | discuz     |                ||
-| KP-0011 | Discuz! 6.x/7.x 代码执行                                | discuz     |                |[vulhub](https://github.com/vulhub/vulhub/tree/master/bash/shellshock)|
+| KP-0011 | Discuz! 6.x/7.x 代码执行                                | discuz     |                |[vulhub](https://vulhub.org/#/environments/discuz/wooyun-2010-080723/)|
 | KP-0012 | Axis2控制台 弱口令                                      | axis       |                ||
 | KP-0013 | web目录浏览                                             | web        |                ||
 | KP-0014 | grafana 控制台弱口令                                    | grafana    |                ||
